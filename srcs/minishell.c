@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:31:46 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/11 15:38:54 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/11 18:08:38 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 // 	signal(SIGTSTP, SIG_IGN);
 // 	signal(SIGQUIT, SIG_IGN);
 // }
+
+test
 
 int	main(void)
 {
