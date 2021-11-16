@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/11 16:39:09 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/16 13:45:58 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_tok
 	char			*data;
 	int				type;
 	struct s_tok	*next;
+	struct s_tok	*previous;
 }				t_tok;
 
 typedef struct s_lexer
@@ -56,5 +57,17 @@ typedef struct s_cmd_table
 	struct s_cmd_table	*next;
 	struct s_cmd_table	*prev;
 }				t_cmd_table;
+
+enum TOKEDEF
+{
+	blabla,
+	blabla2,
+	blblabla3,
+};
+
+
+t_tok	*ft_last_element(t_tok *head)
+void	ft_dll_attach_tok(t_tok **head, t_tok *attachment)
+void	ft_dll_insert_node(t_tok **head, t_tok *attachment)
 
 #endif
