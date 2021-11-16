@@ -6,13 +6,13 @@
 #    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/11/16 16:57:38 by eozben           ###   ########.fr        #
+#    Updated: 2021/11/16 19:31:55 by eozben           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
-LIB = -Llibft -lft -lreadline
+LIB = -Llibft -lft 
 FLAGS = -o "minishell" -Wall -Wextra -Werror
 
 all:$(NAME)
