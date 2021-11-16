@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:31:46 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/11 18:07:15 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/16 19:17:13 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,43 @@
 // 	signal(SIGQUIT, SIG_IGN);
 // }
 
+// int	main(void)
+// {
+// 	char	*read;
 
+// 	while (1)
+// 	{
+// 		read = readline("minish $ ");
+// 		if (!ft_strcmp(read, "\0"))
+// 			add_history(read);
+// 		free(read);
+// 		if (ft_strcmp(read, "exit"))
+// 			break ;
+// 	}
+// 	return (0);
+// }
 
-testststestst
+void	print_list(t_tok *head)
+{
+	head = ft_last_element(head);
+	while (head != NULL)
+	{
+		printf("%d\n", head->type);
+		head = head->previous;
+	}
+}
 
 int	main(void)
 {
-	char	*read;
+	t_tok	*head;
 
-	while (1)
+	head = NULL;
+	for (int i = 0; i<10; i++)
 	{
-		read = readline("minish $ ");
-		if (!ft_strcmp(read, "\0"))
-			add_history(read);
-		free(read);
-		if (ft_strcmp(read, "exit"))
-			break ;
+		ft_dll_append_tok(&head);
+		ft_last_element(head)->type = i;
 	}
+	detach_tok(&head, head->next);
+	print_list(head);
 	return (0);
 }
