@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/16 17:17:25 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/16 20:04:13 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <errno.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+// # include <readline/readline.h>
+// # include <readline/history.h>
 
 # define GREAT 401
 # define LESS 402
@@ -70,5 +70,7 @@ void	ft_dll_attach_tok(t_tok **head, t_tok *attachment);
 void	ft_dll_insert_tok(t_tok **head, t_tok *attachment);
 t_tok	*ft_dll_append_tok(t_tok **head);
 t_tok	*detach_tok(t_tok **head, t_tok *node);
+void	insert_sublist(t_tok *slot, t_tok *insert);
+void	free_dll(t_tok **head);
 
 #endif
