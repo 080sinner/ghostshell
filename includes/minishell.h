@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/16 13:45:58 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/16 17:17:25 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,10 @@ enum TOKEDEF
 	blblabla3,
 };
 
-
-t_tok	*ft_last_element(t_tok *head)
-void	ft_dll_attach_tok(t_tok **head, t_tok *attachment)
-void	ft_dll_insert_node(t_tok **head, t_tok *attachment)
+t_tok	*ft_last_element(t_tok *head);
+void	ft_dll_attach_tok(t_tok **head, t_tok *attachment);
+void	ft_dll_insert_tok(t_tok **head, t_tok *attachment);
+t_tok	*ft_dll_append_tok(t_tok **head);
+t_tok	*detach_tok(t_tok **head, t_tok *node);
 
 #endif

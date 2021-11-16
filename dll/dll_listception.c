@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dll_attach_tok.c                                :+:      :+:    :+:   */
+/*   dll_listception.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 13:26:31 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/16 18:04:46 by eozben           ###   ########.fr       */
+/*   Created: 2021/11/16 16:44:55 by eozben            #+#    #+#             */
+/*   Updated: 2021/11/16 17:34:13 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_dll_attach_tok(t_tok **head, t_tok *attachment)
-{
-	t_tok	*last_tok;
 
-	if (*head == NULL)
-		(*head) = attachment;
+t_tok	*detach_tok(t_tok **head, t_tok *node)
+{
+	if (head == NULL || *head == NULL)
+		return (NULL);
+	if ((*head)->next == NULL && (*head)->previous == NULL )
+		*head = NULL;
 	else
 	{
-		last_tok = ft_last_element(*head);
-		attachment->previous = last_tok;
-		last_tok->next = attachment;
+		node->next->previous = node->previous;
+		node->previous->next = node->next;
 	}
+	return (node);
 }
+
+// void	expand_list_into_list(t_tok *head)
+// {
+	
+// }
