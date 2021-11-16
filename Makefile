@@ -6,19 +6,19 @@
 #    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/11/16 19:31:55 by eozben           ###   ########.fr        #
+#    Updated: 2021/11/16 20:47:45 by eozben           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
-LIB = -Llibft -lft 
+LIB = -Llibft -lft -lreadline
 FLAGS = -o "minishell" -Wall -Wextra -Werror
 
 all:$(NAME)
 
 $(NAME): ./libft/libft.a
-	@gcc $(FLAGS) srcs/minishell.c srcs/utils.c dll/ft_dll_create.c dll/ft_dll_insert_tok.c dll/dll_listception.c dll/ft_dll_last.c dll/ft_dll_attach_tok.c $(INC) $(LIB)
+	@gcc $(FLAGS) srcs/minishell.c srcs/utils.c srcs/dll_functions.c srcs/dll_functions2.c $(INC) $(LIB)
 	@echo "program compiled!"
 
 ./libft/libft.a:

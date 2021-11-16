@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dll_attach_tok.c                                :+:      :+:    :+:   */
+/*   dll_functions2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/16 13:26:31 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/16 20:24:46 by eozben           ###   ########.fr       */
+/*   Created: 2021/10/13 18:58:36 by fbindere          #+#    #+#             */
+/*   Updated: 2021/11/16 20:46:24 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_dll_attach_tok(t_tok **head, t_tok *attachment)
+void	free_dll(t_tok **head)
 {
-	if (*head == NULL)
-		(*head) = attachment;
-	else
+	if ((*head) == NULL)
+		return ;
+	free(detach_tok(head, *head));
+	free_dll(head);
+}
+
+t_tok	*ft_dll_append_tok(t_tok **head)
+{
+	t_tok	*newtok;
+
+	newtok = ft_calloc(1, sizeof(t_tok));
+	if (!newtok)
 	{
-		attachment->previous = ft_last_element(*head);
-		ft_last_element(*head)->next = attachment;
+		free_dll(head);
+		exit(EXIT_FAILURE);
 	}
+	newtok->next = NULL;
+	newtok->previous = NULL;
+	ft_dll_attach_tok(head, newtok);
+	return (newtok);
 }
