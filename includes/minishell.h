@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/17 21:45:43 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/17 22:45:36 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-
+# define SQUOTE 0
+# define DQUOTE 1
+# define OFF 0
+# define ON 1
 
 // typedef struct s_lexer
 // {
