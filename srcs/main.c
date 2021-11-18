@@ -1,37 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dll_functions2.c                                   :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/13 18:58:36 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/18 21:24:26 by fbindere         ###   ########.fr       */
+/*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
+/*   Updated: 2021/11/18 22:43:32 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_dll(t_tok **head)
+static void	print_list(t_tok *head)
 {
-	if ((*head) == NULL)
-		return ;
-	free(detach_tok(head, *head));
-	free_dll(head);
+	while (head != NULL)
+	{
+		//printf("%d\n", head->type);
+		if(head->type == WORD)
+			printf("%s\n", head->data);
+		head = head->next;
+	}
 }
 
-t_tok	*ft_dll_append_tok(t_tok **head)
+int	main(void)
 {
-	t_tok	*newtok;
+	t_tok *head;
+	head = NULL;
+	char	*read;
 
-	newtok = ft_calloc(1, sizeof(t_tok));
-	if (!newtok)
+	head = NULL;
+	while (1)
 	{
-		free_dll(head);
-		exit(EXIT_FAILURE);
+		read = readline("minish $ ");
+		if (!ft_strcmp(read, "\0"))
+			add_history(read);
+		read_toks(&head, read);
+		free(read);
+		if (ft_strcmp(read, "exit"))
+			break ;
 	}
-	newtok->next = NULL;
-	newtok->previous = NULL;
-	ft_dll_attach_tok(head, newtok);
-	return (newtok);
+	print_list(head);
+	return (0);
 }

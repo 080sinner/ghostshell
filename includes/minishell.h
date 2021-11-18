@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/18 20:24:55 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/18 22:03:23 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,11 @@ t_tok	*ft_dll_append_tok(t_tok **head);
 t_tok	*detach_tok(t_tok **head, t_tok *node);
 void	insert_sublist(t_tok *slot, t_tok *insert);
 void	free_dll(t_tok **head);
+t_token	check_type(char *s);
+int		check_state(char c, int *state);
+void read_word(char **input, t_tok *token);
+char	*ft_append(char *line, char c);
+void	read_toks(t_tok **head, char *input);
+void	skip_whitespace(char **input);
 
 #endif

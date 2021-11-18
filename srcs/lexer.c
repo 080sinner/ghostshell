@@ -6,11 +6,18 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/18 20:17:22 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/18 22:48:47 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+
+void	skip_whitespace(char **input)
+{
+	while (**input == ' ' || **input == '\n' || **input == '\t')
+		*input += 1;
+}
 
 t_token	check_type(char *s)
 {
@@ -32,51 +39,52 @@ int	check_state(char c, int *state)
 	if(c == SQUOTE && (*state == GENERAL_STATE || *state == SQUOTED_STATE))
 	{
 		if(*state == GENERAL_STATE)
-			*state == SQUOTED_STATE;
+			*state = SQUOTED_STATE;
 		else if(*state == SQUOTED_STATE)
-			*state == GENERAL_STATE;
+			*state = GENERAL_STATE;
 		return (1);
 	}
-	else if(c == DQUOTE && (*state == GENERAL_STATE || *state == DQUOTED_STATE)
+	else if(c == DQUOTE && (*state == GENERAL_STATE || *state == DQUOTED_STATE))
 	{
 		if(*state == GENERAL_STATE)
-			*state == DQUOTED_STATE;
+			*state = DQUOTED_STATE;
 		else if(*state == DQUOTED_STATE)
-			*state == GENERAL_STATE;
+			*state = GENERAL_STATE;
 		return(1);
 	}
 	return(0);
 }
 
-void read_word(char *input, char *data)
+void read_word(char **input, t_tok *token)
 {
 	int state;
+	int	ret;
 
 	state = GENERAL_STATE;
-	data = ft_calloc(1, 1);
-	if (data == NULL)
-		return ;
-	while(*input != NULL)
+	token->data = NULL;
+	while(**input != '\0')
 	{
+		ret = check_state(**input, &state);
+		*input += ret;
+		if (ret == 1)
+			continue ;
 		if(check_type(*input) != WORD && state == GENERAL_STATE)
-			break;
-		if(*input == SQUOTE || *input == DQUOTE)
-			input += check_state(*input, &state);
-		ft_append(data, *input);
-		input++;
+			break ;
+		token->data = ft_append(token->data, **input);
+		*input += 1;
 	}
-	return(ft_strlen(data));
 }
 
 char *ft_append(char *line, char c)
 {
+	int length;
 	int i;
 	char *longer;
 	
-	i = 0;
-	while(line[i] != '\0')
-		i++;
-	longer = ft_calloc(i + 2);
+	if(line == NULL)
+		line = ft_strdup("");
+	length = ft_strlen(line);
+	longer = ft_calloc(length + 2, sizeof(char));
 	if(longer == NULL)
 		return(NULL);
 	i = 0;
@@ -91,21 +99,21 @@ char *ft_append(char *line, char c)
 }
 
 
-void	read_toks(t_tok *head, char *input)
+void	read_toks(t_tok **head, char *input)
 {
 	t_tok *new;
 
 	while (*input != '\0')
 	{
-		skip_whitespace(input);
-		new = ft_dll_append_tok(&head);
+		skip_whitespace(&input);
+		new = ft_dll_append_tok(head);
 		new->type = check_type(input);
 		if (new->type > 127)
 			input += 2;
-		else if (head->type != WORD)
+		else if (new->type != WORD)
 			input++;
 		else
-			input += read_word(&input, new->data);
+			read_word(&input, new);
 	}
 }
 	

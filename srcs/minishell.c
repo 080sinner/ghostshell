@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:31:46 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/18 20:25:19 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/18 20:47:16 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,22 +83,3 @@ void	read_toks(t_tok *head, char *input)
 			input += read_word(input, new->data);
 		
 	}
-
-int	main(void)
-{
-	char	*read;
-	t_tok	*head;
-
-	head = NULL;
-	while (1)
-	{
-		read = readline("minish $ ");
-		if (!ft_strcmp(read, "\0"))
-			add_history(read);
-		read_toks(head, read);
-		free(read);
-		if (ft_strcmp(read, "exit"))
-			break ;
-	}
-	return (0);
-}
