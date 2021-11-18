@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/18 22:03:23 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/18 23:09:02 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 # define GENERAL_STATE 0
 # define SQUOTED_STATE 1
 # define DQUOTED_STATE 2
-
+# define ON 1
+# define OFF 0
 
 
 // typedef struct s_lexer

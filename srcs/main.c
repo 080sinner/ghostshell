@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/18 22:43:32 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/18 23:13:43 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ static void	print_list(t_tok *head)
 {
 	while (head != NULL)
 	{
-		//printf("%d\n", head->type);
-		if(head->type == WORD)
+		if (head->type == WORD)
 			printf("%s\n", head->data);
 		head = head->next;
 	}
@@ -25,8 +24,7 @@ static void	print_list(t_tok *head)
 
 int	main(void)
 {
-	t_tok *head;
-	head = NULL;
+	t_tok	*head;
 	char	*read;
 
 	head = NULL;

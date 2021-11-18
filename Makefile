@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
+#    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/11/18 21:20:39 by fbindere         ###   ########.fr        #
+#    Updated: 2021/11/18 23:09:31 by eozben           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME = minishell
 INC = -Iincludes
 LIB = -Llibft -lft -lreadline
 FLAGS = -o "minishell" -Wall -Wextra -Werror
-SRC = srcs/dll_functions.c srcs/dll_functions2.c srcs/lexer.c \
-	srcs/main.c
+SRC = srcs/dll_functions.c srcs/dll_functions2.c srcs/lexer.c srcs/main.c
+
 all:$(NAME)
 
 $(NAME): ./libft/libft.a
