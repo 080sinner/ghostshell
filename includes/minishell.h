@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/18 23:09:02 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/18 23:32:00 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-
 # define GENERAL_STATE 0
 # define SQUOTED_STATE 1
 # define DQUOTED_STATE 2
 # define ON 1
 # define OFF 0
-
 
 // typedef struct s_lexer
 // {
@@ -89,7 +87,7 @@ void	insert_sublist(t_tok *slot, t_tok *insert);
 void	free_dll(t_tok **head);
 t_token	check_type(char *s);
 int		check_state(char c, int *state);
-void read_word(char **input, t_tok *token);
+void	read_word(char **input, t_tok *token);
 char	*ft_append(char *line, char c);
 void	read_toks(t_tok **head, char *input);
 void	skip_whitespace(char **input);

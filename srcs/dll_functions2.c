@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dll_functions2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:58:36 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/18 21:24:26 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/19 00:36:21 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,10 @@ t_tok	*ft_dll_append_tok(t_tok **head)
 	newtok->previous = NULL;
 	ft_dll_attach_tok(head, newtok);
 	return (newtok);
+}
+
+void	skip_whitespace(char **input)
+{
+	while (**input == ' ' || **input == '\n' || **input == '\t')
+		*input += 1;
 }

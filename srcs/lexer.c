@@ -6,22 +6,16 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/18 23:13:18 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/19 00:39:45 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	skip_whitespace(char **input)
-{
-	while (**input == ' ' || **input == '\n' || **input == '\t')
-		*input += 1;
-}
-
 t_token	check_type(char *s)
 {
-	if (s[0] == LPAREN || s[0] == RPAREN || s[0] == SPACE || s[0] == TAB ||
-		s[0] == NEWLINE)
+	if (s[0] == LPAREN || s[0] == RPAREN || s[0] == SPACE || s[0] == TAB
+		|| s[0] == NEWLINE)
 		return (s[0]);
 	else if (s[0] == PIPE || s[0] == AMPERSAND || s[0] == GREAT || s[0] == LESS)
 	{
