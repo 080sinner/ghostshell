@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:31:46 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/17 22:07:37 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/18 16:29:25 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,22 @@ void	read_toks(t_tok *head, char *input)
 		skip_whitespace(input);
 		new = ft_dll_append_tok(&head);
 		new->type = check_type(input);
-		if (head->type > 127)
+		if (new->type > 127)
 			input += 2;
 		else if (head->type != WORD)
 			input++;
 		else
 			input += read_word(input, new->data);
+		
 	}
-}
+
+	
+
+
+
+
+
+
 
 int	main(void)
 {

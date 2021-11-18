@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/17 21:45:43 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/18 16:59:05 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+
+# define GENERAL_STATE 0
+# define SQUOTED_STATE 1
+# define DQUOTED_STATE 2
 
 
 
@@ -50,6 +55,8 @@ typedef enum e_token
 {
 	WORD = 0,
 	SPACE = ' ',
+	TAB = '\t',
+	NEWLINE = '\n',
 	SQUOTE = '\'',
 	DQUOTE = '\"',
 	PIPE = '|',
