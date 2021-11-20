@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:58:36 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/19 00:36:21 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/20 20:55:42 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ void	free_dll(t_tok **head)
 		return ;
 	free(detach_tok(head, *head));
 	free_dll(head);
+}
+
+void	free_list(t_tok *head)
+{
+	while (head != NULL)
+	{
+		free(head->data);
+		head = head->previous;
+	}
+	free_dll(&head);
 }
 
 t_tok	*ft_dll_append_tok(t_tok **head)
@@ -36,8 +46,9 @@ t_tok	*ft_dll_append_tok(t_tok **head)
 	return (newtok);
 }
 
-void	skip_whitespace(char **input)
+int	check_whitespace(char c)
 {
-	while (**input == ' ' || **input == '\n' || **input == '\t')
-		*input += 1;
+	if (c == ' ' || c == '\n' || c == '\t')
+		return (1);
+	return (0);
 }

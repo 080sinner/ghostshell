@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/20 04:54:10 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/20 21:03:13 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ t_tok	*read_toks(t_tok **head, char *input)
 
 	while (*input != '\0')
 	{
-		skip_whitespace(&input);
+		while (check_whitespace(*input))
+			input++;
 		new = ft_dll_append_tok(head);
 		new->type = check_type(input);
 		if (new->type > 127)
@@ -110,12 +111,23 @@ t_tok	*read_toks(t_tok **head, char *input)
 	return (new);
 }
 
-void	free_list(t_tok *head)
+char	**expand_array(char **strarray)
 {
-	while (head != NULL)
+	int		i;
+	char	**new;
+
+	i = 0;
+	while (strarray[i] != NULL)
+		i++;
+	new = ft_calloc(sizeof(char *), i + 2);
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (new[i] != NULL)
 	{
-		free(head->data);
-		head = head->previous;
+		new[i] = strarray[i];
+		i++;
 	}
-	free_dll(&head);
+	free(strarray);
+	return (new);
 }

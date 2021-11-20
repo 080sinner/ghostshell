@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/20 05:10:56 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/20 20:55:18 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	print_list(t_tok *head)
 	}
 }
 
-void get_input(t_tok **head, t_tok **save)
+void	get_input(t_tok **head, t_tok **save)
 {
 	char	*read;
 
@@ -57,13 +57,6 @@ int	main(void)
 	system("leaks minishell");
 	return (0);
 }
-
-// typedef struct s_treenode{
-// 	t_token tok;
-// 	struct s_treenode *left;
-// 	struct s_treenode *right;
-// }				t_treenode;
-
 
 // t_treenode	*create_tree_node(t_token token)
 // {

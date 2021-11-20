@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/20 04:49:30 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/20 20:48:47 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ int		check_state(char c, int *state);
 void	read_word(char **input, t_tok *token);
 char	*ft_append(char *line, char c);
 t_tok	*read_toks(t_tok **head, char *input);
-void	skip_whitespace(char **input);
+int		check_whitespace(char c);
 
 #endif
