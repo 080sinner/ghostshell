@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/18 23:32:00 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/20 04:49:30 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_tok
 	struct s_tok	*previous;
 }				t_tok;
 
+void	free_list(t_tok *head);
 t_tok	*ft_last_element(t_tok *head);
 void	ft_dll_attach_tok(t_tok **head, t_tok *attachment);
 void	ft_dll_insert_tok(t_tok **head, t_tok *attachment);
@@ -89,7 +90,7 @@ t_token	check_type(char *s);
 int		check_state(char c, int *state);
 void	read_word(char **input, t_tok *token);
 char	*ft_append(char *line, char c);
-void	read_toks(t_tok **head, char *input);
+t_tok	*read_toks(t_tok **head, char *input);
 void	skip_whitespace(char **input);
 
 #endif

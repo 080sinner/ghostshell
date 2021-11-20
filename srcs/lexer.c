@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/19 00:39:45 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/20 04:54:10 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*ft_append(char *line, char c)
 	return (longer);
 }
 
-void	read_toks(t_tok **head, char *input)
+t_tok	*read_toks(t_tok **head, char *input)
 {
 	t_tok	*new;
 
@@ -107,4 +107,15 @@ void	read_toks(t_tok **head, char *input)
 		else
 			read_word(&input, new);
 	}
+	return (new);
+}
+
+void	free_list(t_tok *head)
+{
+	while (head != NULL)
+	{
+		free(head->data);
+		head = head->previous;
+	}
+	free_dll(&head);
 }
