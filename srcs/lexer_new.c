@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/21 22:58:53 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:32:43 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	check_state(char c, int *state)
 
 void	read_command(char **input, t_node *command)
 {
-	int	state;
-	int	ret;
-	t_tok *new;
+	int		state;
+	int		ret;
+	t_tok	*new;
 
 	state = GENERAL_STATE;
 	new = NULL;
@@ -61,18 +61,18 @@ void	read_command(char **input, t_node *command)
 	{
 		new = ft_dll_append_tok(&command->args);
 		new->data = ft_strdup("");
-		while(**input != '\0')
+		while (**input != '\0')
 		{
 			ret = check_state(**input, &state);
 			*input += ret;
 			if (ret == 1)
 				continue ;
-			if(state == GENERAL_STATE && (check_whitespace(**input)
-				|| is_control_op(check_type(*input)) == TRUE))
+			if (state == GENERAL_STATE && (check_whitespace(**input)
+					|| is_control_op(check_type(*input)) == TRUE))
 			{
 				while (check_whitespace(**input))
 					*input += 1;
-				if(is_control_op(check_type(*input)) == TRUE)
+				if (is_control_op(check_type(*input)) == TRUE)
 					return ;
 				else
 					break ;
@@ -90,7 +90,7 @@ char	*ft_append(char *line, char c)
 	char	*longer;
 
 	if (line == NULL)
-		return(NULL);
+		return (NULL);
 	length = ft_strlen(line);
 	longer = ft_calloc(length + 2, sizeof(char));
 	if (longer == NULL)
@@ -106,7 +106,7 @@ char	*ft_append(char *line, char c)
 	return (longer);
 }
 
-t_node	*read_toks(t_node **head, char *input)
+void	read_toks(t_node **head, char *input)
 {
 	t_node	*new;
 
@@ -124,25 +124,7 @@ t_node	*read_toks(t_node **head, char *input)
 		else
 			read_command(&input, new);
 	}
-	return (new);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // char	**expand_array(char **strarray)
 // {

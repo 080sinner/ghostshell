@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/21 21:43:17 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:33:54 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,14 @@ t_tok	*ft_dll_append_tok(t_tok **head);
 t_node	*ft_dll_append_node(t_node **head);
 t_tok	*detach_tok(t_tok **head, t_tok *node);
 void	insert_sublist(t_tok *slot, t_tok *insert);
-void	free_dll(t_tok **head);
+void	free_toks(t_tok **head);
+void	free_nodes(t_node **head);
+t_node	*detach_node(t_node **head, t_node *node);
 t_token	check_type(char *s);
 int		check_state(char c, int *state);
 void	read_word(char **input, t_tok *token);
 char	*ft_append(char *line, char c);
-t_node	*read_toks(t_node **head, char *input);
+void	read_toks(t_node **head, char *input);
 int		check_whitespace(char c);
 int		is_control_op(t_token c);
 void	ft_dll_attach_node(t_node **head, t_node *attachment);

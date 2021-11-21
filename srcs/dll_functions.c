@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dll_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 20:41:00 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/21 21:45:54 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:20:18 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,27 @@ t_node	*ft_last_node(t_node *head)
 }
 
 t_tok	*detach_tok(t_tok **head, t_tok *node)
+{
+	if (head == NULL || *head == NULL)
+		return (NULL);
+	if ((*head)->next == NULL && (*head)->previous == NULL )
+		*head = NULL;
+	else if (node->previous == NULL)
+	{
+		*head = (*head)->next;
+		(*head)->previous = NULL;
+	}
+	else if (node->next == NULL)
+		node->previous->next = NULL;
+	else
+	{
+		node->next->previous = node->previous;
+		node->previous->next = node->next;
+	}
+	return (node);
+}
+
+t_node	*detach_node(t_node **head, t_node *node)
 {
 	if (head == NULL || *head == NULL)
 		return (NULL);
