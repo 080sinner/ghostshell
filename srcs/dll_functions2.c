@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dll_functions2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:58:36 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/20 20:55:42 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/21 21:46:17 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,22 @@ t_tok	*ft_dll_append_tok(t_tok **head)
 	newtok->previous = NULL;
 	ft_dll_attach_tok(head, newtok);
 	return (newtok);
+}
+
+t_node	*ft_dll_append_node(t_node **head)
+{
+	t_node	*newnode;
+
+	newnode = ft_calloc(1, sizeof(t_node));
+	// if (!newnode)
+	// {
+	// 	free_dll(head);
+	// 	exit(EXIT_FAILURE);
+	// }
+	newnode->next = NULL;
+	newnode->previous = NULL;
+	ft_dll_attach_node(head, newnode);
+	return (newnode);
 }
 
 int	check_whitespace(char c)

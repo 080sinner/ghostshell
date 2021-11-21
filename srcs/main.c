@@ -3,58 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/20 20:55:18 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/21 23:00:18 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	print_list(t_tok *head)
-{
-	while (head != NULL)
-	{
-		if (head->type == WORD)
-			printf("%s\n", head->data);
-		head = head->next;
-	}
-}
+// static void	print_list(t_node *head)
+// {
+// 	int i;
 
-void	get_input(t_tok **head, t_tok **save)
-{
-	char	*read;
+// 	i = 0;
+// 	while (head != NULL)
+// 	{
+// 		while (head->args != NULL)
+// 		{
 
-	while (1)
-	{
-		read = readline("minish $ ");
-		if (!ft_strcmp(read, "\0"))
-			add_history(read);
-		if (ft_strcmp(read, "exit"))
-		{
-			free(read);
-			break ;
-		}
-		*save = read_toks(head, read);
-		free(read);
-	}
+// 			printf("toks: %d\n", i);
+// 			i++;
+// 			if(head->type == COMMAND)
+// 				printf("%s\n", head->args->data);
+// 			head->args = head->args->next;
+// 		}
+// 		printf("%c\n", head->type);
+// 		head = head->next;
+// 	}
+// }
+
+void	get_input(t_node **head, t_node **save)
+{
+	// char	*read;
+
+	// while (1)
+	// {
+	// 	read = readline("minish $ ");
+	// 	if (!ft_strcmp(read, "\0"))
+	// 		add_history(read);
+	// 	if (ft_strcmp(read, "exit"))
+	// 	{
+	// 		free(read);
+	// 		break ;
+	// 	}
+		*save = read_toks(head, "\"echo |\" hello");
+// 		free(read);
+// 	}
 }
 
 int	main(void)
 {
-	t_tok	*head;
-	t_tok	*save;
+	t_node	*head;
+	t_node	*save;
 
 	head = NULL;
 	save = NULL;
 	get_input(&head, &save);
-	print_list(head);
-	free_list(save);
-	free_dll(&head);
-	save = NULL;
-	head = NULL;
-	system("leaks minishell");
+	// print_list(head);
+	// free_list(save);
+	// free_dll(&head);
+	// save = NULL;
+	// head = NULL;
+	// system("leaks minishell");
 	return (0);
 }
 

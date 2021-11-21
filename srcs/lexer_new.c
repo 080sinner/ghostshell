@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/21 21:43:05 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/21 22:58:53 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	check_type(char *s)
 		return (s[0]);
 	}
 	else
-		return (WORD);
+		return (COMMAND);
 }
 
 int	check_state(char c, int *state)
@@ -48,23 +48,38 @@ int	check_state(char c, int *state)
 	return (0);
 }
 
-void	read_word(char **input, t_tok *token)
+void	read_command(char **input, t_node *command)
 {
 	int	state;
 	int	ret;
+	t_tok *new;
 
 	state = GENERAL_STATE;
-	token->data = NULL;
+	new = NULL;
+	command->args = NULL;
 	while (**input != '\0')
 	{
-		ret = check_state(**input, &state);
-		*input += ret;
-		if (ret == 1)
-			continue ;
-		if (check_type(*input) != WORD && state == GENERAL_STATE)
-			break ;
-		token->data = ft_append(token->data, **input);
-		*input += 1;
+		new = ft_dll_append_tok(&command->args);
+		new->data = ft_strdup("");
+		while(**input != '\0')
+		{
+			ret = check_state(**input, &state);
+			*input += ret;
+			if (ret == 1)
+				continue ;
+			if(state == GENERAL_STATE && (check_whitespace(**input)
+				|| is_control_op(check_type(*input)) == TRUE))
+			{
+				while (check_whitespace(**input))
+					*input += 1;
+				if(is_control_op(check_type(*input)) == TRUE)
+					return ;
+				else
+					break ;
+			}
+			new->data = ft_append(new->data, **input);
+			*input += 1;
+		}
 	}
 }
 
@@ -75,7 +90,7 @@ char	*ft_append(char *line, char c)
 	char	*longer;
 
 	if (line == NULL)
-		line = ft_strdup("");
+		return(NULL);
 	length = ft_strlen(line);
 	longer = ft_calloc(length + 2, sizeof(char));
 	if (longer == NULL)
@@ -95,6 +110,7 @@ t_node	*read_toks(t_node **head, char *input)
 {
 	t_node	*new;
 
+	new = NULL;
 	while (*input != '\0')
 	{
 		while (check_whitespace(*input))
@@ -106,10 +122,27 @@ t_node	*read_toks(t_node **head, char *input)
 		else if (new->type != COMMAND)
 			input++;
 		else
-			read_word(&input, new);
+			read_command(&input, new);
 	}
 	return (new);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // char	**expand_array(char **strarray)
 // {
