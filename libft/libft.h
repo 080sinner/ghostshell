@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:30:54 by eozben            #+#    #+#             */
-/*   Updated: 2021/10/14 21:07:35 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/22 20:23:29 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void		*ft_calloc(size_t nitems, size_t size);
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);
 int			ft_isascii(int c);
+char		*ft_append(char *line, char c);
 int			ft_isdigit(int c);
 int			ft_isprint(int c);
 char		*ft_itoa(int n);

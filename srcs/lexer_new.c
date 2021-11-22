@@ -3,39 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 15:12:09 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/22 20:25:54 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*ft_append(char *line, char c)
+static int	get_variable_word(t_tok *current, char *var_value)
 {
-	int		length;
-	int		i;
-	char	*longer;
+	t_tok	*new;
 
-	if (line == NULL)
-		return (NULL);
-	length = ft_strlen(line);
-	longer = ft_calloc(length + 2, sizeof(char));
-	if (longer == NULL)
+	new = current;
+	while (*var_value != '\0')
 	{
-		free(line);
-		return (NULL);
+		if (check_whitespace(*var_value))
+		{
+			new = ft_dll_append_tok(&new);
+			if (!new)
+				return (free_toks(&new));
+			new->data = ft_strdup("");
+			if (!new)
+				return (free_toks(&new));
+		}
+		new->data = ft_append(new->data, *var_value);
+		if (!new->data)
+			return (free_toks(&new));
+		var_value++;
 	}
+	return (0);
+}
+
+int	expand_variable(int state, char **input, t_tok *new)
+{
+	int		i;
+	char	*variable[2];
+
+	*input += 1;
 	i = 0;
-	while (line[i] != '\0')
-	{
-		longer[i] = line[i];
+	while (ft_isalnum((*input)[i]) || (*input)[i] == '_')
 		i++;
+	variable[1] = ft_substr(*input, 0, i);
+	if (!variable[1])
+		return (free_toks(&new));
+	*input += i;
+	variable[0] = getenv(variable[1]);
+	free(variable[1]);
+	variable[1] = NULL;
+	if (state == DQUOTED_STATE && variable[1] != NULL)
+	{
+		variable[0] = new->data;
+		new->data = ft_strjoin(new->data, variable[1]);
+		if (!new->data)
+			return (free_toks(&new));
+		free(variable[0]);
 	}
-	longer[i] = c;
-	free(line);
-	return (longer);
+	else if (state == GENERAL_STATE && variable[1] != NULL)
+		return (get_variable_word(new, variable[1]));
+	return (0);
 }
 
 int	get_word(char **input, t_tok *new, int state)
@@ -48,6 +75,12 @@ int	get_word(char **input, t_tok *new, int state)
 		*input += ret;
 		if (ret == 1)
 			continue ;
+		if (state != SQUOTED_STATE && **input == '$')
+		{
+			if (expand_variable(state, input, new) == -1)
+				return (-1);
+			continue ;
+		}
 		ret = check_ctrlop_whitespace(state, input);
 		if (ret == 2)
 			break ;
