@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 06:34:07 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/22 06:50:17 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,30 @@ int		check_ctrlop_whitespace(int state, char **input)
 	return (0);
 }
 
+int	get_word(char **input, t_tok *new, int state)
+{
+	int	ret;
+
+	while (**input != '\0')
+	{
+		ret = check_state(**input, &state);
+		*input += ret;
+		if (ret == 1)
+			continue ;
+		ret = check_ctrlop_whitespace(state, input);
+		if (ret == 2)
+			break ;
+		else if (ret == 1)
+			return (1);
+		new->data = ft_append(new->data, **input);
+		*input += 1;
+	}
+	return (0);
+}
+
 void	read_command(char **input, t_node *command)
 {
 	int		state;
-	int		ret;
 	t_tok	*new;
 
 	state = GENERAL_STATE;
@@ -75,20 +95,8 @@ void	read_command(char **input, t_node *command)
 	{
 		new = ft_dll_append_tok(&command->args);
 		new->data = ft_strdup("");
-		while (**input != '\0')
-		{
-			ret = check_state(**input, &state);
-			*input += ret;
-			if (ret == 1)
-				continue ;
-			ret = check_ctrlop_whitespace(state, input);
-			if (ret == 2)
-				break ;
-			else if (ret == 1)
-				return ;
-			new->data = ft_append(new->data, **input);
-			*input += 1;
-		}
+		if (get_word(input, new, state) == 1)
+			return ;
 	}
 }
 

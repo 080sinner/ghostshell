@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
+#    By: mac <mac@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/11/21 22:26:02 by fbindere         ###   ########.fr        #
+#    Updated: 2021/11/22 06:51:45 by mac              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
 LIB = -Llibft -lft -lreadline
-FLAGS = -o "minishell" -Wall -Wextra -Werror -g
+FLAGS = -o "minishell" -Wall -Wextra -Werror
 SRC = srcs/dll_functions.c srcs/dll_functions2.c srcs/lexer_new.c srcs/main.c
 
 all:$(NAME)
