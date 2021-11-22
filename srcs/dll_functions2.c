@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dll_functions2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:58:36 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/21 23:31:03 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/22 05:03:00 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,12 @@ void	free_toks(t_tok **head)
 
 void	free_nodes(t_node **head)
 {
-	t_node	*tmp;
-
 	if ((*head) == NULL)
 		return ;
-	while ((*head) != NULL)
-	{
+	if ((*head)->args != NULL)
 		free_toks(&(*head)->args);
-		tmp = *head;
-		*head = (*head)->next;
-		free(tmp);
-	}
+	free(detach_node(head, *head));
+	free_nodes(head);
 }
 
 t_tok	*ft_dll_append_tok(t_tok **head)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/21 23:33:40 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/22 05:40:26 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,21 @@ void	print_list(t_node *head)
 	{
 		while (head->args != NULL)
 		{
-			printf("toks: %d\n", i);
-			i++;
 			if (head->type == COMMAND)
 				printf("%s\n", head->args->data);
+			else
+				printf("%c\n", head->type);
 			head->args = head->args->next;
 		}
-		printf("%c\n", head->type);
 		head = head->next;
 	}
 }
 
 void	get_input(t_node **head)
 {
-	 char	*read;
+	char	*read;
 
-	 while (1)
+	while (1)
 	{
 		read = readline("minish $ ");
 		if (!ft_strcmp(read, "\0"))
@@ -57,10 +56,10 @@ int	main(void)
 
 	head = NULL;
 	get_input(&head);
-	//print_list(head);
+	print_list(head);
 	free_nodes(&head);
-	head = NULL;
-	system("leaks minishell");
+	// head = NULL;
+	// system("leaks minishell");
 	return (0);
 }
 

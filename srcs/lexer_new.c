@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/21 23:32:43 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/22 05:39:27 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,21 @@ int	check_state(char c, int *state)
 	return (0);
 }
 
+int		check_ctrlop_whitespace(int state, char **input)
+{
+	if (state == GENERAL_STATE && (check_whitespace(**input)
+		|| is_control_op(check_type(*input)) == TRUE))
+	{
+		while (check_whitespace(**input))
+			*input += 1;
+	if (is_control_op(check_type(*input)) == TRUE)
+		return (0);
+	else
+		return (1);
+	}
+	return (0);
+}
+
 void	read_command(char **input, t_node *command)
 {
 	int		state;
@@ -67,16 +82,8 @@ void	read_command(char **input, t_node *command)
 			*input += ret;
 			if (ret == 1)
 				continue ;
-			if (state == GENERAL_STATE && (check_whitespace(**input)
-					|| is_control_op(check_type(*input)) == TRUE))
-			{
-				while (check_whitespace(**input))
-					*input += 1;
-				if (is_control_op(check_type(*input)) == TRUE)
-					return ;
-				else
-					break ;
-			}
+			if (check_ctrlop_whitespace(state, input) == 1)
+				return ;
 			new->data = ft_append(new->data, **input);
 			*input += 1;
 		}
