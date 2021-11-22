@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/21 23:33:54 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/22 05:48:38 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef enum e_token
 	RPAREN = ')',
 	GREAT = '>',
 	LESS = '<',
+	VARIABLE = '$',
 	AND = 152,
 	LESSLESS = 240,
 	GREATGREAT = 248,

@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 05:39:27 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/22 06:34:07 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_token	check_type(char *s)
 {
 	if (s[0] == LPAREN || s[0] == RPAREN || s[0] == SPACE || s[0] == TAB
-		|| s[0] == NEWLINE)
+		|| s[0] == NEWLINE || s[0] == VARIABLE)
 		return (s[0]);
 	else if (s[0] == PIPE || s[0] == AMPERSAND || s[0] == GREAT || s[0] == LESS)
 	{
@@ -55,10 +55,9 @@ int		check_ctrlop_whitespace(int state, char **input)
 	{
 		while (check_whitespace(**input))
 			*input += 1;
-	if (is_control_op(check_type(*input)) == TRUE)
-		return (0);
-	else
-		return (1);
+		if (is_control_op(check_type(*input)) == TRUE)
+			return (1);
+		return (2);
 	}
 	return (0);
 }
@@ -82,7 +81,10 @@ void	read_command(char **input, t_node *command)
 			*input += ret;
 			if (ret == 1)
 				continue ;
-			if (check_ctrlop_whitespace(state, input) == 1)
+			ret = check_ctrlop_whitespace(state, input);
+			if (ret == 2)
+				break ;
+			else if (ret == 1)
 				return ;
 			new->data = ft_append(new->data, **input);
 			*input += 1;
@@ -123,7 +125,7 @@ void	read_toks(t_node **head, char *input)
 		while (check_whitespace(*input))
 			input++;
 		new = ft_dll_append_node(head);
-		new->type = check_type(input);
+		new->type = check_type(input);	// hier auf $ checken ? 
 		if (new->type > 127)
 			input += 2;
 		else if (new->type != COMMAND)

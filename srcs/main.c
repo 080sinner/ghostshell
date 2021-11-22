@@ -6,7 +6,7 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 05:40:26 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/22 06:37:38 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	print_list(t_node *head)
 		{
 			if (head->type == COMMAND)
 				printf("%s\n", head->args->data);
-			else
-				printf("%c\n", head->type);
 			head->args = head->args->next;
 		}
 		head = head->next;
