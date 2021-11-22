@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 13:39:08 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/22 15:36:33 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,27 @@ void	print_list(t_node *head)
 		while (head->args != NULL)
 		{
 			if (head->type == COMMAND)
-				printf("%s", head->args->data);
+				printf("%s ", head->args->data);
 			head->args = head->args->next;
 		}
+		if (head->type != COMMAND)
+			printf("%c", head->type);
 		printf("\n");
 		head = head->next;
 	}
+}
+
+int	check_empty_input(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (check_whitespace(input[i]))
+		i++;
+	if (input[i] == '\0')
+		return (1);
+	else
+		return (0);
 }
 
 void	get_input(t_node **head)
@@ -37,15 +52,18 @@ void	get_input(t_node **head)
 	while (1)
 	{
 		read = readline("minish $ ");
-		if (!ft_strcmp(read, "\0"))
-			add_history(read);
-		if (ft_strcmp(read, "exit"))
+		if (!ft_strcmp(read, ""))
 		{
+			add_history(read);
+			if (ft_strcmp(read, "exit"))
+			{
+				free(read);
+				break ;
+			}
+			if (!check_empty_input(read))
+				read_toks(head, read);
 			free(read);
-			break ;
 		}
-		read_toks(head, read);
-		free(read);
 	}
 }
 
@@ -57,8 +75,6 @@ int	main(void)
 	get_input(&head);
 	print_list(head);
 	free_nodes(&head);
-	// head = NULL;
-	// system("leaks minishell");
 	return (0);
 }
 

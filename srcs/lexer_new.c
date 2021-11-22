@@ -6,60 +6,36 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 13:38:06 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/22 15:12:09 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	check_type(char *s)
+static char	*ft_append(char *line, char c)
 {
-	if (s[0] == LPAREN || s[0] == RPAREN || s[0] == SPACE || s[0] == TAB
-		|| s[0] == NEWLINE || s[0] == VARIABLE)
-		return (s[0]);
-	else if (s[0] == PIPE || s[0] == AMPERSAND || s[0] == GREAT || s[0] == LESS)
-	{
-		if (s[0] == s[1])
-			return (s[0] * 4);
-		return (s[0]);
-	}
-	else
-		return (COMMAND);
-}
+	int		length;
+	int		i;
+	char	*longer;
 
-int	check_state(char c, int *state)
-{
-	if (c == SQUOTE && (*state == GENERAL_STATE || *state == SQUOTED_STATE))
+	if (line == NULL)
+		return (NULL);
+	length = ft_strlen(line);
+	longer = ft_calloc(length + 2, sizeof(char));
+	if (longer == NULL)
 	{
-		if (*state == GENERAL_STATE)
-			*state = SQUOTED_STATE;
-		else if (*state == SQUOTED_STATE)
-			*state = GENERAL_STATE;
-		return (1);
+		free(line);
+		return (NULL);
 	}
-	if (c == DQUOTE && (*state == GENERAL_STATE || *state == DQUOTED_STATE))
+	i = 0;
+	while (line[i] != '\0')
 	{
-		if (*state == GENERAL_STATE)
-			*state = DQUOTED_STATE;
-		else if (*state == DQUOTED_STATE)
-			*state = GENERAL_STATE;
-		return (1);
+		longer[i] = line[i];
+		i++;
 	}
-	return (0);
-}
-
-int	check_ctrlop_whitespace(int state, char **input)
-{
-	if (state == GENERAL_STATE && (check_whitespace(**input)
-			|| is_control_op(check_type(*input)) == TRUE))
-	{
-		while (check_whitespace(**input))
-			*input += 1;
-		if (is_control_op(check_type(*input)) == TRUE)
-			return (1);
-		return (2);
-	}
-	return (0);
+	longer[i] = c;
+	free(line);
+	return (longer);
 }
 
 int	get_word(char **input, t_tok *new, int state)
@@ -78,15 +54,18 @@ int	get_word(char **input, t_tok *new, int state)
 		else if (ret == 1)
 			return (1);
 		new->data = ft_append(new->data, **input);
+		if (!new->data)
+			return (free_toks(&new));
 		*input += 1;
 	}
 	return (0);
 }
 
-void	read_command(char **input, t_node *command)
+int	read_command(char **input, t_node *command)
 {
 	int		state;
 	t_tok	*new;
+	int		ret;
 
 	state = GENERAL_STATE;
 	new = NULL;
@@ -94,36 +73,21 @@ void	read_command(char **input, t_node *command)
 	while (**input != '\0')
 	{
 		new = ft_dll_append_tok(&command->args);
+		if (!new)
+			return (free_nodes(&command));
 		new->data = ft_strdup("");
-		if (get_word(input, new, state) == 1)
-			return ;
+		if (!new)
+			return (free_nodes(&command));
+		ret = get_word(input, new, state);
+		if (ret == 1)
+			return (0);
+		else if (ret == -1)
+			return (free_nodes(&command));
 	}
+	return (0);
 }
 
-char	*ft_append(char *line, char c)
-{
-	int		length;
-	int		i;
-	char	*longer;
-
-	if (line == NULL)
-		return (NULL);
-	length = ft_strlen(line);
-	longer = ft_calloc(length + 2, sizeof(char));
-	if (longer == NULL)
-		return (NULL);
-	i = 0;
-	while (line[i] != '\0')
-	{
-		longer[i] = line[i];
-		i++;
-	}
-	longer[i] = c;
-	free(line);
-	return (longer);
-}
-
-void	read_toks(t_node **head, char *input)
+int	read_toks(t_node **head, char *input)
 {
 	t_node	*new;
 
@@ -133,14 +97,20 @@ void	read_toks(t_node **head, char *input)
 		while (check_whitespace(*input))
 			input++;
 		new = ft_dll_append_node(head);
-		new->type = check_type(input);	// hier auf $ checken ? 
+		if (!new)
+			return (free_nodes(head));
+		new->type = check_type(input);
 		if (new->type > 127)
 			input += 2;
 		else if (new->type != COMMAND)
 			input++;
 		else
-			read_command(&input, new);
+		{
+			if (read_command(&input, new) == -1)
+				return (free_nodes(head));
+		}
 	}
+	return (0);
 }
 
 // char	**expand_array(char **strarray)
