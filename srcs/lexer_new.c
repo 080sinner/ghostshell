@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 22:28:43 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/22 22:56:08 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,35 @@ int	expand_variable(int state, char **input, t_tok *new)
 	return (0);
 }
 
-int	get_word(char **input, t_tok *new, int state)
+int	check_expansion(char **input, int *state, t_tok *new)
+{
+	int	ret;
+
+	ret = check_state(**input, state);
+	*input += ret;
+	if (ret == 1)
+		return (1);
+	if (*state != SQUOTED_STATE && **input == '$')
+	{
+		if (expand_variable(*state, input, new) == -1)
+			return (-1);
+		return (1);
+	}
+	if (*state == GENERAL_STATE && **input == '*')
+		new->wildcard = TRUE;
+	return (0);
+}
+
+int	get_word(char **input, t_tok *new, int *state)
 {
 	int	ret;
 
 	while (**input != '\0')
 	{
-		ret = check_state(**input, &state);
-		*input += ret;
+		ret = check_expansion(input, state, new);
 		if (ret == 1)
 			continue ;
-		if (state != SQUOTED_STATE && **input == '$')
-		{
-			if (expand_variable(state, input, new) == -1)
-				return (-1);
-			continue ;
-		}
-		ret = check_ctrlop_whitespace(state, input);
+		ret = check_ctrlop_whitespace(*state, input);
 		if (ret == 2)
 			break ;
 		else if (ret == 1)
@@ -111,7 +123,7 @@ int	read_command(char **input, t_node *command)
 		new->data = ft_strdup("");
 		if (!new)
 			return (free_nodes(&command));
-		ret = get_word(input, new, state);
+		ret = get_word(input, new, &state);
 		if (ret == 1)
 			return (0);
 		else if (ret == -1)
