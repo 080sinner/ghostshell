@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 06:50:17 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/22 13:38:06 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	check_state(char c, int *state)
 	return (0);
 }
 
-int		check_ctrlop_whitespace(int state, char **input)
+int	check_ctrlop_whitespace(int state, char **input)
 {
 	if (state == GENERAL_STATE && (check_whitespace(**input)
-		|| is_control_op(check_type(*input)) == TRUE))
+			|| is_control_op(check_type(*input)) == TRUE))
 	{
 		while (check_whitespace(**input))
 			*input += 1;

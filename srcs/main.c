@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 06:51:23 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/22 13:39:08 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ void	print_list(t_node *head)
 		while (head->args != NULL)
 		{
 			if (head->type == COMMAND)
-				printf("%s\n", head->args->data);
+				printf("%s", head->args->data);
 			head->args = head->args->next;
 		}
+		printf("\n");
 		head = head->next;
 	}
 }
