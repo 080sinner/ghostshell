@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 20:25:54 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/22 22:28:43 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,23 @@ int	expand_variable(int state, char **input, t_tok *new)
 	i = 0;
 	while (ft_isalnum((*input)[i]) || (*input)[i] == '_')
 		i++;
-	variable[1] = ft_substr(*input, 0, i);
-	if (!variable[1])
+	variable[TMP] = ft_substr(*input, 0, i);
+	if (!variable[TMP])
 		return (free_toks(&new));
 	*input += i;
-	variable[0] = getenv(variable[1]);
-	free(variable[1]);
-	variable[1] = NULL;
-	if (state == DQUOTED_STATE && variable[1] != NULL)
+	variable[VAR_VALUE] = getenv(variable[TMP]);
+	free(variable[TMP]);
+	variable[TMP] = NULL;
+	if (state == DQUOTED_STATE && variable[VAR_VALUE] != NULL)
 	{
-		variable[0] = new->data;
-		new->data = ft_strjoin(new->data, variable[1]);
+		variable[TMP] = new->data;
+		new->data = ft_strjoin(new->data, variable[VAR_VALUE]);
 		if (!new->data)
 			return (free_toks(&new));
-		free(variable[0]);
+		free(variable[TMP]);
 	}
-	else if (state == GENERAL_STATE && variable[1] != NULL)
-		return (get_variable_word(new, variable[1]));
+	else if (state == GENERAL_STATE && variable[VAR_VALUE] != NULL)
+		return (get_variable_word(new, variable[VAR_VALUE]));
 	return (0);
 }
 

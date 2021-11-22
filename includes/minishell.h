@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/22 20:24:02 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/22 22:27:43 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define GENERAL_STATE 0
 # define SQUOTED_STATE 1
 # define DQUOTED_STATE 2
-# define ON 1
-# define OFF 0
+# define VAR_VALUE 0
+# define TMP 1
 # define TRUE 1
 # define FALSE 0
 
