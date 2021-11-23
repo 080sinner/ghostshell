@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/22 22:55:16 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/23 00:57:12 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define SQUOTED_STATE 1
 # define DQUOTED_STATE 2
 # define VAR_VALUE 0
+# define NEW_NODE 1
+# define NEW_TOK 2
 # define TMP 1
 # define TRUE 1
 # define FALSE 0

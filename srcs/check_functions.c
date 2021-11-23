@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>                    +#+  +:+       +#+   */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:46:47 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/22 14:53:25 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/23 01:01:36 by eozben              ###   ########.fr     */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	check_ctrlop_whitespace(int state, char **input)
 		while (check_whitespace(**input))
 			*input += 1;
 		if (is_control_op(check_type(*input)) == TRUE)
-			return (1);
-		return (2);
+			return (NEW_NODE);
+		return (NEW_TOK);
 	}
 	return (0);
 }

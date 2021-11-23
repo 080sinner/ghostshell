@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/22 22:56:08 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/23 00:59:06 by eozben              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ int	get_word(char **input, t_tok *new, int *state)
 		if (ret == 1)
 			continue ;
 		ret = check_ctrlop_whitespace(*state, input);
-		if (ret == 2)
+		if (ret == NEW_TOK)
 			break ;
-		else if (ret == 1)
-			return (1);
+		else if (ret == NEW_NODE)
+			return (NEW_NODE);
 		new->data = ft_append(new->data, **input);
 		if (!new->data)
 			return (free_toks(&new));
@@ -124,7 +124,7 @@ int	read_command(char **input, t_node *command)
 		if (!new)
 			return (free_nodes(&command));
 		ret = get_word(input, new, &state);
-		if (ret == 1)
+		if (ret == NEW_NODE)
 			return (0);
 		else if (ret == -1)
 			return (free_nodes(&command));
