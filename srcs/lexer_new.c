@@ -71,7 +71,7 @@ int	check_expansion(char **input, int *state, t_tok *new)
 
 	ret = check_state(**input, state);
 	*input += ret;
-	if (ret == CONTINE)
+	if (ret == CONTINUE)
 		return (CONTINUE);
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
