@@ -28,6 +28,8 @@ static int	get_variable_word(t_tok *current, char *var_value)
 			if (!new)
 				return (free_toks(&new));
 		}
+		if (*var_value == '*')
+			*var_value = -42;
 		new->data = ft_append(new->data, *var_value);
 		if (!new->data)
 			return (free_toks(&new));
@@ -73,14 +75,18 @@ int	check_expansion(char **input, int *state, t_tok *new)
 	*input += ret;
 	if (ret == CONTINUE)
 		return (CONTINUE);
+	if (*state == GENERAL_STATE && **input == '*')
+	{
+		new->data = ft_append(new->data, -42);
+		while (**input == '*')
+			*input += 1;
+	}
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
 		if (expand_variable(*state, input, new) == -1)
 			return (-1);
 		return (CONTINUE);
 	}
-	if (*state == GENERAL_STATE && **input == '*')
-		new->wildcard = TRUE;
 	return (0);
 }
 
@@ -106,6 +112,17 @@ int	get_word(char **input, t_tok *new, int *state)
 	return (0);
 }
 
+int	handle_wildcards(t_tok *new)
+{
+	char			*wildcard;
+	struct	dirent	*readdir;
+
+	wildcard = ft_strchr(new->data, -42);
+	if (wildcard == NULL)
+		return (0);
+	readdir = readdir()
+}
+
 int	read_command(char **input, t_node *command)
 {
 	int		state;
@@ -124,6 +141,7 @@ int	read_command(char **input, t_node *command)
 		if (!new)
 			return (free_nodes(&command));
 		ret = get_word(input, new, &state);
+		handle_wildcards(new);
 		if (ret == NEW_NODE)
 			return (0);
 		else if (ret == -1)

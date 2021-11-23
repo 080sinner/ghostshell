@@ -15,7 +15,7 @@
 t_token	check_type(char *s)
 {
 	if (s[0] == LPAREN || s[0] == RPAREN || s[0] == SPACE || s[0] == TAB
-		|| s[0] == NEWLINE || s[0] == VARIABLE)
+		|| s[0] == NEWLINE)
 		return (s[0]);
 	else if (s[0] == PIPE || s[0] == AMPERSAND || s[0] == GREAT || s[0] == LESS)
 	{
