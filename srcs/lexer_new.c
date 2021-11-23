@@ -71,13 +71,13 @@ int	check_expansion(char **input, int *state, t_tok *new)
 
 	ret = check_state(**input, state);
 	*input += ret;
-	if (ret == 1)
-		return (1);
+	if (ret == CONTINE)
+		return (CONTINUE);
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
 		if (expand_variable(*state, input, new) == -1)
 			return (-1);
-		return (1);
+		return (CONTINUE);
 	}
 	if (*state == GENERAL_STATE && **input == '*')
 		new->wildcard = TRUE;
@@ -91,7 +91,7 @@ int	get_word(char **input, t_tok *new, int *state)
 	while (**input != '\0')
 	{
 		ret = check_expansion(input, state, new);
-		if (ret == 1)
+		if (ret == CONTINUE)
 			continue ;
 		ret = check_ctrlop_whitespace(*state, input);
 		if (ret == NEW_TOK)

@@ -27,6 +27,7 @@
 # define VAR_VALUE 0
 # define NEW_NODE 1
 # define NEW_TOK 2
+# define CONTINUE 1
 # define TMP 1
 # define TRUE 1
 # define FALSE 0
