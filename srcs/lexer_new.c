@@ -77,9 +77,8 @@ int	check_expansion(char **input, int *state, t_tok *new)
 		return (CONTINUE);
 	if (*state == GENERAL_STATE && **input == '*')
 	{
-		new->data = ft_append(new->data, -42);
-		while (**input == '*')
-			*input += 1;
+		**input = -42;
+		return (CONTINUE);
 	}
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
@@ -87,6 +86,96 @@ int	check_expansion(char **input, int *state, t_tok *new)
 			return (-1);
 		return (CONTINUE);
 	}
+	return (0);
+}
+
+static int  free_array(char **split)
+{
+    int i;
+    i = 0;
+    while (split[i] != NULL)
+        free(split[i++]);
+    free(split);
+    return (0);
+}
+
+static int  match_wildcard(char *filename, char *data)
+{
+    char    **split;
+    int     i;
+    split = ft_split(data, -42);
+    if (split == NULL)
+        return (0);
+    i = 0;
+    if (*split == NULL)
+        return (1);
+    while (split[i] != NULL)
+    {
+        if (data[0] != -42 && i == 0)
+        {
+            if (ft_strncmp(split[i], filename, ft_strlen(split[i])))
+                return (free_array(split));
+            filename += ft_strlen(split[i]);
+            i++;
+            continue ;
+        }
+        filename = ft_strnstr(filename, split[i], ft_strlen(filename));
+        if (filename == NULL)
+            return (free_array(split));
+        filename += ft_strlen(split[i]);
+        i++;
+    }
+    free_array(split);
+    if (*filename == '\0' || *filename == -42)
+        return (1);
+    return (0);
+}
+
+t_tok   *handle_error_wildcard(t_tok **token, DIR *dir)
+{
+    free_toks(token);
+    closedir(dir);
+    return (NULL);
+}
+
+static int wildcard_expansion(t_tok **token, int checkvalue)
+{
+    DIR             *dir;
+    t_tok           *new;
+    struct dirent   *entity;
+    dir = opendir(".");
+    while (1)
+    {
+        entity = readdir(dir);
+        if (entity == NULL)
+            break ;
+        if (entity->d_name[0] == '.')
+            continue ;
+        if (!match_wildcard(entity->d_name, (*token)->data))
+            continue ;
+        new = ft_dll_append_tok(token);
+		if (!new)
+			return (0);
+		new->data = ft_strdup(entity->d_name);
+		if (!new->data)
+			return (0);
+		checkvalue = 1;
+	}
+	closedir(dir);
+	return (checkvalue);
+}
+
+int	handle_wildcards(t_tok **new)
+{
+	if (!ft_strchr((*new)->data, -42))
+		return (0);
+	if	(!wildcard_expansion(new, 0))
+	{
+		while (ft_strchr((*new)->data, -42))
+			*(ft_strchr((*new)->data, -42)) = '*';
+	}
+	else
+		free(detach_tok(new, *new));
 	return (0);
 }
 
@@ -112,17 +201,6 @@ int	get_word(char **input, t_tok *new, int *state)
 	return (0);
 }
 
-int	handle_wildcards(t_tok *new)
-{
-	char			*wildcard;
-	struct	dirent	*readdir;
-
-	wildcard = ft_strchr(new->data, -42);
-	if (wildcard == NULL)
-		return (0);
-	readdir = readdir()
-}
-
 int	read_command(char **input, t_node *command)
 {
 	int		state;
@@ -141,9 +219,9 @@ int	read_command(char **input, t_node *command)
 		if (!new)
 			return (free_nodes(&command));
 		ret = get_word(input, new, &state);
-		handle_wildcards(new);
+		handle_wildcards(&new);
 		if (ret == NEW_NODE)
-			return (0);
+			return (NEW_NODE);
 		else if (ret == -1)
 			return (free_nodes(&command));
 	}

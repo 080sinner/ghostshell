@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/23 13:10:58 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/23 18:45:36 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	get_input(t_node **head)
 
 	while (1)
 	{
-		read = readline("minish $ ");
+		read = readline("	༼ つ ▀_▀ ༽つ	");
 		if (read != NULL && !ft_strcmp(read, ""))
 		{
 			add_history(read);
