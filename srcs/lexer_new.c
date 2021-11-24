@@ -120,13 +120,15 @@ static int  match_wildcard(char *filename, char *data)
             continue ;
         }
         filename = ft_strnstr(filename, split[i], ft_strlen(filename));
-        if (filename == NULL)
+		if (filename == NULL)
             return (free_array(split));
         filename += ft_strlen(split[i]);
+        if (ft_strnstr(filename, split[i], ft_strlen(filename)))
+			continue ;
         i++;
     }
     free_array(split);
-    if (*filename == '\0' || *filename == -42)
+    if (*filename == '\0' || data[ft_strlen(data) - 1] == -42)
         return (1);
     return (0);
 }
