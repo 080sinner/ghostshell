@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_freestrarray.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/15 14:04:56 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/24 23:48:53 by eozben           ###   ########.fr       */
+/*   Created: 2021/11/24 23:11:23 by eozben            #+#    #+#             */
+/*   Updated: 2021/11/24 23:11:42 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_free_strarray(char **split)
 {
-	size_t		i;
+	int	i;
 
-	if (str == NULL)
-		return (0);
 	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
+	while (split[i] != NULL)
+		free(split[i++]);
+	free(split);
+	return (0);
 }
