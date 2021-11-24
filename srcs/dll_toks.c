@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:53:53 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/22 22:54:48 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/24 20:58:48 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_tok	*ft_last_tok(t_tok *head)
 
 t_tok	*detach_tok(t_tok **head, t_tok *node)
 {
+
 	if (head == NULL || *head == NULL)
 		return (NULL);
 	if ((*head)->next == NULL && (*head)->previous == NULL )

@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
+#    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/11/22 14:56:48 by eozben           ###   ########.fr        #
+#    Updated: 2021/11/24 20:23:01 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
 LIB = -Llibft -lft -lreadline
-FLAGS = -o "minishell" -Wall -Wextra -Werror
+FLAGS = -o "minishell" -Wall -Wextra -Werror -g -fsanitize=address -fno-omit-frame-pointer  -static-libsan
 SRC = srcs/dll_functions.c srcs/lexer_new.c srcs/main.c srcs/check_functions.c \
 		srcs/dll_nodes.c srcs/dll_toks.c
 

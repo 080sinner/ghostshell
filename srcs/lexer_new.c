@@ -165,7 +165,7 @@ static int wildcard_expansion(t_tok **token, int checkvalue)
 	return (checkvalue);
 }
 
-int	handle_wildcards(t_tok **new)
+int	handle_wildcards(t_tok **new, t_tok **head)
 {
 	if (!ft_strchr((*new)->data, -42))
 		return (0);
@@ -175,7 +175,7 @@ int	handle_wildcards(t_tok **new)
 			*(ft_strchr((*new)->data, -42)) = '*';
 	}
 	else
-		free(detach_tok(new, *new));
+		free(detach_tok(head, *new));
 	return (0);
 }
 
@@ -201,7 +201,7 @@ int	get_word(char **input, t_tok *new, int *state)
 	return (0);
 }
 
-int	read_command(char **input, t_node *command)
+int	read_command(char **input, t_node **command)
 {
 	int		state;
 	t_tok	*new;
@@ -209,21 +209,21 @@ int	read_command(char **input, t_node *command)
 
 	state = GENERAL_STATE;
 	new = NULL;
-	command->args = NULL;
+	(*command)->args = NULL;
 	while (**input != '\0')
 	{
-		new = ft_dll_append_tok(&command->args);
+		new = ft_dll_append_tok(&(*command)->args);
 		if (!new)
-			return (free_nodes(&command));
+			return (free_nodes(command));
 		new->data = ft_strdup("");
 		if (!new)
-			return (free_nodes(&command));
+			return (free_nodes(command));
 		ret = get_word(input, new, &state);
-		handle_wildcards(&new);
+		handle_wildcards(&new, &(*command)->args);
 		if (ret == NEW_NODE)
 			return (NEW_NODE);
 		else if (ret == -1)
-			return (free_nodes(&command));
+			return (free_nodes(command));
 	}
 	return (0);
 }
@@ -247,7 +247,7 @@ int	read_toks(t_node **head, char *input)
 			input++;
 		else
 		{
-			if (read_command(&input, new) == -1)
+			if (read_command(&input, &new) == -1)
 				return (free_nodes(head));
 		}
 	}
