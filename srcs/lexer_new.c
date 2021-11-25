@@ -6,11 +6,13 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/24 23:18:40 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/25 16:32:14 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+//int	check_single_var(char **input)
 
 int	check_expansion(char **input, int *state, t_tok *new)
 {
@@ -27,7 +29,11 @@ int	check_expansion(char **input, int *state, t_tok *new)
 	}
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
-		if (expand_variable(*state, input, new) == -1)
+		if (check_whitespace(*(*input + 1)) || *(*input + 1) == '\0'
+			|| is_control_op(*(*input + 1)))
+			return (0);
+		ret = expand_variable(*state, input, new);
+		if (ret == -1)
 			return (-1);
 		return (CONTINUE);
 	}

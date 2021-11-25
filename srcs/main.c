@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/25 06:22:44 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/25 16:30:48 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	get_input(t_node **head)
 	print_header();
 	while (1)
 	{
-		read = readline("	\033[1;36m༼ つ ▀_▀ ༽つ\033[0m	");
+		read = readline("	\033[1;36m༼ つ ▀_▀ ༽つ <<\033[0m	");
 		if (read != NULL && !ft_strcmp(read, ""))
 		{
 			add_history(read);

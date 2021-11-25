@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/24 23:18:55 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/25 16:37:55 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int	expand_variable(int state, char **input, t_tok *new)
 	i = 0;
 	while (ft_isalnum((*input)[i]) || (*input)[i] == '_')
 		i++;
-	variable[TMP] = ft_substr(*input, 0, i);
+	if (**input == '?')
+		variable[TMP] = ft_strdup("EXIT_STATUS");
+	else
+		variable[TMP] = ft_substr(*input, 0, i);
 	if (!variable[TMP])
 		return (free_toks(&new));
 	*input += i;
