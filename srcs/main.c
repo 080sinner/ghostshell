@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/25 16:30:48 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/25 19:21:34 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,25 @@
 
 void	print_list(t_node *head)
 {
-	int	i;
+	int		i;
+	t_node	*tmpnode;
+	t_tok	*tmptok;
 
 	i = 0;
-	while (head != NULL)
+	tmpnode = head;
+	while (tmpnode != NULL)
 	{
-		while (head->args != NULL)
+		tmptok = tmpnode->args;
+		while (tmptok != NULL)
 		{
-			if (head->type == COMMAND)
-				printf("%s ", head->args->data);
-			head->args = head->args->next;
+			if (tmpnode->type == COMMAND)
+				printf("%s ", tmptok->data);
+			tmptok = tmptok->next;
 		}
-		if (head->type != COMMAND)
-			printf("%c", head->type);
+		if (tmpnode->type != COMMAND)
+			printf("%c", tmpnode->type);
 		printf("\n");
-		head = head->next;
+		tmpnode = tmpnode->next;
 	}
 }
 
@@ -45,31 +49,43 @@ static int	check_empty_input(char *input)
 		return (0);
 }
 
-void	print_header(void)
+void	print_ghostshell(void)
 {
-	printf("\033[1;36m   _____ ________         .__       .__       .__    ");
-	printf("       .__  .__  \n");
-	printf("  /  |  |\\_____  \\  _____ |__| ____ |__| _____|  |__   ____");
-	printf(" |  | |  |  \n");
-	printf(" /   |  |_/  ____/ /     \\|  |/    \\|  |/  ___/  |  \\_/ __ ");
-	printf("\\|  | |  |  \n");
-	printf("/    ^   /       \\|  Y Y  \\  |   |  \\  |\\___ \\|   Y  ");
-	printf("\\  ___/|  |_|  |_\n");
-	printf("\\____   |\\_______ \\__|_|  /__|___|  /__/____  >___|  ");
-	printf("/\\___  >____/____/\n");
-	printf("     |__|        \\/     \\/        \\/        \\/     \\/     \\");
-	printf("/                                                      \n\n\n");
-	printf("\033[0m");
+	printf("\033[1;36m");
+	printf("                    ██████████████████████              \n");
+	printf("                  ██░░░░              ░░░░██            \n");
+	printf("                ██░░                      ░░██          \n");
+	printf("              ██░░                          ░░██        \n");
+	printf("            ██░░                              ░░██      \n");
+	printf("            ██░░                              ░░██      \n");
+	printf("          ██░░            ████          ████  ░░░░██    \n");
+	printf("          ██░░            ████          ████    ░░██    \n");
+	printf("          ██░░            ████          ████    ░░██                    _________ ___ ______________.____    .____     \n");
+	printf("          ██░░        ░░░░                  ░░░░░░██                   /   _____//   |   \\_   _____/|    |   |    |    \n");
+	printf("          ██░░        ░░░░        ████      ░░░░░░██          ______   \\_____  \\/    ~    \\    __)_ |    |   |    |    \n");
+	printf("          ██░░                                  ░░████       /_____/   /        \\    Y    /        \\|    |___|    |___ \n");
+	printf("          ██░░                                    ░░░░██              /_______  /\\___|_  /_______  /|_______ \\_______ \\\n");
+	printf("          ██░░                                      ░░██                      \\/       \\/        \\/         \\/       \\/\n");
+	printf("  ██    ██░░                                    ░░░░░░██\n");
+	printf("██░░████░░                                    ░░████████\n");
+	printf("██░░░░░░                                    ░░██        \n");
+	printf("██░░                                        ░░██        \n");
+	printf("██░░░░                                    ░░██          \n");
+	printf("  ████░░                                ░░██            \n");
+	printf("      ██░░░░                        ░░░░██              \n");
+	printf("        ████░░░░░░░░░░░░░░░░░░░░░░░░████                \n");
+	printf("          ██████████████████████████                    \n");
+	printf("_________________________________________________________________________________________________________________________\033[0m\n\n");
 }
 
 void	get_input(t_node **head)
 {
 	char	*read;
 
-	print_header();
+	print_ghostshell();
 	while (1)
 	{
-		read = readline("	\033[1;36m༼ つ ▀_▀ ༽つ <<\033[0m	");
+		read = readline("\e[1m	\033[1;34m༼ つ ❍_❍ ༽つ\033[0m\e[0m	");
 		if (read != NULL && !ft_strcmp(read, ""))
 		{
 			add_history(read);
@@ -93,6 +109,8 @@ int	main(void)
 	get_input(&head);
 	print_list(head);
 	free_nodes(&head);
+	// head = NULL;
+	// system("leaks minishell");
 	return (0);
 }
 

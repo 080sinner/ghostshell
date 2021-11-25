@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:06:32 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/24 23:49:46 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/25 18:45:52 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int	search_wildcard(char **filename, char *data, char **split)
 			continue ;
 		i++;
 	}
+	
 	return (1);
 }
 
@@ -52,7 +53,10 @@ static int	match_wildcard(char *filename, char *data)
 	if (split == NULL)
 		return (0);
 	if (*split == NULL)
+	{
+		ft_free_strarray(split);
 		return (1);
+	}
 	if (!search_wildcard(&filename, data, split))
 		return (0);
 	ft_free_strarray(split);
@@ -85,11 +89,12 @@ static int	wildcard_expansion(t_tok **token, int checkvalue)
 			return (error_close_dir(dir));
 		checkvalue = 1;
 	}
+	ft_free((void *)&(*token)->data);
 	closedir(dir);
 	return (checkvalue);
 }
 
-int	handle_wildcards(t_tok **new, t_tok **head)
+int	handle_wildcards(t_tok **new, __unused t_tok **head)
 {
 	if (!ft_strchr((*new)->data, -42))
 		return (0);
@@ -99,6 +104,10 @@ int	handle_wildcards(t_tok **new, t_tok **head)
 			*(ft_strchr((*new)->data, -42)) = '*';
 	}
 	else
+	{
+		if ((*new)->data != NULL)
+			free((*new)->data);
 		free(detach_tok(head, *new));
+	}
 	return (0);
 }

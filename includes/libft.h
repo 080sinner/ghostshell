@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:30:54 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/24 23:11:55 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/25 18:42:33 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int			ft_strcmp(char *s1, char *s2);
 int			ft_free_strarray(char **split);
 int			ft_isint(char *number);
+int			ft_free(void **ptr);
 
 #endif
