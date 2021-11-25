@@ -6,7 +6,7 @@
 #    By: mac <mac@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/11/25 05:47:08 by mac              ###   ########.fr        #
+#    Updated: 2021/11/25 06:20:24 by mac              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,22 +29,24 @@ $(NAME): ./libft/libft.a $(SRC)
 	@echo "                                                         "
 
 ./libft/libft.a:
-	@echo "0%   █"
+	@echo ""
+	@echo "libft:"
+	@echo "\033[1;32m0%\033[0m   [                      ]"
+	@echo "\033[1;32m33%\033[0m  [\033[1;32m ██████\033[0m               ]"
+	@sleep 0.5
+	@echo "\033[1;32m50%\033[0m  [\033[1;32m ██████████\033[0m           ]"
 	@make -silent -C ./libft
-	@echo "33%  \033[0;32m█ █ █\033[0m"
+	@echo "\033[1;32m83%\033[0m  [\033[1;32m ████████████████\033[0m     ]"
 	@make clean -C ./libft
-	@echo "50%  \033[0;32m█ █ █ █ █\033[0m"
-	@sleep 1
-	@echo "83%  \033[0;32m█ █ █ █ █ █ █ █\033[0m"
-	@echo "100% \033[0;32m█ █ █ █ █ █ █ █ █ █\033[0m"
+	@echo "\033[1;32m100%\033[0m [\033[1;32m ████████████████████ \033[0m]"
 
 clean:
 	@make clean -C ./libft
-	@echo ".o files removed!"
+	@echo "\033[1;32m.o files removed!\033[0m"
 
 fclean:
 	@make fclean -C ./libft
 	@rm -f $(NAME)
-	@echo "all binary files removed!"
+	@echo "\033[1;32mbinary files removed!\033[0m"
 
 re: fclean all
