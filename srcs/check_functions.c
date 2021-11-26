@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:46:47 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/26 18:44:22 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/26 19:58:46 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ int	check_whitespace(char c)
 	return (0);
 }
 
-int is_redir_op(t_node *node)
+int	is_redir_op(t_node *node)
 {
-	t_token type;
+	t_token	type;
 
-	if(node == NULL)
-		return(0);
+	if (node == NULL)
+		return (0);
 	type = node->type;
-	if(type == GREAT || type == GREATGREAT || type == LESS || type == LESSLESS)
-		return(1);
-	return(0);
+	if (type == GREAT || type == GREATGREAT || type == LESS || type == LESSLESS)
+		return (1);
+	return (0);
 }

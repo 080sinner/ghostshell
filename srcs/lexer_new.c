@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/26 18:45:37 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/26 19:58:01 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-//int	check_single_var(char **input)
 
 int	check_expansion(char **input, int *state, t_tok *new)
 {

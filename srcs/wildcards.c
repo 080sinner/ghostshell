@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:06:32 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/26 04:47:25 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/26 19:55:34 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	search_wildcard(char **filename, char *data, char **split)
 			continue ;
 		i++;
 	}
-	
 	return (1);
 }
 
@@ -65,22 +64,19 @@ static int	match_wildcard(char *filename, char *data)
 	return (0);
 }
 
-static int	wildcard_expansion(t_tok **token, int checkvalue)
+static int	wildcard_expansion(t_tok **token, DIR *dir, int checkvalue)
 {
-	DIR				*dir;
 	t_tok			*new;
 	struct dirent	*entity;
 
-	dir = opendir(".");
 	new = NULL;
 	while (1)
 	{
 		entity = readdir(dir);
 		if (entity == NULL)
 			break ;
-		if (entity->d_name[0] == '.')
-			continue ;
-		if (!match_wildcard(entity->d_name, (*token)->data))
+		if ((entity->d_name[0] == '.' && (*token)->data[0] != '.')
+			|| (!match_wildcard(entity->d_name, (*token)->data)))
 			continue ;
 		new = ft_dll_append_tok(token);
 		if (!new)
@@ -100,7 +96,7 @@ int	handle_wildcards(t_tok **new, __unused t_tok **head)
 {
 	if (!ft_strchr((*new)->data, -42))
 		return (0);
-	if (!wildcard_expansion(new, 0))
+	if (!wildcard_expansion(new, opendir("."), 0))
 	{
 		while (ft_strchr((*new)->data, -42))
 			*(ft_strchr((*new)->data, -42)) = '*';

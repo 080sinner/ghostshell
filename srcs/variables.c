@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/26 04:34:51 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/26 19:55:08 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static int	get_variable_word(t_tok *current, char *var_value)
 	return (0);
 }
 
-
-int		dquoted_variable(int state, char **variable, t_tok *new)
+int	dquoted_variable(int state, char **variable, t_tok *new)
 {
 	if (state == DQUOTED_STATE && variable[VAR_VALUE] != NULL)
 	{
