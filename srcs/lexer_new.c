@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/25 16:32:14 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/26 18:45:37 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_expansion(char **input, int *state, t_tok *new)
 {
 	int	ret;
 
-	ret = check_state(**input, state);
+	ret = check_state(**input, state, new);
 	*input += ret;
 	if (ret == CONTINUE)
 		return (CONTINUE);
@@ -80,7 +80,8 @@ int	read_command(char **input, t_node **command)
 		if (!new)
 			return (free_nodes(command));
 		ret = get_word(input, new, &state);
-		handle_wildcards(&new, &(*command)->args);
+		if (!(is_redir_op((*command)->previous) && new->previous == NULL))
+			handle_wildcards(&new, &(*command)->args);
 		if (ret == NEW_NODE)
 			return (NEW_NODE);
 		else if (ret == -1)

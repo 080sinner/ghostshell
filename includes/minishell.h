@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/24 23:19:05 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/26 18:43:45 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef enum e_token
 typedef struct s_tok
 {
 	char			*data;
-	int				wildcard;
+	int				state;
 	struct s_tok	*next;
 	struct s_tok	*previous;
 }				t_tok;
@@ -106,7 +106,7 @@ int		free_nodes(t_node **head);
 t_node	*detach_node(t_node **head, t_node *node);
 t_token	check_type(char *s);
 int		check_ctrlop_whitespace(int state, char **input);
-int		check_state(char c, int *state);
+int		check_state(char c, int *state, t_tok *token);
 void	read_word(char **input, t_tok *token);
 int		read_toks(t_node **head, char *input);
 int		check_whitespace(char c);
@@ -115,5 +115,6 @@ void	ft_dll_attach_node(t_node **head, t_node *attachment);
 t_node	*ft_last_node(t_node *head);
 int		handle_wildcards(t_tok **new, t_tok **head);
 int		expand_variable(int state, char **input, t_tok *new);
+int		is_redir_op(t_node *node);
 
 #endif

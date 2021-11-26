@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/26 04:25:56 by mac              ###   ########.fr       */
+/*   Updated: 2021/11/26 18:51:42 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_list(t_node *head)
 		while (tmptok != NULL)
 		{
 			if (tmpnode->type == COMMAND)
-				printf("%s ", tmptok->data);
+				printf("%s", tmptok->data);
 			tmptok = tmptok->next;
 		}
 		if (tmpnode->type != COMMAND)

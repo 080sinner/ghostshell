@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dll_toks.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:53:53 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/24 23:17:30 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/26 18:43:13 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_tok	*ft_dll_append_tok(t_tok **head)
 	}
 	newtok->next = NULL;
 	newtok->previous = NULL;
+	newtok->state = 0;
 	ft_dll_attach_tok(head, newtok);
 	return (newtok);
 }

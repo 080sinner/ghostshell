@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:46:47 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/24 23:07:44 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/26 18:44:22 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token	check_type(char *s)
 		return (COMMAND);
 }
 
-int	check_state(char c, int *state)
+int	check_state(char c, int *state, t_tok *token)
 {
 	if (c == SQUOTE && (*state == GENERAL_STATE || *state == SQUOTED_STATE))
 	{
@@ -35,6 +35,7 @@ int	check_state(char c, int *state)
 			*state = SQUOTED_STATE;
 		else if (*state == SQUOTED_STATE)
 			*state = GENERAL_STATE;
+		token->state = TRUE;
 		return (1);
 	}
 	if (c == DQUOTE && (*state == GENERAL_STATE || *state == DQUOTED_STATE))
@@ -43,6 +44,7 @@ int	check_state(char c, int *state)
 			*state = DQUOTED_STATE;
 		else if (*state == DQUOTED_STATE)
 			*state = GENERAL_STATE;
+		token->state = TRUE;
 		return (1);
 	}
 	return (0);
@@ -75,4 +77,16 @@ int	check_whitespace(char c)
 	if (c == ' ' || c == '\n' || c == '\t')
 		return (1);
 	return (0);
+}
+
+int is_redir_op(t_node *node)
+{
+	t_token type;
+
+	if(node == NULL)
+		return(0);
+	type = node->type;
+	if(type == GREAT || type == GREATGREAT || type == LESS || type == LESSLESS)
+		return(1);
+	return(0);
 }
