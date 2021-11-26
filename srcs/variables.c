@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/25 17:59:17 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/26 04:34:51 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,28 @@ int		dquoted_variable(int state, char **variable, t_tok *new)
 	return (0);
 }
 
-int	expand_variable(int state, char **input, t_tok *new)
+int	get_var_name(char **input, int *i)
 {
-	int		i;
-	char	*variable[2];
-
 	*input += 1;
-	i = 0;
-	while (ft_isalnum((*input)[i]) || (*input)[i] == '_')
-		i++;
+	*i = 0;
+	while (ft_isalnum((*input)[*i]) || (*input)[*i] == '_')
+		*i += 1;
 	if (**input == '?')
 	{
 		**input = -69;
 		return (0);
 	}
+	return (1);
+}
+
+int	expand_variable(int state, char **input, t_tok *new)
+{
+	int		i;
+	char	*variable[2];
+
+	i = 0;
+	if (!get_var_name(input, &i))
+		return (0);
 	variable[TMP] = ft_substr(*input, 0, i);
 	if (!variable[TMP])
 		return (free_toks(&new));

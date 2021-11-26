@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:06:32 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/25 18:45:52 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/26 04:47:25 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static int	wildcard_expansion(t_tok **token, int checkvalue)
 	struct dirent	*entity;
 
 	dir = opendir(".");
+	new = NULL;
 	while (1)
 	{
 		entity = readdir(dir);
@@ -89,7 +90,8 @@ static int	wildcard_expansion(t_tok **token, int checkvalue)
 			return (error_close_dir(dir));
 		checkvalue = 1;
 	}
-	ft_free((void *)&(*token)->data);
+	if (new != NULL)
+		ft_free((void *)&(*token)->data);
 	closedir(dir);
 	return (checkvalue);
 }
