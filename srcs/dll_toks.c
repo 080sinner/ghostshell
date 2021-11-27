@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:53:53 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/26 18:43:13 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/27 20:19:21 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_tok	*ft_dll_append_tok(t_tok **head)
 	}
 	newtok->next = NULL;
 	newtok->previous = NULL;
-	newtok->state = 0;
+	newtok->state = GENERAL_STATE;
 	ft_dll_attach_tok(head, newtok);
 	return (newtok);
 }
