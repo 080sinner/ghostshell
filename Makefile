@@ -6,7 +6,7 @@
 #    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/11/25 19:13:54 by eozben           ###   ########.fr        #
+#    Updated: 2021/11/27 20:00:07 by eozben           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ INC = -Iincludes
 LIB = -Llibft -lft -lreadline
 FLAGS = -o "minishell" -Wall -Wextra -Werror 
 SRC = srcs/dll_functions.c srcs/lexer_new.c srcs/main.c srcs/check_functions.c \
-		srcs/dll_nodes.c srcs/dll_toks.c srcs/wildcards.c srcs/variables.c
+		srcs/dll_nodes.c srcs/dll_toks.c srcs/wildcards.c srcs/variables.c \
+		srcs/header.c
 
 all:$(NAME)
 

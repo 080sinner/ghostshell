@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/26 18:43:45 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/11/27 19:59:53 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,6 @@ t_node	*ft_last_node(t_node *head);
 int		handle_wildcards(t_tok **new, t_tok **head);
 int		expand_variable(int state, char **input, t_tok *new);
 int		is_redir_op(t_node *node);
+void	print_ghostshell(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/26 19:54:54 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/27 20:00:33 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_list(t_node *head)
 		while (tmptok != NULL)
 		{
 			if (tmpnode->type == COMMAND)
-				printf("%s", tmptok->data);
+				printf("%s ", tmptok->data);
 			tmptok = tmptok->next;
 		}
 		if (tmpnode->type != COMMAND)

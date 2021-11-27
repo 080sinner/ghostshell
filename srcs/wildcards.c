@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:06:32 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/26 19:55:34 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/27 20:15:55 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int	wildcard_expansion(t_tok **token, DIR *dir, int checkvalue)
 		checkvalue = 1;
 	}
 	if (new != NULL)
-		ft_free((void *)&(*token)->data);
+		ft_free((void *)&(*token)->data, ft_strlen((*token)->data));
 	closedir(dir);
 	return (checkvalue);
 }

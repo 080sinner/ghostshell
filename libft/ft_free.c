@@ -6,16 +6,20 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:41:28 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/26 19:58:16 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/27 20:13:57 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_free(void **ptr)
+// frees the given ptr and sets n bytes to zero (strlen of ptr if its a string)
+int	ft_free(void **ptr, size_t n)
 {
 	if (*ptr != NULL)
+	{
+		ft_bzero(*ptr, n);
 		free(*ptr);
+	}
 	*ptr = NULL;
 	return (0);
 }
