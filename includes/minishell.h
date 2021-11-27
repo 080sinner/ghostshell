@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/27 19:59:53 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/28 00:20:26 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,7 @@ int		handle_wildcards(t_tok **new, t_tok **head);
 int		expand_variable(int state, char **input, t_tok *new);
 int		is_redir_op(t_node *node);
 void	print_ghostshell(void);
+int		here_doc(t_node *here_doc_node);
+int		lexer(t_node **head, char *input);
 
 #endif

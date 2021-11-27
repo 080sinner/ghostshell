@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/26 19:55:08 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/27 22:31:27 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ int	expand_variable(int state, char **input, t_tok *new)
 		return (free_toks(&new));
 	*input += i;
 	variable[VAR_VALUE] = getenv(variable[TMP]);
-	free(variable[TMP]);
-	variable[TMP] = NULL;
+	ft_free((void *)&variable[TMP], ft_strlen(variable[TMP]));
 	if (dquoted_variable(state, variable, new))
 		return (-1);
 	if (state == GENERAL_STATE && variable[VAR_VALUE] != NULL)

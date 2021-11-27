@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/27 20:00:33 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/28 00:25:17 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	print_list(t_node *head)
 		tmptok = tmpnode->args;
 		while (tmptok != NULL)
 		{
-			if (tmpnode->type == COMMAND)
+			if (tmptok->data != NULL)
 				printf("%s ", tmptok->data);
 			tmptok = tmptok->next;
 		}
-		if (tmpnode->type != COMMAND)
+		if (tmpnode->type != COMMAND && tmpnode->type <= 127)
 			printf("%c", tmpnode->type);
 		printf("\n");
 		tmpnode = tmpnode->next;
@@ -66,7 +66,7 @@ void	get_input(t_node **head)
 				break ;
 			}
 			if (!check_empty_input(read))
-				read_toks(head, read);
+				lexer(head, read);
 			free(read);
 		}
 	}
@@ -80,8 +80,8 @@ int	main(void)
 	get_input(&head);
 	print_list(head);
 	free_nodes(&head);
-	// head = NULL;
-	// system("leaks minishell");
+	head = NULL;
+	system("leaks minishell");
 	return (0);
 }
 

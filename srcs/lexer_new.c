@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/11/26 19:58:01 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/28 00:43:41 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,28 @@ int	read_toks(t_node **head, char *input)
 			if (read_command(&input, &new) == -1)
 				return (free_nodes(head));
 		}
+	}
+	return (0);
+}
+
+int	lexer(t_node **head, char *input)
+{
+	t_node	*tmp;
+	// t_tok	*tmp2;
+
+	if (read_toks(head, input) == -1)
+		return (-1);
+	tmp = *head;
+	while (tmp != NULL)
+	{
+		if (tmp->type == LESSLESS && tmp->next != NULL)
+		{
+			here_doc(tmp);
+			// tmp2 = detach_tok(&tmp->args, tmp->args);
+			// ft_free((void *)&tmp2->data, ft_strlen(tmp2->data));
+			// free(tmp2);
+		}
+		tmp = tmp->next;
 	}
 	return (0);
 }
