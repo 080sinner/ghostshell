@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:46:47 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/26 19:58:46 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/03 19:41:38 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,42 +27,44 @@ t_token	check_type(char *s)
 		return (COMMAND);
 }
 
-int	check_state(char c, int *state, t_tok *token)
+int	check_state(char **input, int *state, t_tok *new)
 {
-	if (c == SQUOTE && (*state == GENERAL_STATE || *state == SQUOTED_STATE))
+	if (**input == SQUOTE && (*state == GENERAL_STATE || *state == SQUOTED_STATE))
 	{
 		if (*state == GENERAL_STATE)
 			*state = SQUOTED_STATE;
 		else if (*state == SQUOTED_STATE)
 			*state = GENERAL_STATE;
-		token->state = TRUE;
+		new->state = TRUE;
+		*input += 1;
 		return (1);
 	}
-	if (c == DQUOTE && (*state == GENERAL_STATE || *state == DQUOTED_STATE))
+	if (**input == DQUOTE && (*state == GENERAL_STATE || *state == DQUOTED_STATE))
 	{
 		if (*state == GENERAL_STATE)
 			*state = DQUOTED_STATE;
 		else if (*state == DQUOTED_STATE)
 			*state = GENERAL_STATE;
-		token->state = TRUE;
+		new->state = TRUE;
+		*input += 1;
 		return (1);
 	}
 	return (0);
 }
 
-int	check_ctrlop_whitespace(int state, char **input)
-{
-	if (state == GENERAL_STATE && (check_whitespace(**input)
-			|| is_control_op(check_type(*input)) == TRUE))
-	{
-		while (check_whitespace(**input))
-			*input += 1;
-		if (is_control_op(check_type(*input)) == TRUE)
-			return (NEW_NODE);
-		return (NEW_TOK);
-	}
-	return (0);
-}
+// int	check_ctrlop_whitespace(int state, char **input)
+// {
+// 	if (state == GENERAL_STATE && (check_whitespace(**input)
+// 			|| is_control_op(check_type(*input)) == TRUE))
+// 	{
+// 		while (check_whitespace(**input))
+// 			*input += 1;
+// 		if (is_control_op(check_type(*input)) == TRUE)
+// 			return (NEW_NODE);
+// 		return (NEW_TOK);
+// 	}
+// 	return (0);
+// }
 
 int	is_control_op(t_token c)
 {

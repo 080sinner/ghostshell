@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dll_nodes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:50:02 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/22 15:08:42 by eozben           ###   ########.fr       */
+/*   Updated: 2021/11/30 20:36:44 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ void	ft_dll_attach_node(t_node **head, t_node *attachment)
 int	free_nodes(t_node **head)
 {
 	if ((*head) == NULL)
-		return (-1);
+		return (1);
 	if ((*head)->args != NULL)
 		free_toks(&(*head)->args);
 	free(detach_node(head, *head));
 	free_nodes(head);
-	return (-1);
+	return (1);
 }
 
 t_node	*ft_dll_append_node(t_node **head)
@@ -70,10 +70,7 @@ t_node	*ft_dll_append_node(t_node **head)
 
 	newnode = ft_calloc(1, sizeof(t_node));
 	if (!newnode)
-	{
-		free_nodes(head);
-		exit(EXIT_FAILURE);
-	}
+		exit(free_nodes(head));
 	newnode->next = NULL;
 	newnode->previous = NULL;
 	ft_dll_attach_node(head, newnode);

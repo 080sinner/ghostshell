@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:53:53 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/27 20:19:21 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/03 18:01:39 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,13 @@ int	free_toks(t_tok **head)
 	return (-1);
 }
 
-t_tok	*ft_dll_append_tok(t_tok **head)
+t_tok	*ft_dll_append_tok(t_tok **head, t_node **head_node)
 {
 	t_tok	*newtok;
 
 	newtok = ft_calloc(1, sizeof(t_tok));
 	if (!newtok)
-	{
-		free_toks(head);
-		exit(EXIT_FAILURE);
-	}
+		exit(free_nodes(head_node));
 	newtok->next = NULL;
 	newtok->previous = NULL;
 	newtok->state = GENERAL_STATE;
