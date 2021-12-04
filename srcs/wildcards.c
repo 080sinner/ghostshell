@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:06:32 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/27 20:15:55 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/03 22:31:52 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ static int	search_wildcard(char **filename, char *data, char **split)
 			return (ft_free_strarray(split));
 		*filename += ft_strlen(split[i]);
 		if (ft_strnstr(*filename, split[i], ft_strlen(*filename)))
+		{
+			i++;
 			continue ;
+		}
 		i++;
 	}
 	return (1);
@@ -92,7 +95,7 @@ static int	wildcard_expansion(t_tok **token, DIR *dir, int checkvalue)
 	return (checkvalue);
 }
 
-int	handle_wildcards(t_tok **new, __unused t_tok **head)
+int	handle_wildcards(t_tok **new, t_tok **head)
 {
 	if (!ft_strchr((*new)->data, -42))
 		return (0);

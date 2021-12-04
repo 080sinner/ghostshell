@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 18:41:28 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/27 20:13:57 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/04 17:36:43 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_free(void **ptr, size_t n)
 	{
 		ft_bzero(*ptr, n);
 		free(*ptr);
+		*ptr = NULL;
 	}
-	*ptr = NULL;
 	return (0);
 }

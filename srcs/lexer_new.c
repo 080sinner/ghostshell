@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/03 20:08:05 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/04 19:48:11 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,29 @@ int	check_expansion(char **input, int *state)
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
 		if (check_whitespace(*(*input + 1)) || *(*input + 1) == '\0'
-			|| is_control_op(*(*input + 1)) || *(*input + 1) == '$')
+			|| is_control_op(*(*input + 1)) || !ft_isalnum(*(*input + 1)))
 			return (0);
 		**input = *state;
 		return(1);
 	}
 	return (0);
+}
+
+void	mark_variable(char **input, t_tok *new, t_node **head)
+{
+	new->data = ft_append(new->data, **input, head);
+	*input += 1;
+	while (**input != '\0' && (ft_isalnum(**input) || **input== '_'))
+	{
+		new->data = ft_append(new->data, **input, head);
+		*input += 1;
+	}
+	if(**input != '\0' && *(*input) == '?')
+	{
+		new->data = ft_append(new->data, **input, head);
+		*input += 1;
+	}
+	new->data = ft_append(new->data, -4, head);
 }
 
 int	get_word(char **input, t_tok *new, int *state, t_node **head)
@@ -61,7 +78,7 @@ int	get_word(char **input, t_tok *new, int *state, t_node **head)
 			continue ;
 		if(check_expansion(input, state))
 		{
-			get_variable_name(input, new, head);
+			mark_variable(input, new, head);
 			continue ;
 		}
 		if (*state == GENERAL_STATE && (check_whitespace(**input)
@@ -77,23 +94,6 @@ int	get_word(char **input, t_tok *new, int *state, t_node **head)
 		*input += 1;
 	}
 	return (0);
-}
-
-void	get_variable_name(char **input, t_tok *new, t_node **head)
-{
-	new->data = ft_append(new->data, **input, head);
-	*input += 1;
-	while (**input != '\0' && (ft_isalnum(**input) || **input== '_'))
-	{
-		new->data = ft_append(new->data, **input, head);
-		*input += 1;
-	}
-	if(**input != '\0' && *(*input) == '?')
-	{
-		new->data = ft_append(new->data, **input, head);
-		*input += 1;
-	}
-	new->data = ft_append(new->data, -4, head);
 }
 
 int	read_command(char **input, t_node **command, t_node **head)
@@ -140,18 +140,25 @@ int	read_input(t_node **head, char *input)
 int	lexer(t_node **head, char *input)
 {
 	t_node	*tmp;
-	//t_tok	*tmp2;
+	t_tok	*tmp2;
+	t_tok	*newlist;
 
 	read_input(head, input);
 	tmp = *head;
 	while (tmp != NULL)
 	{
-		if (tmp->type == LESSLESS && tmp->next != NULL)
+		tmp2 = tmp->args;
+		while (tmp2 != NULL)
 		{
-			//here_doc(tmp, head);
-			// tmp2 = detach_tok(&tmp->args, tmp->args);
-			// ft_free((void *)&tmp2->data, ft_strlen(tmp2->data));
-			// free(tmp2);
+			if (ft_strchr(tmp2->data, END))
+			{
+				newlist = expand_variable(tmp2->data, head);
+				insert_sublist(tmp2, newlist);
+				if (tmp2->data != NULL)
+					free(tmp2->data);
+				free(detach_tok(&tmp->args, tmp2));
+			}
+			tmp2 = tmp2->next;
 		}
 		tmp = tmp->next;
 	}

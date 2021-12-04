@@ -6,84 +6,99 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/03 20:17:15 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/04 19:40:34 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	get_variable_word(t_tok *current, char *var_value)
+int	append_dquoted_variable(char **varcontent, t_tok *new, t_node **head)
 {
-	t_tok	*new;
+	char *tmp;
 
-	new = current;
-	while (*var_value != '\0')
-	{
-		if (check_whitespace(*var_value))
-		{
-			new = ft_dll_append_tok(&new);
-			new->data = ft_strdup("");
-			if (!new)
-				return (free_toks(&new));
-		}
-		if (*var_value == '*')
-			*var_value = -42;
-		new->data = ft_append(new->data, *var_value);
-		var_value++;
-	}
+	tmp = new->data;
+	new->data = ft_strjoin(new->data, *varcontent);
+	if (!new->data)
+		exit(free_nodes(head));
+	free(tmp);
+	*varcontent = NULL;
 	return (0);
 }
 
-int	dquoted_variable(int state, char **variable, t_tok *new)
-{
-	if (state == DQUOTED_STATE && variable[VAR_VALUE] != NULL)
-	{
-		variable[TMP] = new->data;
-		new->data = ft_strjoin(new->data, variable[VAR_VALUE]);
-		if (!new->data)
-			return (free_toks(&new));
-		free(variable[TMP]);
-	}
-	return (0);
-}
-
-int	get_var_name(char **input, int *i)
-{
-	
-	
-	
-	
-	
-	*input += 1;
-	*i = 0;
-	while (ft_isalnum((*input)[*i]) || (*input)[*i] == '_')
-		*i += 1;
-	if (**input == '?')
-	{
-		**input = -69;
-		return (0);
-	}
-	return (1);
-}
-
-int	expand_variable(t_tok *token)
+int	read_variable_name(char *data, t_node **head, char **varname)
 {
 	int		i;
-	char	*variable[2];
 
 	i = 0;
-	if (!get_var_name(token->data, &i))
-		return (0);
-	variable[TMP] = ft_substr(*input, 0, i);
-	if (!variable[TMP])
-		return (free_toks(&new));
-	*input += i;
-	variable[VAR_VALUE] = getenv(variable[TMP]);
-	ft_free((void *)&variable[TMP], ft_strlen(variable[TMP]));
-	if (dquoted_variable(state, variable, new))
-		return (-1);
-	if (state == GENERAL_STATE && variable[VAR_VALUE] != NULL)
-		return (get_variable_word(new, variable[VAR_VALUE]));
+	data += 1;
+	while (data[i] != END && data[i] != '\0')
+		i++;
+	*varname = ft_substr(data, 0, i);
+	if (!*varname)
+		exit(free_nodes(head));
+	return (i + 1);
+}
+
+int	read_variable(char *data, char **varcontent, t_node **head)
+{
+	int		i;
+	char	*varname;
+
+	i = read_variable_name(data, head, &varname);
+	*varcontent = getenv(varname);
+	ft_free((void *) &varname, ft_strlen(varname));
+	return (i);
+}
+
+int	append_general_variable(t_tok *new, char **varcontent, t_node **head)
+{
+	static int i;
+
+	while (*varcontent && (*varcontent)[i] != '\0')
+	{
+		if (check_whitespace((*varcontent)[i]))
+		{
+			while(check_whitespace((*varcontent)[i]))
+				i++;
+			return (CONTINUE);
+		}
+		if ((*varcontent)[i] == '*')
+			(*varcontent)[i] = -42;
+		new->data = ft_append(new->data, (*varcontent)[i], head);
+		i++;
+	}
+	*varcontent = NULL;
+	i = 0;
 	return (0);
 }
 
+t_tok	*expand_variable(char *data, t_node **head)
+{
+	t_tok	*headtok;
+	t_tok	*new;
+	char	*varcontent;
+
+	headtok = NULL;
+	varcontent = NULL;
+	while (*data != '\0' || varcontent)
+	{
+		if(append_general_variable(new, &varcontent, head) || !headtok)
+		{
+			new = ft_dll_append_tok(&headtok, head);
+			new->data = ft_strdup("");
+			if (!new)
+				exit(free_nodes(head));
+			continue;
+		}
+		else if (*data == DQUOTED_STATE || *data == GENERAL_STATE)
+		{
+			data += read_variable(data, &varcontent, head);
+			if (*data == DQUOTED_STATE)
+				append_dquoted_variable(&varcontent, new, head);
+		}
+		else if (varcontent)
+			new->data = ft_append(new->data, *data, head);
+		data++;
+	}
+	return (headtok);
+}
