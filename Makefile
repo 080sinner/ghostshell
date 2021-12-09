@@ -6,18 +6,17 @@
 #    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/12/04 19:47:11 by fbindere         ###   ########.fr        #
+#    Updated: 2021/12/06 19:17:05 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
 LIB = -Llibft -lft -lreadline
-FLAGS = -o "minishell" -Wall -Wextra -Werror 
+FLAGS = -o "minishell" -Wall -Wextra -Werror -g
 SRC = srcs/dll_functions.c srcs/lexer_new.c srcs/main.c srcs/check_functions.c \
 		srcs/dll_nodes.c srcs/dll_toks.c srcs/header.c srcs/variables.c \
 		srcs/wildcards.c
-
 all:$(NAME)
 
 $(NAME): ./libft/libft.a $(SRC)

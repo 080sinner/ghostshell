@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 21:24:20 by mac               #+#    #+#             */
-/*   Updated: 2021/10/13 21:03:28 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/05 22:42:39 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**ft_split(const char *s, char c)
 	int		words[2];
 	int		start;
 
-	if (!s)
+	if (!s || s[0] == '\0')
 		return (NULL);
 	words[0] = ft_countwords(s, c, &start, words);
 	strarray = ft_calloc(words[0] + 1, sizeof(char *));

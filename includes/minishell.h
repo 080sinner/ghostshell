@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/04 17:24:25 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/07 17:53:56 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int		free_toks(t_tok **head);
 int		free_nodes(t_node **head);
 t_node	*detach_node(t_node **head, t_node *node);
 t_token	check_type(char *s);
-//int		check_ctrlop_whitespace(int state, char **input);
 int		check_state(char **input, int *state, t_tok *new);
 void	read_word(char **input, t_tok *token);
 int		read_input(t_node **head, char *input);
@@ -91,8 +90,8 @@ int		check_whitespace(char c);
 int		is_control_op(t_token c);
 void	ft_dll_attach_node(t_node **head, t_node *attachment);
 t_node	*ft_last_node(t_node *head);
-int		handle_wildcards(t_tok **new, t_tok **head);
-t_tok	*expand_variable(char *data, t_node **head);
+int		handle_wildcards(t_tok **new, t_tok **tokhead, t_node **head);
+t_tok	*expand_variable(char *data, t_node **head, char *varcontent, int tmp);
 int		is_redir_op(t_node *node);
 void	print_ghostshell(void);
 int		here_doc(t_node *here_doc_node);

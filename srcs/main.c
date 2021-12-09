@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/04 17:23:50 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/07 16:56:29 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	get_input(t_node **head)
 			free(read);
 		}
 	}
+	//lexer(head, ft_strdup("*e*e*"));
 }
 
 int	main(void)

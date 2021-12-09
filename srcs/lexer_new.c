@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/04 19:48:11 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/07 17:02:23 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,30 +137,39 @@ int	read_input(t_node **head, char *input)
 	return (0);
 }
 
+static void expand_node(t_node *node, t_node **head)
+{
+	t_tok	*current;
+	t_tok	*newlist;
+
+	current = node->args;
+	while (current)
+	{
+		if(ft_strchr(current->data, END))
+		{
+			newlist = expand_variable(current->data, head, NULL, 0);
+			insert_sublist(current, newlist);
+			if(current->data)
+				free (current->data);
+			free(detach_tok(&node->args, current));
+			current = newlist;
+		}
+		handle_wildcards(&current, &node->args, head);
+		current = current->next;
+	}
+}
+
 int	lexer(t_node **head, char *input)
 {
 	t_node	*tmp;
-	t_tok	*tmp2;
-	t_tok	*newlist;
 
 	read_input(head, input);
 	tmp = *head;
 	while (tmp != NULL)
 	{
-		tmp2 = tmp->args;
-		while (tmp2 != NULL)
-		{
-			if (ft_strchr(tmp2->data, END))
-			{
-				newlist = expand_variable(tmp2->data, head);
-				insert_sublist(tmp2, newlist);
-				if (tmp2->data != NULL)
-					free(tmp2->data);
-				free(detach_tok(&tmp->args, tmp2));
-			}
-			tmp2 = tmp2->next;
-		}
+		expand_node(tmp, head);
 		tmp = tmp->next;
 	}
 	return (0);
 }
+
