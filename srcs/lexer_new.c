@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/12 19:25:52 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/13 16:43:44 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ int	check_expansion(char **input, int *state)
 		**input = -42;
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
-		if (check_whitespace(*(*input + 1)) || *(*input + 1) == '\0'
-			|| is_control_op(*(*input + 1)) || !ft_isalnum(*(*input + 1)))
+		if ((check_whitespace(*(*input + 1)) || *(*input + 1) == '\0'
+			|| is_control_op(*(*input + 1))) && (!ft_isalnum(*(*input + 1))
+			|| *(*input + 1) != '_'))
 			return (0);
 		**input = *state;
 		return(1);
