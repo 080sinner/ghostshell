@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/07 17:53:56 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:40:39 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_tok
 {
 	char			*data;
 	int				state;
+	int				type;
 	struct s_tok	*next;
 	struct s_tok	*previous;
 }				t_tok;
@@ -66,6 +67,9 @@ typedef struct s_tok
 typedef struct s_node
 {
 	t_tok			*args;
+	t_tok			*here_doc;
+	int				in;
+	int				out;
 	t_token			type;
 	struct s_node	*next;
 	struct s_node	*previous;
@@ -90,12 +94,15 @@ int		check_whitespace(char c);
 int		is_control_op(t_token c);
 void	ft_dll_attach_node(t_node **head, t_node *attachment);
 t_node	*ft_last_node(t_node *head);
-int		handle_wildcards(t_tok **new, t_tok **tokhead, t_node **head);
+int		expand_wildcards(t_tok **new, t_tok **tokhead, t_node **head);
 t_tok	*expand_variable(char *data, t_node **head, char *varcontent, int tmp);
-int		is_redir_op(t_node *node);
+t_token	is_redir_op(char *s);
 void	print_ghostshell(void);
-int		here_doc(t_node *here_doc_node);
+int		here_doc(t_node *command, t_tok *here_doc, t_node **head);
 int		lexer(t_node **head, char *input);
 char	*ft_append(char *line, char c, t_node **head);
+t_tok	*create_new_tok(t_tok **headtok, t_node **head);
+void	read_here_docs(t_node **head);
+void	expand_here_doc(t_tok *here_doc);
 
 #endif

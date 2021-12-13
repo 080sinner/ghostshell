@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/07 16:56:29 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/11 12:57:52 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,42 @@ void	print_list(t_node *head)
 	tmpnode = head;
 	while (tmpnode != NULL)
 	{
+		printf("		NEWNODE\n");
+		if (tmpnode->type != COMMAND && tmpnode->type <= 127)
+			printf("OPERATOR :%c", tmpnode->type);
+		if (tmpnode->type != COMMAND && tmpnode->type == 152)
+			printf("OPERATOR :&& ");
+		if (tmpnode->type != COMMAND && tmpnode->type == 496)
+			printf("OPERATOR :|| ");
 		tmptok = tmpnode->args;
+		if(tmpnode->args)
+			printf("COMMAND: ");
 		while (tmptok != NULL)
 		{
-			if (tmptok->data != NULL)
+			if (tmptok->type == COMMAND)
 				printf("%s ", tmptok->data);
+			else if (tmptok->type == LESS)
+				printf("< ");
+			else if (tmptok->type == LESSLESS)
+				printf("<< ");
+			else if (tmptok->type == GREAT)
+				printf("> ");
+			else if (tmptok->type == GREATGREAT)
+				printf(">> ");
 			tmptok = tmptok->next;
 		}
-		if (tmpnode->type != COMMAND && tmpnode->type <= 127)
-			printf("%c", tmpnode->type);
-		printf("\n");
+		tmptok = tmpnode->here_doc;
+		if (tmpnode->type == COMMAND && tmpnode->here_doc)
+		{
+			printf("\nHEREDOC: ");
+			while(tmptok)
+			{
+				printf("%s ", tmptok->data);
+				tmptok = tmptok->next;
+			}
+		}
 		tmpnode = tmpnode->next;
+		printf("\n");
 	}
 }
 
@@ -70,7 +95,6 @@ void	get_input(t_node **head)
 			free(read);
 		}
 	}
-	//lexer(head, ft_strdup("*e*e*"));
 }
 
 int	main(void)

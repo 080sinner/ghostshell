@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:50:02 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/30 20:36:44 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/12 18:55:17 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	free_nodes(t_node **head)
 		return (1);
 	if ((*head)->args != NULL)
 		free_toks(&(*head)->args);
+	if ((*head)->here_doc != NULL)
+		free_toks(&(*head)->here_doc);
 	free(detach_node(head, *head));
 	free_nodes(head);
 	return (1);
@@ -71,6 +73,8 @@ t_node	*ft_dll_append_node(t_node **head)
 	newnode = ft_calloc(1, sizeof(t_node));
 	if (!newnode)
 		exit(free_nodes(head));
+	newnode->here_doc = NULL;
+	newnode->args = NULL;
 	newnode->next = NULL;
 	newnode->previous = NULL;
 	ft_dll_attach_node(head, newnode);

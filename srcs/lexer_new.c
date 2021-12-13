@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/07 17:02:23 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:25:52 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	get_word(char **input, t_tok *new, int *state, t_node **head)
 			continue ;
 		}
 		if (*state == GENERAL_STATE && (check_whitespace(**input)
-			|| is_control_op(check_type(*input)) == TRUE))
+			|| is_control_op(check_type(*input)) || is_redir_op(*input)))
 		{
 			while (check_whitespace(**input))
 				*input += 1;
@@ -106,11 +106,18 @@ int	read_command(char **input, t_node **command, t_node **head)
 	(*command)->args = NULL;
 	while (**input != '\0')
 	{
-		new = ft_dll_append_tok(&(*command)->args, head);
-		new->data = ft_strdup("");
-		if (!new)
-			exit(free_nodes(head));
-		if(get_word(input, new, &state, head) == NEW_NODE)
+		new = create_new_tok(&(*command)->args, head);
+		if (is_redir_op(*input))
+		{
+			new->type = is_redir_op(*input);
+			*input += 1;
+			if (new->type > 127)
+				*input += 1;
+			while (check_whitespace(**input))
+				*input += 1;
+			continue ;
+		}
+		if (get_word(input, new, &state, head) == NEW_NODE)
 			return (NEW_NODE);
 	}
 	return (0);
@@ -137,7 +144,7 @@ int	read_input(t_node **head, char *input)
 	return (0);
 }
 
-static void expand_node(t_node *node, t_node **head)
+static void expander(t_node *node, t_node **head)
 {
 	t_tok	*current;
 	t_tok	*newlist;
@@ -154,7 +161,9 @@ static void expand_node(t_node *node, t_node **head)
 			free(detach_tok(&node->args, current));
 			current = newlist;
 		}
-		handle_wildcards(&current, &node->args, head);
+		if (node->here_doc && node->here_doc->state == FALSE)
+			expand_here_doc(node->here_doc);
+		expand_wildcards(&current, &node->args, head);
 		current = current->next;
 	}
 }
@@ -164,10 +173,11 @@ int	lexer(t_node **head, char *input)
 	t_node	*tmp;
 
 	read_input(head, input);
+	read_here_docs(head);
 	tmp = *head;
 	while (tmp != NULL)
 	{
-		expand_node(tmp, head);
+		expander(tmp, head);
 		tmp = tmp->next;
 	}
 	return (0);

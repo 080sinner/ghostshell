@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 20:57:30 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/07 18:17:03 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:23:04 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,60 +46,89 @@ int	contains_variable(char *string)
 	return (0);
 }
 
-char	*expand_here_doc(char *here_string)
+void	expand_here_doc(t_tok *here_doc)
 {
 	char	*front;
 	char	*variable;
 	char	*end;
+	t_tok 	*current;
 	int		i;
 	int		varlen;
 
-	while (contains_variable(here_string))
+	current = here_doc;
+	while (current)
 	{
-		i = 0;
-		while (here_string[i] != '$')
-			i++;
-		varlen = i;
-		while (here_string[i] == '$')
-			i++;
-		i = varlen;
-		front = ft_substr(here_string, 0, i);
-		varlen = i;
-		i++;
-		varlen = 0;
-		while (ft_isalnum(here_string[i]) || here_string[i] == '_')
+		while (contains_variable(current->data))
 		{
+			i = 0;
+			while (current->data[i] != '$')
+				i++;
+			varlen = i;
+			while (current->data[i] == '$')
+				i++;
+			i = varlen;
+			front = ft_substr(current->data, 0, i);
 			i++;
-			varlen++;
+			varlen = 0;
+			while (ft_isalnum(current->data[i]) || current->data[i] == '_')
+			{
+				i++;
+				varlen++;
+			}
+			variable = ft_substr(ft_strchr(current->data, '$'), 1, varlen);
+			end = ft_substr(current->data, i, ft_strlen(current->data) - 1);
+			free(current->data);
+			current->data = combine_strings(front, variable, end);
 		}
-		variable = ft_substr(ft_strchr(here_string, '$'), 1, varlen);
-		end = ft_substr(here_string, i, ft_strlen(here_string) - 1);
-		free(here_string);
-		here_string = combine_strings(front, variable, end);
+		current = current->next;
 	}
-	return (here_string);
 }
 
-int	here_doc(t_node *here_doc_node, t_node **head)
+
+int	here_doc(t_node *command, t_tok *here_doc, t_node **head)
 {
 	char	*line;
 	t_tok	*new;
 
 	line = NULL;
+	if (!here_doc->next)
+		return (0);
 	while (1)
 	{
 		line = readline(">");
-		if ((ft_strcmp(line, here_doc_node->next->args->data))
-			|| here_doc_node->next->type != COMMAND || line == NULL)
+		if (ft_strcmp(line, here_doc->next->data)
+			|| here_doc->next->type != COMMAND || line == NULL)
 		{
 			if (line != NULL)
 				free(line);
 			break ;
 		}
-		new = ft_dll_append_tok(&(here_doc_node->args), head);
-		// if (here_doc_node->next->args->state == GENERAL_STATE)
-		// 	line = expand_here_doc(line);
+		new = ft_dll_append_tok(&(command->here_doc), head);
 		new->data = line;
+		new->state = here_doc->next->state;
 	}
 	return (0);
+}
+
+void	read_here_docs(t_node **head)
+{
+	t_node	*curr_node;
+	t_tok	*curr_tok;
+
+	curr_node = *head;
+	while (curr_node)
+	{
+		curr_tok = curr_node->args;
+		while (curr_tok)
+		{
+			if (curr_tok->type == LESSLESS)
+			{
+				if (curr_node->here_doc)
+					free_toks(&(curr_node->here_doc));
+				here_doc(curr_node, curr_tok, head);
+			}
+			curr_tok = curr_tok->next;
+		}
+		curr_node = curr_node->next;
+	}
 }

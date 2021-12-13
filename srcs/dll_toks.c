@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:53:53 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/07 17:01:51 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/12 19:16:36 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ t_tok	*ft_dll_append_tok(t_tok **head, t_node **head_node)
 		exit(free_nodes(head_node));
 	newtok->next = NULL;
 	newtok->previous = NULL;
-	newtok->state = GENERAL_STATE;
+	newtok->state = FALSE;
+	newtok->type = COMMAND;
 	ft_dll_attach_tok(head, newtok);
 	return (newtok);
 }

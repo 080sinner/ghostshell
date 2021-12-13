@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 20:56:15 by eozben            #+#    #+#             */
-/*   Updated: 2021/09/12 20:57:18 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/11 14:13:02 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@ int	ft_strcmp(char *s1, char *s2)
 {
 	unsigned int	i;
 
+	if (!s1 || !s2)
+		return (0);
 	i = 0;
 	while (1)
 	{

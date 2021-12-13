@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:06:32 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/07 17:18:25 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:22:07 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static int	wildcard_expansion(t_tok **token, DIR *dir, int *checkvalue,
 	return (*checkvalue);
 }
 
-int	handle_wildcards(t_tok **new, t_tok **tokhead, t_node **head)
+int	expand_wildcards(t_tok **new, t_tok **tokhead, t_node **head)
 {
 	int	matched_wildcards;
 

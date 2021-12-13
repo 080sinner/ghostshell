@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/07 17:35:16 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/11 14:21:31 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	append_general_variable(t_tok *new, char **varcontent, t_node **head)
 	return (0);
 }
 
-static t_tok *create_new_tok(t_tok **headtok, t_node **head)
+t_tok *create_new_tok(t_tok **headtok, t_node **head)
 {
 	t_tok *new;
 
