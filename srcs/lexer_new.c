@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/13 16:43:44 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/14 18:22:02 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int	read_input(t_node **head, char *input)
 	return (0);
 }
 
-static void expander(t_node *node, t_node **head)
+void expander(t_node *node, t_node **head)
 {
 	t_tok	*current;
 	t_tok	*newlist;
@@ -171,16 +171,16 @@ static void expander(t_node *node, t_node **head)
 
 int	lexer(t_node **head, char *input)
 {
-	t_node	*tmp;
+
 
 	read_input(head, input);
 	read_here_docs(head);
-	tmp = *head;
-	while (tmp != NULL)
-	{
-		expander(tmp, head);
-		tmp = tmp->next;
-	}
+	// tmp = *head;
+	// while (tmp != NULL)
+	// {
+	// 	expander(tmp, head);
+	// 	tmp = tmp->next;
+	// }
 	return (0);
 }
 
