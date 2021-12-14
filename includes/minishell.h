@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/11 14:40:39 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/14 17:51:19 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 # define SQUOTED_STATE -2
 # define DQUOTED_STATE -3
 # define END -4
+# define HERE_DOC -2
+# define PIPEIN -3
+# define PIPEOUT -2
+# define ERROR -1
 # define VAR_VALUE 0
 # define NEW_NODE 1
 # define NEW_TOK 2

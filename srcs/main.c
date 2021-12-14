@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/13 22:39:36 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/14 17:22:48 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,46 +97,6 @@ void	get_input(t_node **head)
 	}
 }
 
-t_node	*skip_paren_content(t_node *current)
-{
-	static int parencount;
-
-	if (current->type == LPAREN)
-		parencount++;
-	if (current->type == RPAREN)
-		parencount--;
-	if (parencount == 0)
-		return (current);
-	return (skip_paren_content(current->next));
-}
-
-t_node	*executor(t_node **head, t_node *end_of_loop, int level)
-{
-	t_node *current;
-
-	current = *head;
-	while (current != end_of_loop)
-	{
-		if (current->type != OR && current->type != AND)
-		{
-			if (current->type == LPAREN)
-				current = executor(&current->next, skip_paren_content(current), level + 1);
-			else if (current->type == COMMAND)
-				execute_pipeline(current);
-		}
-		//wait
-		if (!current || (current && (current->type == OR || current->type == AND))
-		{
-			wait()
-			if(!current)
-				break ;
-			if(check_exit_status())
-				skip_pipe_line;
-		}
-		current = current->next;
-	}
-	return (current);
-}
 
 int	main(void)
 {
@@ -144,24 +104,10 @@ int	main(void)
 
 	head = NULL;
 	get_input(&head);
-	executor(&head, NULL, 0);	
-	// print_list(head);
+	//executor(&head, NULL, NULL, NULL);	
+	print_list(head);
 	// free_nodes(&head);
 	head = NULL;
 	//system("leaks minishell");
 	return (0);
 }
-
-// t_treenode	*create_tree_node(t_token token)
-// {
-// 	t_treenode	*new;
-
-// 	new = malloc(sizeof(t_treenode));
-// 	if (new != NULL)
-// 	{
-// 		new->left = NULL;
-// 		new->right = NULL;
-// 		new->tok = token;
-// 	}
-// 	return (new);
-// }
