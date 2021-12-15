@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/14 18:40:39 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/15 23:37:58 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,13 @@ void	get_input(t_node **head)
 				break ;
 			}
 			if (!check_empty_input(read))
+			{
 				lexer(head, read);
+				executor(head, NULL, NULL, NULL);
+				print_list(*head);
+			}
 			free(read);
+			free_nodes(head);
 		}
 	}
 }
@@ -104,8 +109,6 @@ int	main(void)
 
 	head = NULL;
 	get_input(&head);
-	executor(&head, NULL, NULL, NULL);	
-	print_list(head);
 	// free_nodes(&head);
 	head = NULL;
 	//system("leaks minishell");

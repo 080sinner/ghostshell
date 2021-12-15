@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:44:02 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/14 18:44:48 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/15 23:43:54 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_node	*skip_paren_content(t_node *current)
 {
 	static int parencount;
 
+	if (!current)
+		return (NULL);
 	if (current->type == LPAREN)
 		parencount++;
 	if (current->type == RPAREN)
@@ -37,11 +39,12 @@ t_node	*skip_paren_content(t_node *current)
 	return (skip_paren_content(current->next));
 }
 
-
 void	set_input(t_node **command)
 {
 	t_tok *current;
 
+	if (!*command || !(*command)->args)
+		return ;
 	current = (*command)->args;
 	(*command)->in = PIPEIN;	
 	while (current)
@@ -141,10 +144,14 @@ void	set_output(t_node **command)
 // 	i++;
 // }
 
-void	parse_command(__unused t_node **current)
+void	parse_command(t_node **current)
 {
+	if (!*current)
+		return ;
 	set_input(current);
 	set_output(current);
+	if ((*current)->args)
+		printf("current command : %s in : %d out : %d\n", (*current)->args->data, (*current)->in, (*current)->out);
 }
 
 t_node	*executor(t_node **head, t_node *end_of_loop, int pipe1[2], int pipe2[2])
@@ -159,12 +166,11 @@ t_node	*executor(t_node **head, t_node *end_of_loop, int pipe1[2], int pipe2[2])
 	{
 		if (current->type == COMMAND || current->type == LPAREN)
 		{
-			printf("test\n");
-			parse_command(&current);
 			// execute_command(current, pipe1, pipe2);
-			// if (current->type == LPAREN)
-			// 	current = executor(&current->next, skip_paren_content(current), level + 1);
+			if (current->type == LPAREN)
+				current = executor(&current->next, skip_paren_content(current), NULL, NULL);
 		}
+		parse_command(&current);
 		if (!current || (current && (current->type == OR || current->type == AND)))
 		{
 			// wait()
