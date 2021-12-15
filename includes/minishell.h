@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/14 18:03:24 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/15 23:52:19 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define SQUOTED_STATE -2
 # define DQUOTED_STATE -3
 # define END -4
-# define HERE_DOC -2
+# define HERE_DOC -7
 # define PIPEIN -3
 # define PIPEOUT -2
 # define ERROR -1

@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:44:02 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/15 23:43:54 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/15 23:56:22 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void	set_input(t_node **command)
 		return ;
 	current = (*command)->args;
 	(*command)->in = PIPEIN;	
+	if (!(*command)->previous || (*command)->previous->type == OR 
+			|| (*command)->previous->type == AND)
+			(*command)->in = 0;
 	while (current)
 	{
 		if (current->type == LESS)
@@ -68,9 +71,6 @@ void	set_input(t_node **command)
 			free(detach_tok(&(*command)->args, current->next));
 			free(detach_tok(&(*command)->args, current));
 		}
-		else if (!(*command)->previous || (*command)->previous->type == OR 
-			|| (*command)->previous->type == AND)
-			(*command)->in = 0;
 		current = current->next;
 	}
 }
@@ -107,11 +107,11 @@ void	set_output(t_node **command)
 			free(detach_tok(&(*command)->args, current->next));
 			free(detach_tok(&(*command)->args, current));
 		}	
-		else if (!(*command)->next || (*command)->next->type == OR 
-			|| (*command)->next->type == AND)
-			(*command)->out = 1;
 		current = current->next;
 	}
+	if (!(*command)->next || (*command)->next->type == OR 
+			|| (*command)->next->type == AND)
+			(*command)->out = 1;
 }
 
 // void	child(t_node command, int *pipe1, int *pipe2)
@@ -151,7 +151,7 @@ void	parse_command(t_node **current)
 	set_input(current);
 	set_output(current);
 	if ((*current)->args)
-		printf("current command : %s in : %d out : %d\n", (*current)->args->data, (*current)->in, (*current)->out);
+		printf("command : %s | input : %d | output : %d\n", (*current)->args->data, (*current)->in, (*current)->out);
 }
 
 t_node	*executor(t_node **head, t_node *end_of_loop, int pipe1[2], int pipe2[2])
