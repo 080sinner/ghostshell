@@ -6,17 +6,17 @@
 #    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/12/14 18:25:36 by eozben           ###   ########.fr        #
+#    Updated: 2021/12/16 16:29:03 by eozben           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
-LIB = -Llibft -lft -lreadline
+LIB = -Llibft -lft -I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline
 FLAGS = -o "minishell" -Wall -Wextra -Werror -g
 SRC = srcs/dll_functions.c srcs/lexer_new.c srcs/main.c srcs/check_functions.c \
 		srcs/dll_nodes.c srcs/dll_toks.c srcs/header.c srcs/variables.c \
-		srcs/wildcards.c srcs/here_doc.c srcs/executor.c
+		srcs/wildcards.c srcs/here_doc.c srcs/executor.c srcs/getpath.c
 all:$(NAME)
 
 $(NAME): ./libft/libft.a $(SRC)

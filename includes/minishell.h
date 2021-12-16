@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/16 12:51:36 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/16 16:36:09 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <termios.h>
+
+# define SIGINT 2
+# define SIGHUP 1
+# define SIGQUIT 3
+# define SIGABRT 6
 
 # define GENERAL_STATE -1
 # define SQUOTED_STATE -2
@@ -72,12 +78,20 @@ typedef struct s_node
 {
 	t_tok			*args;
 	t_tok			*here_doc;
+	char			*cmdpath;
 	int				in;
 	int				out;
 	t_token			type;
 	struct s_node	*next;
 	struct s_node	*previous;
 }				t_node;
+
+typedef struct s_utils
+{
+	char	**environment;
+}				t_utils;
+
+t_utils g_utils;
 
 void	free_list(t_tok *head);
 t_tok	*ft_last_tok(t_tok *head);
@@ -109,5 +123,6 @@ t_tok	*create_new_tok(t_tok **headtok, t_node **head);
 void	read_here_docs(t_node **head);
 void	expand_here_doc(t_tok *here_doc);
 t_node	*executor(t_node *current, t_node *end_of_loop, int pipe1[2], int pipe2[2], t_node **head);
+void	expander(t_node *node, t_node **head);
 
 #endif

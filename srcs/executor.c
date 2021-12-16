@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:44:02 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/16 13:00:29 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/16 16:36:41 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,11 @@ void	set_output(t_node **command)
 // 	i++;
 // }
 
-void	parse_command(t_node **current)
+void	parse_command(t_node **current, t_node **head)
 {
 	if (!*current)
 		return ;
+	expander(*current, head);
 	set_input(current);
 	set_output(current);
 	if ((*current)->args)
@@ -187,7 +188,7 @@ t_node	*executor(t_node *current, t_node *end_of_loop, int pipe1[2], int pipe2[2
 				detach_parentheses(head, &current);
 			// execute_command(current, pipe1, pipe2);
 		}
-		parse_command(&current);
+		parse_command(&current, head);
 		if (!current || (current && (current->type == OR || current->type == AND)))
 		{
 			// wait()

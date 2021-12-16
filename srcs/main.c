@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/16 12:51:22 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/16 16:30:07 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,63 @@ static int	check_empty_input(char *input)
 		return (0);
 }
 
+void	clear_signals(void)
+{
+	struct termios	term;
+
+	tcgetattr(1, &term);
+	if ((term.c_lflag & (0x1 << 6)) == ECHOCTL)
+	{
+		term.c_lflag += ECHOCTL;
+		tcsetattr(1, 0, &term);
+	}
+}
+
+void	sig_ctrl(int signum)
+{
+	if (signum == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+	}
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+int	signal_handler(void)
+{
+	struct termios	term;
+
+	signal(SIGINT, sig_ctrl);
+	signal(SIGQUIT, sig_ctrl);
+	tcgetattr(1, &term);
+	if ((term.c_lflag & (0x1 << 6)) == ECHOCTL)
+	{
+		term.c_lflag -= ECHOCTL;
+		tcsetattr(1, 0, &term);
+	}
+	clear_signals();
+	return (0);
+}
+
+void	ft_copy_env(void)
+{
+	extern char	**environ;
+	int			i;
+	i = 0;
+	while (environ[i])
+		i++;
+	g_utils.environment = ft_calloc(i + 1, sizeof(char *));
+	if (!g_utils.environment)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (environ[i])
+	{
+		g_utils.environment[i] = ft_strdup(environ[i]);
+		i++;
+	}
+}
+
 void	get_input(t_node **head)
 {
 	char	*read;
@@ -81,6 +138,7 @@ void	get_input(t_node **head)
 	print_ghostshell();
 	while (1)
 	{
+		signal_handler();
 		read = readline("\e[1m	\033[1;34m༼ つ ❍_❍ ༽つ\033[0m\e[0m	");
 		if (read != NULL && !ft_strcmp(read, ""))
 		{
@@ -99,6 +157,8 @@ void	get_input(t_node **head)
 			free(read);
 			free_nodes(head);
 		}
+		else if (read == NULL)
+			exit(0);
 	}
 }
 
@@ -107,6 +167,7 @@ int	main(void)
 {
 	t_node	*head;
 
+	ft_copy_env();
 	head = NULL;
 	get_input(&head);
 	// free_nodes(&head);
