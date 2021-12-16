@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/15 23:52:19 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/16 12:51:36 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,6 @@ char	*ft_append(char *line, char c, t_node **head);
 t_tok	*create_new_tok(t_tok **headtok, t_node **head);
 void	read_here_docs(t_node **head);
 void	expand_here_doc(t_tok *here_doc);
-t_node	*executor(t_node **head, t_node *end_of_loop, int pipe1[2], int pipe2[2]);
+t_node	*executor(t_node *current, t_node *end_of_loop, int pipe1[2], int pipe2[2], t_node **head);
 
 #endif
