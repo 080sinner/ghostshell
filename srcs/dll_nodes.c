@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:50:02 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/14 17:46:36 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/16 20:58:20 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ t_node	*detach_node(t_node **head, t_node *node)
 		return (NULL);
 	if ((*head)->next == NULL && (*head)->previous == NULL )
 		*head = NULL;
-	else if (node->previous == NULL)
+	else if (node && node->previous == NULL)
 	{
 		*head = (*head)->next;
 		(*head)->previous = NULL;
 	}
-	else if (node->next == NULL)
+	else if (node && node->next == NULL)
 		node->previous->next = NULL;
-	else
+	else if (node)
 	{
 		node->next->previous = node->previous;
 		node->previous->next = node->next;
@@ -61,6 +61,10 @@ int	free_nodes(t_node **head)
 		free_toks(&(*head)->args);
 	if ((*head)->here_doc != NULL)
 		free_toks(&(*head)->here_doc);
+	if ((*head)->cmdpath != NULL)
+		ft_free((void*)&(*head)->cmdpath, ft_strlen((*head)->cmdpath));
+	if ((*head)->cmd_arr != NULL)
+		free((*head)->cmd_arr);
 	free(detach_node(head, *head));
 	free_nodes(head);
 	return (1);
@@ -74,6 +78,8 @@ t_node	*ft_dll_append_node(t_node **head)
 	if (!newnode)
 		exit(free_nodes(head));
 	newnode->here_doc = NULL;
+	newnode->cmd_arr = NULL;
+	newnode->cmdpath = NULL;
 	newnode->args = NULL;
 	newnode->next = NULL;
 	newnode->previous = NULL;

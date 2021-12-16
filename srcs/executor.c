@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:44:02 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/16 16:36:41 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/16 23:44:06 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,35 +116,32 @@ void	set_output(t_node **command)
 			(*command)->out = 1;
 }
 
-// void	child(t_node command, int *pipe1, int *pipe2)
-// {
-// 	extern char	**environ;
-
-// 	set_input(input, i, pipe1, pipe2);
-// 	set_output(input, i, pipe1, pipe2);
-// 	ft_getpath(input);
-// 	execve(input->cmdpath, input->args, environ);
-// 	exit(EXIT_FAILURE);
-// }
-
-// pid_t	execute_command(t_node *command, int pipe1[2], int pipe2[2])
-// {
-// 	pid_t		pid;
-// 	static int	i;
-
-// 	// if (current->type == LPAREN)
-// 		// 	current = executor(&current->next, skip_paren_content(current), level + 1);
-// 	if (i % 2 == 0)
-// 		ft_pipe(pipe1);
-// 	else
-// 		ft_pipe(pipe2);
-// 	pid = ft_fork();
-// 	if (pid == 0)
-// 		child(i, pipe1, pipe2);
-// 	else
-// 		parent(i, pipe1, pipe2);
-// 	i++;
-// }
+void	create_array(t_node *command)
+{
+	t_tok	*current;
+	int		args_count;
+	
+	current = NULL;
+	if (command->args)
+		current = command->args;
+	args_count = 0;
+	while (current)
+	{
+		args_count++;
+		current =  current->next;
+	}
+	command->cmd_arr = ft_calloc(args_count + 1, sizeof(char *));
+	if (!command->cmd_arr)
+		exit(EXIT_FAILURE);
+	current = command->args;
+	args_count = 0;
+	while(current)
+	{
+		if (current->data)
+			command->cmd_arr[args_count++] = current->data;
+		current = current->next;
+	}
+}
 
 void	parse_command(t_node **current, t_node **head)
 {
@@ -153,9 +150,13 @@ void	parse_command(t_node **current, t_node **head)
 	expander(*current, head);
 	set_input(current);
 	set_output(current);
-	if ((*current)->args)
-		printf("command : %s | input : %d | output : %d\n", (*current)->args->data, (*current)->in, (*current)->out);
+	get_cmd_path(*current);
+	create_array(*current);
+	// if ((*current)->args)
+	// 	printf("command : %s | input : %d | output : %d\n", (*current)->args->data, (*current)->in, (*current)->out);
 }
+
+
 
 void	detach_parentheses(t_node **head, t_node **current)
 {
@@ -170,34 +171,132 @@ void	detach_parentheses(t_node **head, t_node **current)
 	if (tmp)
 		tmp2 = tmp->next;
 	free(detach_node(head, tmp));
-	*current = executor(*current, tmp2, NULL, NULL, head);
 }
 
-t_node	*executor(t_node *current, t_node *end_of_loop, int pipe1[2], int pipe2[2], t_node **head)
+void parent (t_exec *exec)
 {
-	//pid_t	pid;
-	pipe1 = NULL;
-	pipe2 = NULL;
+	if (exec->cmd_count % 2 == EVEN)
+	{
+		close(exec->pipe1[1]);
+		if (exec->cmd_count != 0)
+			close(exec->pipe2[0]);
+	}
+	else if(exec->cmd_count %2 == ODD)
+	{
+		close(exec->pipe1[0]);		
+		close(exec->pipe2[1]);
+	}
+}
+
+void	child (t_exec *exec, t_node *command)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	if (exec->cmd_count % 2 == EVEN)
+	{
+		if (command->in == PIPEIN)
+			dup2(exec->pipe2[0], STDIN_FILENO);
+		else
+			dup2(command->in, STDIN_FILENO);
+		if (command->out == PIPEOUT)
+			dup2(exec->pipe1[1], STDOUT_FILENO);
+		else
+			dup2(command->out, STDOUT_FILENO);
+		close(exec->pipe1[1]);
+		close(exec->pipe1[0]);
+		if (exec->cmd_count != 0)
+			close(exec->pipe2[0]);
+	}
+	else if (exec->cmd_count % 2 == ODD)
+	{
+		if (command->in == PIPEIN)
+			dup2(exec->pipe1[0], STDIN_FILENO);
+		else
+			dup2(command->in, STDIN_FILENO);
+		if (command->out == PIPEOUT)
+			dup2(exec->pipe2[1], STDOUT_FILENO);
+		else
+			dup2(command->out, STDOUT_FILENO);
+		close(exec->pipe1[0]);	
+		close(exec->pipe2[1]);
+		close(exec->pipe2[0]);		
+	}
+	execve(command->cmdpath, command->cmd_arr, g_utils.environment);
+	exit (EXIT_FAILURE);
+}
+
+void	execute_command (t_exec *exec, t_node **command, t_node **head)
+{
+	parse_command(command, head);
+	if (exec->cmd_count % 2 == EVEN)
+		pipe(exec->pipe1);
+	else
+		pipe(exec->pipe2);
+	exec->pid = fork();
+	if (exec->pid == 0)
+		child(exec, *command);
+	else if (exec->pid != 0)
+		parent(exec);
+	exec->cmd_count++;
+}
+
+t_node	*executor(t_node *current, t_node *end_of_loop, t_node **head)
+{
+	int	es;
+	int	status;
+	t_exec exec;
+
+	init_exec(&exec);
 	if (!current)
 		current = *head;
-	while (current && current != end_of_loop)
+	status = 0;
+	while (!current || current != end_of_loop)
 	{
-		if (current->type == COMMAND || current->type == LPAREN)
+		if (current && (current->type == COMMAND || current->type == LPAREN))
 		{
 			if (current->type == LPAREN)
 				detach_parentheses(head, &current);
-			// execute_command(current, pipe1, pipe2);
+			execute_command(&exec, &current, head);
+			//*current = executor(*current, tmp2, , head);
 		}
-		parse_command(&current, head);
 		if (!current || (current && (current->type == OR || current->type == AND)))
 		{
-			// wait()
+			if (exec.cmd_count % 2 == ODD)
+				close(exec.pipe1[0]);
+			else if(exec.cmd_count %2 == EVEN)
+				close(exec.pipe2[0]);
+			while (1)
+			{
+				es = waitpid(-1, &status, 0);
+				if (exec.pid == es)
+				{
+					if (WIFEXITED(status))
+						g_utils.exit_status = WEXITSTATUS(status);
+					if (WIFSIGNALED(status))
+					{
+						if (WTERMSIG(status) == SIGQUIT)
+							printf("Quit: %d\n", SIGQUIT);
+						else if (WTERMSIG(status) == SIGINT)
+							write(1, "\n", 1);
+						g_utils.exit_status = 127 + WTERMSIG(status);
+					}
+				}
+				if (es == -1)
+					break ;
+			}
 			if (!current)
 				break ;
-			// if(check_exit_status())
-			// 	skip_pipe_line;
+			// if (current->type == OR && g_utils.exit_status == EXIT_SUCCESS)
+			// 	skip_pipeline;
+			// if (current->type == AND && g_utils.exit_status != EXIT_SUCCESS)
+			// 	skip_pipeline;
 		}
 		current = current->next;
 	}
 	return (current);
 }
+
+
+
+
+

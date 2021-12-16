@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/16 16:36:09 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/16 23:41:58 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,12 @@
 # define TMP 1
 # define TRUE 1
 # define FALSE 0
+# define EVEN 0
+# define ODD 1
 
 typedef enum e_token
 {
 	COMMAND = 0,
-	SPACE = ' ',
-	TAB = '\t',
-	NEWLINE = '\n',
 	SQUOTE = '\'',
 	DQUOTE = '\"',
 	PIPE = '|',
@@ -74,11 +73,22 @@ typedef struct s_tok
 	struct s_tok	*previous;
 }				t_tok;
 
+typedef struct s_exec
+{
+	int				pipe1[2];
+	int				pipe2[2];
+	pid_t			pid;
+	int				cmd_count;
+	int				exit_status;
+}				t_exec;
+
+
 typedef struct s_node
 {
 	t_tok			*args;
 	t_tok			*here_doc;
 	char			*cmdpath;
+	char			**cmd_arr;
 	int				in;
 	int				out;
 	t_token			type;
@@ -89,6 +99,7 @@ typedef struct s_node
 typedef struct s_utils
 {
 	char	**environment;
+	pid_t	exit_status;
 }				t_utils;
 
 t_utils g_utils;
@@ -122,7 +133,9 @@ char	*ft_append(char *line, char c, t_node **head);
 t_tok	*create_new_tok(t_tok **headtok, t_node **head);
 void	read_here_docs(t_node **head);
 void	expand_here_doc(t_tok *here_doc);
-t_node	*executor(t_node *current, t_node *end_of_loop, int pipe1[2], int pipe2[2], t_node **head);
+t_node	*executor(t_node *current, t_node *end_of_loop, t_node **head);
+void init_exec(t_exec *exec);
 void	expander(t_node *node, t_node **head);
+void	get_cmd_path(t_node *command);
 
 #endif

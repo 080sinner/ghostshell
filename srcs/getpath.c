@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getpath.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/16 16:33:23 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/16 20:54:39 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void append_slash(char **paths, char *appendage)
 	}
 	return ;
 }
+
 static void cmdpath(t_node *command, char **paths)
 {
 	int i;
@@ -80,6 +81,7 @@ void	get_cmd_path(t_node *command)
 		exit(EXIT_FAILURE);
 	append_slash(paths, "/");
 	cmdpath(command, paths);
+	ft_free_strarray(paths);
 	// errno = NOCOMMAND;
 	// ft_error(input->args[0], input);
 }

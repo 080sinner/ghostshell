@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/16 16:30:07 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/16 23:41:29 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	clear_signals(void)
 	struct termios	term;
 
 	tcgetattr(1, &term);
-	if ((term.c_lflag & (0x1 << 6)) == ECHOCTL)
+	if ((term.c_lflag & (0x1 << 6)) != ECHOCTL)
 	{
 		term.c_lflag += ECHOCTL;
 		tcsetattr(1, 0, &term);
@@ -109,7 +109,6 @@ int	signal_handler(void)
 		term.c_lflag -= ECHOCTL;
 		tcsetattr(1, 0, &term);
 	}
-	clear_signals();
 	return (0);
 }
 
@@ -117,6 +116,7 @@ void	ft_copy_env(void)
 {
 	extern char	**environ;
 	int			i;
+
 	i = 0;
 	while (environ[i])
 		i++;
@@ -131,15 +131,24 @@ void	ft_copy_env(void)
 	}
 }
 
+void init_exec(t_exec *exec)
+{
+	exec->exit_status = 0;
+	exec->cmd_count = 0;
+	exec->pid = 0;
+}
+
 void	get_input(t_node **head)
 {
-	char	*read;
-
-	print_ghostshell();
+	char	*read;	
+	//print_ghostshell();
 	while (1)
 	{
 		signal_handler();
 		read = readline("\e[1m	\033[1;34m༼ つ ❍_❍ ༽つ\033[0m\e[0m	");
+		clear_signals();
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		if (read != NULL && !ft_strcmp(read, ""))
 		{
 			add_history(read);
@@ -151,8 +160,8 @@ void	get_input(t_node **head)
 			if (!check_empty_input(read))
 			{
 				lexer(head, read);
-				executor(NULL, NULL, NULL, NULL, head);
-				print_list(*head);
+				executor( NULL, NULL, head);
+				//print_list(*head);
 			}
 			free(read);
 			free_nodes(head);
@@ -172,6 +181,7 @@ int	main(void)
 	get_input(&head);
 	// free_nodes(&head);
 	head = NULL;
+	ft_free_strarray(g_utils.environment);
 	//system("leaks minishell");
 	return (0);
 }
