@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:44:02 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/16 23:44:06 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/17 17:34:24 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	parse_command(t_node **current, t_node **head)
 
 
 
-void	detach_parentheses(t_node **head, t_node **current)
+t_node	*detach_parentheses(t_node **head, t_node **current)
 {
 	t_node	*tmp;
 	t_node	*tmp2;
@@ -171,6 +171,7 @@ void	detach_parentheses(t_node **head, t_node **current)
 	if (tmp)
 		tmp2 = tmp->next;
 	free(detach_node(head, tmp));
+	return (tmp2);
 }
 
 void parent (t_exec *exec)
@@ -225,18 +226,72 @@ void	child (t_exec *exec, t_node *command)
 	exit (EXIT_FAILURE);
 }
 
+void	child_paren (t_exec *exec, t_node *command, t_node *tmp2, t_node **head)
+{
+	dprintf(2, "childparen\n");
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	if (exec->cmd_count % 2 == EVEN)
+	{
+		if (command->in == PIPEIN)
+			dup2(exec->pipe2[0], STDIN_FILENO);
+		else
+			dup2(command->in, STDIN_FILENO);
+		if (command->out == PIPEOUT)
+			dup2(exec->pipe1[1], STDOUT_FILENO);
+		else
+			dup2(command->out, STDOUT_FILENO);
+		close(exec->pipe1[1]);
+		close(exec->pipe1[0]);
+		if (exec->cmd_count != 0)
+			close(exec->pipe2[0]);
+	}
+	else if (exec->cmd_count % 2 == ODD)
+	{
+		if (command->in == PIPEIN)
+			dup2(exec->pipe1[0], STDIN_FILENO);
+		else
+			dup2(command->in, STDIN_FILENO);
+		if (command->out == PIPEOUT)
+			dup2(exec->pipe2[1], STDOUT_FILENO);
+		else
+			dup2(command->out, STDOUT_FILENO);
+		close(exec->pipe1[0]);	
+		close(exec->pipe2[1]);
+		close(exec->pipe2[0]);		
+	}
+	executor(command, tmp2, head);
+	exit(EXIT_SUCCESS);
+}
+
 void	execute_command (t_exec *exec, t_node **command, t_node **head)
 {
+	t_node *tmp2;
+	int		x = 0;
+
+	tmp2 = NULL;
 	parse_command(command, head);
 	if (exec->cmd_count % 2 == EVEN)
 		pipe(exec->pipe1);
 	else
 		pipe(exec->pipe2);
+	if((*command)->type == LPAREN)
+	{
+		tmp2 = detach_parentheses(head, command);
+		x = 1;
+	}
 	exec->pid = fork();
-	if (exec->pid == 0)
+	if (exec->pid == 0 && x == 1)
+		child_paren(exec, *command, tmp2, head);
+	else if (exec->pid == 0)
+	{
+		printf("child\n");
 		child(exec, *command);
+	}
 	else if (exec->pid != 0)
 		parent(exec);
+	if (tmp2)
+		*command = tmp2;
 	exec->cmd_count++;
 }
 
@@ -253,12 +308,7 @@ t_node	*executor(t_node *current, t_node *end_of_loop, t_node **head)
 	while (!current || current != end_of_loop)
 	{
 		if (current && (current->type == COMMAND || current->type == LPAREN))
-		{
-			if (current->type == LPAREN)
-				detach_parentheses(head, &current);
 			execute_command(&exec, &current, head);
-			//*current = executor(*current, tmp2, , head);
-		}
 		if (!current || (current && (current->type == OR || current->type == AND)))
 		{
 			if (exec.cmd_count % 2 == ODD)
