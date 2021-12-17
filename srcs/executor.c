@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:44:02 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/17 17:34:24 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/17 22:46:00 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ void	execute_command (t_exec *exec, t_node **command, t_node **head)
 	}
 	else if (exec->pid != 0)
 		parent(exec);
-	if (tmp2)
+	if (x == 1)
 		*command = tmp2;
 	exec->cmd_count++;
 }
@@ -305,11 +305,11 @@ t_node	*executor(t_node *current, t_node *end_of_loop, t_node **head)
 	if (!current)
 		current = *head;
 	status = 0;
-	while (!current || current != end_of_loop)
+	while (1)
 	{
 		if (current && (current->type == COMMAND || current->type == LPAREN))
 			execute_command(&exec, &current, head);
-		if (!current || (current && (current->type == OR || current->type == AND)))
+		if (!current || current == end_of_loop || (current && (current->type == OR || current->type == AND)))
 		{
 			if (exec.cmd_count % 2 == ODD)
 				close(exec.pipe1[0]);
@@ -334,7 +334,7 @@ t_node	*executor(t_node *current, t_node *end_of_loop, t_node **head)
 				if (es == -1)
 					break ;
 			}
-			if (!current)
+			if (!current || current == end_of_loop)
 				break ;
 			// if (current->type == OR && g_utils.exit_status == EXIT_SUCCESS)
 			// 	skip_pipeline;
