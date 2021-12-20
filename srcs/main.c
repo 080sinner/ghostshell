@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/20 19:30:53 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/20 20:46:04 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,13 +130,6 @@ void	ft_copy_env(char **environ)
 	}
 }
 
-void	init_exec(t_exec *exec)
-{
-	exec->exit_status = 0;
-	exec->cmd_count = 0;
-	exec->pid = 0;
-}
-
 void	get_input(t_node **head)
 {
 	char	*read;
@@ -160,7 +153,7 @@ void	get_input(t_node **head)
 			if (!check_empty_input(read))
 			{
 				lexer(head, read);
-				executor(NULL, NULL, head);
+				executor(*head, head);
 				//print_list(*head);
 			}
 			free(read);

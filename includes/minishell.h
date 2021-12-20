@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/20 19:10:04 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/20 20:45:27 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,9 @@ typedef struct s_tok
 
 typedef struct s_exec
 {
-	int				pipe1[2];
-	int				pipe2[2];
+	int				pipe[2];
+	int				tmp_fd;
 	pid_t			pid;
-	int				cmd_count;
 	int				exit_status;
 }				t_exec;
 
@@ -133,7 +132,7 @@ char	*ft_append(char *line, char c, t_node **head);
 t_tok	*create_new_tok(t_tok **headtok, t_node **head);
 void	read_here_docs(t_node **head);
 void	expand_here_doc(t_tok *here_doc);
-t_node	*executor(t_node *current, t_node *end_of_loop, t_node **head);
+void	executor (t_node *current, t_node **head);
 void	init_exec(t_exec *exec);
 void	expander(t_node *node, t_node **head);
 int		change_dir(char *path);
