@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/20 20:38:54 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/20 20:57:02 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ int	bi_echo(char **args)
 	return (0);
 }
 
+int	print_pwd(void)
+{
+	printf("%s\n", ft_getenv("PWD", g_utils.environment));
+	return (0);
+}
+
 int	check_builtin(t_node *command)
 {
 	int	exit;
@@ -78,8 +84,8 @@ int	check_builtin(t_node *command)
 			exit = change_dir(command->cmd_arr[1]);
 		else if (ft_strcmp(command->cmd_arr[0], "echo"))
 			exit = bi_echo(command->cmd_arr);
-		// else if (ft_strcmp(command->cmd_arr[0], "pwd"))
-		// 	printf("pwd\n");
+		else if (ft_strcmp(command->cmd_arr[0], "pwd"))
+			exit = print_pwd(void);
 		// else if (ft_strcmp(command->cmd_arr[0], "export"))
 		// 	printf("export\n");
 		// else if (ft_strcmp(command->cmd_arr[0], "unset"))
