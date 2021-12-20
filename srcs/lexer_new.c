@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/14 18:22:02 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/20 17:14:54 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int	check_expansion(char **input, int *state)
 		**input = -42;
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
-		if ((check_whitespace(*(*input + 1)) || *(*input + 1) == '\0'
-			|| is_control_op(*(*input + 1))) && (!ft_isalnum(*(*input + 1))
-			|| *(*input + 1) != '_'))
+		if ((!ft_isalnum(*(*input + 1)) && *(*input + 1) != '_' && *(*input + 1) != '?')
+			|| (check_whitespace(*(*input + 1)) || *(*input + 1) == '\0'
+				|| is_control_op(*(*input + 1))))
 			return (0);
 		**input = *state;
-		return(1);
+		return (1);
 	}
 	return (0);
 }
@@ -145,6 +145,13 @@ int	read_input(t_node **head, char *input)
 	return (0);
 }
 
+void	free_tok(t_tok **head, t_tok *tok)
+{
+	if (tok->data)
+		ft_free((void *)&tok->data, ft_strlen(tok->data));
+	free(detach_tok(head, tok));
+}
+
 void expander(t_node *node, t_node **head)
 {
 	t_tok	*current;
@@ -153,13 +160,13 @@ void expander(t_node *node, t_node **head)
 	current = node->args;
 	while (current)
 	{
-		if(ft_strchr(current->data, END))
+		if (ft_strchr(current->data, END))
 		{
 			newlist = expand_variable(current->data, head, NULL, 0);
+			if (!newlist)
+				return (free_tok(&node->args, current));
 			insert_sublist(current, newlist);
-			if(current->data)
-				free (current->data);
-			free(detach_tok(&node->args, current));
+			free_tok(&node->args, current);
 			current = newlist;
 		}
 		if (node->here_doc && node->here_doc->state == FALSE)
@@ -171,8 +178,6 @@ void expander(t_node *node, t_node **head)
 
 int	lexer(t_node **head, char *input)
 {
-
-
 	read_input(head, input);
 	read_here_docs(head);
 	// tmp = *head;

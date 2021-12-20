@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/16 23:41:58 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:10:04 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,11 @@ t_tok	*create_new_tok(t_tok **headtok, t_node **head);
 void	read_here_docs(t_node **head);
 void	expand_here_doc(t_tok *here_doc);
 t_node	*executor(t_node *current, t_node *end_of_loop, t_node **head);
-void init_exec(t_exec *exec);
+void	init_exec(t_exec *exec);
 void	expander(t_node *node, t_node **head);
+int		change_dir(char *path);
+char	*ft_getenv(char *envvar, char **env);
 void	get_cmd_path(t_node *command);
+int		check_builtin(t_node *command);
 
 #endif

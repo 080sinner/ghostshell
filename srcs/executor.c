@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 17:44:02 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/17 22:46:00 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/20 19:10:27 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ t_node	*skip_paren_content(t_node *current)
 	return (skip_paren_content(current->next));
 }
 
+void	free_redirection(t_tok **current, t_node **command)
+{
+	if (*current)
+	{
+		ft_free((void *)&(*current)->data, ft_strlen((*current)->data));
+		if ((*current)->next)
+		{
+			ft_free((void *)&(*current)->next->data, ft_strlen((*current)->next->data));
+			free(detach_tok(&(*command)->args, (*current)->next));
+		}
+		free(detach_tok(&(*command)->args, *current));
+	}
+}
+
 void	set_input(t_node **command)
 {
 	t_tok *current;
@@ -60,18 +74,12 @@ void	set_input(t_node **command)
 				(*command)->in = open(current->next->data, O_RDONLY, 0644);
 			if ((*command)->in == ERROR)
 				exec_error(current->next->data);
-			if (current && current->next && current->next->data)
-				free(current->next->data);
-			free(detach_tok(&(*command)->args, current->next));
-			free(detach_tok(&(*command)->args, current));
+			free_redirection(&current, command);
 		}
 		else if (current->type == LESSLESS)
 		{
 			(*command)->in = HERE_DOC;
-			if (current && current->next && current->next->data)
-				free(current->next->data);
-			free(detach_tok(&(*command)->args, current->next));
-			free(detach_tok(&(*command)->args, current));
+			free_redirection(&current, command);
 		}
 		current = current->next;
 	}
@@ -93,10 +101,7 @@ void	set_output(t_node **command)
 				(*command)->out = open(current->next->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if ((*command)->out == ERROR)
 				exec_error(current->next->data);
-			if (current && current->next && current->next->data)
-				free(current->next->data);
-			free(detach_tok(&(*command)->args, current->next));
-			free(detach_tok(&(*command)->args, current));
+			free_redirection(&current, command);
 		}
 		else if (current->type == GREATGREAT)
 		{
@@ -104,10 +109,7 @@ void	set_output(t_node **command)
 				(*command)->out = open(current->next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if ((*command)->out == ERROR)
 				exec_error(current->next->data);
-			if (current && current->next && current->next->data)
-				free(current->next->data);
-			free(detach_tok(&(*command)->args, current->next));
-			free(detach_tok(&(*command)->args, current));
+			free_redirection(&current, command);
 		}	
 		current = current->next;
 	}
@@ -156,8 +158,6 @@ void	parse_command(t_node **current, t_node **head)
 	// 	printf("command : %s | input : %d | output : %d\n", (*current)->args->data, (*current)->in, (*current)->out);
 }
 
-
-
 t_node	*detach_parentheses(t_node **head, t_node **current)
 {
 	t_node	*tmp;
@@ -166,6 +166,7 @@ t_node	*detach_parentheses(t_node **head, t_node **current)
 	tmp2 = NULL;
 	tmp = detach_node(head, *current);
 	*current = (*current)->next;
+	free(tmp->cmd_arr);
 	free(tmp);
 	tmp = skip_paren_content(*current);
 	if (tmp)
@@ -228,7 +229,6 @@ void	child (t_exec *exec, t_node *command)
 
 void	child_paren (t_exec *exec, t_node *command, t_node *tmp2, t_node **head)
 {
-	dprintf(2, "childparen\n");
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (exec->cmd_count % 2 == EVEN)
@@ -280,12 +280,16 @@ void	execute_command (t_exec *exec, t_node **command, t_node **head)
 		tmp2 = detach_parentheses(head, command);
 		x = 1;
 	}
+	if (check_builtin(*command))
+		return ;
+	else
+	{
 	exec->pid = fork();
 	if (exec->pid == 0 && x == 1)
 		child_paren(exec, *command, tmp2, head);
 	else if (exec->pid == 0)
 	{
-		printf("child\n");
+		//printf("child\n");
 		child(exec, *command);
 	}
 	else if (exec->pid != 0)
@@ -293,6 +297,7 @@ void	execute_command (t_exec *exec, t_node **command, t_node **head)
 	if (x == 1)
 		*command = tmp2;
 	exec->cmd_count++;
+	}
 }
 
 t_node	*executor(t_node *current, t_node *end_of_loop, t_node **head)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getpath.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/16 20:54:39 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/20 17:00:35 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,18 @@ static void cmdpath(t_node *command, char **paths)
 	// ft_error(input->args[0], input);
 }
 
-char *ft_getenv(char *envvar, char **env)
+char	*ft_getenv(char *envvar, char **env)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (env[i])
 	{
 		if (!ft_strncmp(env[i], envvar, ft_strlen(envvar)))
-			return (env[i] + ft_strlen(envvar));
+		{
+			if (*(env[i] + ft_strlen(envvar)) == '=')
+				return (env[i] + ft_strlen(envvar) + 1);
+		}
 		i++;
 	}
 	return (NULL);
@@ -73,7 +77,7 @@ void	get_cmd_path(t_node *command)
 		return ;
 	if (access(command->args->data, F_OK) == 0)
 	{
-		command->cmdpath = command->args->data;
+		command->cmdpath = ft_strdup(command->args->data);
 		return ;
 	}
 	paths = ft_split(ft_getenv("PATH", g_utils.environment), ':');

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 20:57:30 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/16 21:05:37 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/20 15:52:20 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	*combine_strings(char *front, char *variable, char *end)
 	char	*temp[2];
 	char	*new;
 
-	if (getenv(variable) != NULL)
-		temp[1] = ft_strdup(getenv(variable));
+	if (ft_getenv(variable, g_utils.environment) != NULL)
+		temp[1] = ft_strdup(ft_getenv(variable, g_utils.environment));
 	else
 		temp[1] = ft_strdup("");
 	ft_free((void *)&variable, ft_strlen(variable));

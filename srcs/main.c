@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/16 23:41:29 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/20 19:30:53 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_list(t_node *head)
 		while (tmptok != NULL)
 		{
 			if (tmptok->type == COMMAND)
-				printf("%s ", tmptok->data);
+				printf("'%s' ", tmptok->data);
 			else if (tmptok->type == LESS)
 				printf("< ");
 			else if (tmptok->type == LESSLESS)
@@ -50,7 +50,7 @@ void	print_list(t_node *head)
 		if (tmpnode->type == COMMAND && tmpnode->here_doc)
 		{
 			printf("\nHEREDOC: ");
-			while(tmptok)
+			while (tmptok)
 			{
 				printf("%s ", tmptok->data);
 				tmptok = tmptok->next;
@@ -112,9 +112,8 @@ int	signal_handler(void)
 	return (0);
 }
 
-void	ft_copy_env(void)
+void	ft_copy_env(char **environ)
 {
-	extern char	**environ;
 	int			i;
 
 	i = 0;
@@ -131,7 +130,7 @@ void	ft_copy_env(void)
 	}
 }
 
-void init_exec(t_exec *exec)
+void	init_exec(t_exec *exec)
 {
 	exec->exit_status = 0;
 	exec->cmd_count = 0;
@@ -140,7 +139,8 @@ void init_exec(t_exec *exec)
 
 void	get_input(t_node **head)
 {
-	char	*read;	
+	char	*read;
+
 	//print_ghostshell();
 	while (1)
 	{
@@ -160,28 +160,31 @@ void	get_input(t_node **head)
 			if (!check_empty_input(read))
 			{
 				lexer(head, read);
-				executor( NULL, NULL, head);
+				executor(NULL, NULL, head);
 				//print_list(*head);
 			}
 			free(read);
 			free_nodes(head);
 		}
 		else if (read == NULL)
+		{
+			free_nodes(head);
 			exit(0);
+		}
 	}
 }
 
 
-int	main(void)
+int	main(__unused int argc, __unused char *argv[], char **environ)
 {
 	t_node	*head;
 
-	ft_copy_env();
+	ft_copy_env(environ);
 	head = NULL;
 	get_input(&head);
 	// free_nodes(&head);
 	head = NULL;
 	ft_free_strarray(g_utils.environment);
-	//system("leaks minishell");
+	system("leaks minishell");
 	return (0);
 }
