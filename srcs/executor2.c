@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/20 20:48:35 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/20 22:58:40 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,12 +242,47 @@ void	exit_status(t_exec *exec)
 	}
 }
 
-// t_node *skip_pipe_line()
-// {
-// 	t_node current;
+t_node *skip_pipeline(t_node *command)
+{
+	static int	count;
 
-// 	return (current);
-// }
+	command = command->next;
+	if (!command)
+		return (command);
+	if (command->type == LPAREN)
+		count++;
+	if (command->type == RPAREN)
+		count--;
+	if (count == 0 && (command->type == OR || command->type == AND))
+		return (command);
+	else
+		return(skip_pipeline(command));
+}
+
+// void executor (t_node *current, t_node **head)
+// {
+// 	t_exec	exec;
+
+// 	init_exec(&exec);
+// 	while (1)
+// 	{
+// 		if (current && (current->type == COMMAND || current->type == LPAREN))
+// 			execute_command(&exec, &current, head);
+// 		if (!current || current->type == OR || current->type == AND)
+// 		{
+// 			close(exec.tmp_fd);
+// 			exec.tmp_fd = dup(STDIN_FILENO);
+// 			exit_status(&exec);
+// 			if (!current)
+// 				break;
+// 			if (current->type == OR && g_utils.exit_status == EXIT_SUCCESS)
+// 				current = skip_pipeline(current);
+// 			else if (current->type == AND && g_utils.exit_status != EXIT_SUCCESS)
+// 				current = skip_pipeline(current);
+// 		}
+// 		if(current)
+// 			current = current->next;
+// 	}
 
 void executor (t_node *current, t_node **head)
 {
@@ -263,14 +298,13 @@ void executor (t_node *current, t_node **head)
 			close(exec.tmp_fd);
 			exec.tmp_fd = dup(STDIN_FILENO);
 			exit_status(&exec);
-			// if (current->type == OR && g_utils.exit_status == EXIT_SUCCESS)
-			// 	skip_pipline;
-			// if (current->type == AND && g_utils.exit_status == !EXIT_SUCCESS)
-			// 	skip_pipeline;
 		}
+		if (current && current->type == OR && g_utils.exit_status == 0)
+			current = skip_pipeline(current);
+		else if (current && current->type == AND && g_utils.exit_status != 0)
+			current = skip_pipeline(current);
 		if (!current)
 			break;
 		current = current->next;
 	}
-	return ;
 }
