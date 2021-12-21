@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 17:20:37 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/21 17:56:27 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ int	echo(char **args)
 
 int	print_pwd(void)
 {
-	printf("%s\n", ft_getenv("PWD", g_utils.environment));
+	char	*pwd;
+
+	pwd = ft_getenv("PWD", g_utils.environment);
+	if (!pwd)
+		return (1);
+	printf("%s\n", pwd);
 	return (0);
 }
 
@@ -98,7 +103,7 @@ int	create_new_env(char **env)
 	while (env[++i])
 		tmp_env[i] = env[i];
 	env_len = i;
-	ft_copy_env(g_utils.environment);
+	ft_copy_env(g_utils.environment, -1);
 	i = -1;
 	while (tmp_env[++i])
 		ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
@@ -129,6 +134,27 @@ int	export(t_node *command)
 	return (0);
 }
 
+int	unset(t_node *command)
+{
+	int		var_index;
+	char	**tmp_env;
+	int		i;
+
+	tmp_env = g_utils.environment;
+	i = -1;
+	while (++i)
+		tmp_env[i] = g_utils.environment[i];
+	var_index = search_envvar(command->cmd_arr[1], g_utils.environment);
+	if (!var_index)
+		return (1);
+	ft_copy_env(g_utils.environment, var_index);
+	i = -1;
+	while (tmp_env[++i])
+		ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
+	free(tmp_env);
+	return (0);
+}
+
 int	check_builtin(t_node *command, t_node **head)
 {
 	int	exit;
@@ -145,8 +171,8 @@ int	check_builtin(t_node *command, t_node **head)
 			exit = print_pwd();
 		else if (ft_strcmp(command->cmd_arr[0], "export"))
 			exit = export(command);
-		// else if (ft_strcmp(command->cmd_arr[0], "unset"))
-		// 	printf("unset\n");
+		else if (ft_strcmp(command->cmd_arr[0], "unset"))
+			exit = unset(command);
 		else if (ft_strcmp(command->cmd_arr[0], "env"))
 			exit = print_env();
 		else

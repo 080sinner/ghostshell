@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/21 16:24:56 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/21 17:59:24 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,10 @@ int	signal_handler(void)
 	return (0);
 }
 
-void	ft_copy_env(char **environ)
+void	ft_copy_env(char **environ, int skip_var)
 {
 	int			i;
+	int			x;
 
 	i = 0;
 	while (environ[i])
@@ -123,10 +124,15 @@ void	ft_copy_env(char **environ)
 	if (!g_utils.environment)
 		exit(EXIT_FAILURE);
 	i = 0;
+	x = i;
 	while (environ[i])
 	{
-		g_utils.environment[i] = ft_strdup(environ[i]);
-		i++;
+		if (skip_var == -1 || x != skip_var)
+		{
+			g_utils.environment[i] = ft_strdup(environ[x]);
+			i++;
+		}
+		x++;
 	}
 }
 
@@ -172,7 +178,7 @@ int	main(__unused int argc, __unused char *argv[], char **environ)
 {
 	t_node	*head;
 
-	ft_copy_env(environ);
+	ft_copy_env(environ, -1);
 	head = NULL;
 	get_input(&head);
 	// free_nodes(&head);
