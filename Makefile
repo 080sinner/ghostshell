@@ -6,22 +6,25 @@
 #    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/12/20 20:45:05 by eozben           ###   ########.fr        #
+#    Updated: 2021/12/21 15:12:14 by eozben           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
-LIB = -Llibft -lft -I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline
-FLAGS = -o "minishell" -Wall -Wextra -Werror -g
-SRC = srcs/dll_functions.c srcs/lexer_new.c srcs/main.c srcs/check_functions.c \
-		srcs/dll_nodes.c srcs/dll_toks.c srcs/header.c srcs/variables.c \
-		srcs/wildcards.c srcs/here_doc.c srcs/executor2.c srcs/getpath.c \
-		srcs/built_ins.c
+LIBS = -Llibft -lft -I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline
+FLAGS = -o "minishell" -Wall -Wextra -Werror
+LIBFT = ./libft/libft.a
+SRC_PATH = ./srcs/
+SRC_FILES =	dll_functions.c lexer_new.c main.c check_functions.c dll_nodes.c \
+			dll_toks.c header.c variables.c wildcards.c here_doc.c executor2.c \
+			getpath.c built_ins.c
+SRCS = $(addprefix $(SRC_PATH), $(SRC_FILES))
+
 all:$(NAME)
 
-$(NAME): ./libft/libft.a $(SRC)
-	@gcc $(FLAGS) $(SRC) $(INC) $(LIB)
+$(NAME): $(LIBFT) $(SRCS)
+	@gcc $(FLAGS) $(SRCS) $(INC) $(LIBS)
 	@echo "                                                         "
 	@echo " \033[1;32m  ___|   _ \    \  |   _ \ _ _|  |      ____|  __ \   | "
 	@echo "  |      |   |  |\/ |  |   |  |   |      __|    |   |  | "
@@ -29,7 +32,7 @@ $(NAME): ./libft/libft.a $(SRC)
 	@echo " \____| \___/  _|  _| _|    ___| _____| _____| ____/  _) \033[0m"
 	@echo "                                                         "
 
-./libft/libft.a:
+$(LIBFT):
 	@echo ""
 	@echo "libft:"
 	@echo "\033[1;32m0%\033[0m   [                      ]"

@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:11:23 by eozben            #+#    #+#             */
-/*   Updated: 2021/11/24 23:11:42 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/21 16:17:46 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ int	ft_free_strarray(char **split)
 	int	i;
 
 	i = 0;
-	while (split[i] != NULL)
+	while (split[i])
 		free(split[i++]);
-	free(split);
+	if (split)
+		free(split);
 	return (0);
 }

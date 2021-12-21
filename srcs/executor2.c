@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/20 22:58:40 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/21 14:34:46 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,10 @@ void executor (t_node *current, t_node **head)
 	while (1)
 	{
 		if (current && (current->type == COMMAND || current->type == LPAREN))
-			execute_command(&exec, &current, head);
+		{
+			if (!check_builtin(current, head))
+				execute_command(&exec, &current, head);
+		}
 		if (!current || current->type == OR || current->type == AND)
 		{
 			close(exec.tmp_fd);

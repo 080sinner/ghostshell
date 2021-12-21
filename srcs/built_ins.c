@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/20 20:57:02 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/21 16:16:32 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,37 @@ int	print_pwd(void)
 	return (0);
 }
 
-int	check_builtin(t_node *command)
+int	export(char **env, t_node *command)
+{
+	char	**tmp_env;
+	int		i;
+	int		env_len;
+
+	tmp_env = env;
+	i = -1;
+	while (env[++i])
+		tmp_env[i] = env[i];
+	env_len = i;
+	ft_copy_env(g_utils.environment);
+	i = -1;
+	while (tmp_env[++i])
+		ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
+	free(tmp_env);
+	tmp_env = NULL;
+	if (ft_strchr(command->cmd_arr[1], '='))
+	{
+		g_utils.environment[env_len] = ft_strdup(command->cmd_arr[1]);
+		g_utils.environment[env_len + 1] = NULL;
+	}
+	return (0);
+}
+
+int	check_builtin(t_node *command, t_node **head)
 {
 	int	exit;
 
 	exit = -1;
+	parse_command(command, head);
 	if (command->cmd_arr && command->cmd_arr[0])
 	{
 		if (ft_strcmp(command->cmd_arr[0], "cd"))
@@ -85,9 +111,9 @@ int	check_builtin(t_node *command)
 		else if (ft_strcmp(command->cmd_arr[0], "echo"))
 			exit = bi_echo(command->cmd_arr);
 		else if (ft_strcmp(command->cmd_arr[0], "pwd"))
-			exit = print_pwd(void);
-		// else if (ft_strcmp(command->cmd_arr[0], "export"))
-		// 	printf("export\n");
+			exit = print_pwd();
+		else if (ft_strcmp(command->cmd_arr[0], "export"))
+			exit = export(g_utils.environment, command);
 		// else if (ft_strcmp(command->cmd_arr[0], "unset"))
 		// 	printf("unset\n");
 		else if (ft_strcmp(command->cmd_arr[0], "env"))
