@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 16:16:32 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/21 17:20:37 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	print_env(void)
 	return (0);
 }
 
-int	bi_echo(char **args)
+int	echo(char **args)
 {
 	int	i;
 
@@ -73,7 +73,21 @@ int	print_pwd(void)
 	return (0);
 }
 
-int	export(char **env, t_node *command)
+int	search_envvar(char *envvar, char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], envvar, ft_strlen(envvar)))
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+int	create_new_env(char **env)
 {
 	char	**tmp_env;
 	int		i;
@@ -89,12 +103,29 @@ int	export(char **env, t_node *command)
 	while (tmp_env[++i])
 		ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
 	free(tmp_env);
-	tmp_env = NULL;
-	if (ft_strchr(command->cmd_arr[1], '='))
+	return (env_len);
+}
+
+int	export(t_node *command)
+{
+	int		env_len;
+	char	*envvar[2];
+
+	env_len = create_new_env(g_utils.environment);
+	envvar[ENV_VAR_CONTENT] = ft_strdup(ft_strchr(command->cmd_arr[1], '='));
+	if (!envvar[ENV_VAR_CONTENT])
+		return (0);
+	*(ft_strchr(command->cmd_arr[1], '=')) = '\0';
+	envvar[ENV_VAR_NAME] = command->cmd_arr[1];
+	if (!search_envvar(envvar[ENV_VAR_NAME], g_utils.environment))
+		g_utils.environment[env_len] = ft_strjoin(envvar[0], envvar[1]);
+	else
 	{
-		g_utils.environment[env_len] = ft_strdup(command->cmd_arr[1]);
-		g_utils.environment[env_len + 1] = NULL;
+		env_len = search_envvar(envvar[ENV_VAR_NAME], g_utils.environment);
+		free(g_utils.environment[env_len]);
+		g_utils.environment[env_len] = ft_strjoin(envvar[0], envvar[1]);
 	}
+	ft_free((void *)&envvar[ENV_VAR_CONTENT], ft_strlen(envvar[1]));
 	return (0);
 }
 
@@ -109,11 +140,11 @@ int	check_builtin(t_node *command, t_node **head)
 		if (ft_strcmp(command->cmd_arr[0], "cd"))
 			exit = change_dir(command->cmd_arr[1]);
 		else if (ft_strcmp(command->cmd_arr[0], "echo"))
-			exit = bi_echo(command->cmd_arr);
+			exit = echo(command->cmd_arr);
 		else if (ft_strcmp(command->cmd_arr[0], "pwd"))
 			exit = print_pwd();
 		else if (ft_strcmp(command->cmd_arr[0], "export"))
-			exit = export(g_utils.environment, command);
+			exit = export(command);
 		// else if (ft_strcmp(command->cmd_arr[0], "unset"))
 		// 	printf("unset\n");
 		else if (ft_strcmp(command->cmd_arr[0], "env"))

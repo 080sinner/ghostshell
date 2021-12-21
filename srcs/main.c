@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/20 20:46:04 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/21 16:24:56 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	ft_copy_env(char **environ)
 	i = 0;
 	while (environ[i])
 		i++;
-	g_utils.environment = ft_calloc(i + 1, sizeof(char *));
+	g_utils.environment = ft_calloc(i + 2, sizeof(char *));
 	if (!g_utils.environment)
 		exit(EXIT_FAILURE);
 	i = 0;

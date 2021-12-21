@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 15:06:27 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/21 17:03:07 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define PIPEIN -3
 # define PIPEOUT -2
 # define ERROR -1
+# define ENV_VAR_NAME 0
+# define ENV_VAR_CONTENT 1
 # define VAR_VALUE 0
 # define NEW_NODE 1
 # define NEW_TOK 2
