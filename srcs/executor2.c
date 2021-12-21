@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/21 22:32:48 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/21 23:13:04 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,22 @@ void parent(t_exec *exec)
 	close(exec->pipe[0]);
 }
 
+void	free_redir_op(t_tok **head, t_tok *node)
+{
+	if (node)
+	{
+		if (node->next)
+		{
+			if (node->next->data)
+				ft_free((void *)&node->next->data, ft_strlen(node->next->data));
+			free(detach_tok(head, node->next));
+		}
+		if (node->data)
+			ft_free((void *)&node->data, ft_strlen(node->data));
+		free(detach_tok(head, node));
+	}
+}
+
 void	set_output(t_node *command)
 {
 	t_tok *current;
@@ -51,10 +67,7 @@ void	set_output(t_node *command)
 				command->out = open(current->next->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (command->out == ERROR)
 				exec_error(current->next->data);
-			if (current && current->next && current->next->data)
-				free(current->next->data);
-			free(detach_tok(&command->args, current->next));
-			free(detach_tok(&command->args, current));
+			free_redir_op(&command->args, current);
 		}
 		else if (current->type == GREATGREAT)
 		{
@@ -62,11 +75,8 @@ void	set_output(t_node *command)
 				command->out = open(current->next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (command->out == ERROR)
 				exec_error(current->next->data);
-			if (current && current->next && current->next->data)
-				free(current->next->data);
-			free(detach_tok(&command->args, current->next));
-			free(detach_tok(&command->args, current));
-		}	
+			free_redir_op(&command->args, current);
+		}
 		current = current->next;
 	}
 }
@@ -90,18 +100,12 @@ void	set_input(t_node *command)
 				command->in = open(current->next->data, O_RDONLY, 0644);
 			if (command->in == ERROR)
 				exec_error(current->next->data);
-			if (current && current->next && current->next->data)
-				free(current->next->data);
-			free(detach_tok(&command->args, current->next));
-			free(detach_tok(&command->args, current));
+			free_redir_op(&command->args, current);
 		}
 		else if (current->type == LESSLESS)
 		{
 			command->in = HERE_DOC;
-			if (current && current->next && current->next->data)
-				free(current->next->data);
-			free(detach_tok(&command->args, current->next));
-			free(detach_tok(&command->args, current));
+			free_redir_op(&command->args, current);
 		}
 		current = current->next;
 	}
