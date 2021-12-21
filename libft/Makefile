@@ -6,7 +6,7 @@
 #    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 19:13:10 by eozben            #+#    #+#              #
-#    Updated: 2021/12/03 20:02:54 by fbindere         ###   ########.fr        #
+#    Updated: 2021/12/21 22:23:06 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_strdup.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c \
 	ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c \
 	ft_substr.c ft_tolower.c ft_toupper.c ft_freestrarray.c \
-	ft_free.c
+	ft_free.c ft_striteri.c
 
 all: bonus
 

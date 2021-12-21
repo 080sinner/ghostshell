@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/15 16:03:58 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 22:11:40 by fbindere         ###   ########.fr       */
+/*   Created: 2021/12/21 22:20:13 by fbindere          #+#    #+#             */
+/*   Updated: 2021/12/21 22:24:28 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_tolower(int c)
+#include "libft.h"
+
+void	ft_striteri(char *str, int (*f)(int))
 {
-	if (c >= 'A' && c <= 'Z')
-	{
-		c += 32;
-		return (c);
-	}
-	else
-		return (c);
+	int	i;
+
+	i = 0;
+	if (!str)
+		return ;
+	while (str[i])
+		f(str[i++]);
 }

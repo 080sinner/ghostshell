@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:30:54 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/03 20:02:33 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/21 22:25:00 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int			ft_strcmp(char *s1, char *s2);
+void		ft_striteri(char *str, int (*f)(int));
 int			ft_free_strarray(char **split);
 int			ft_isint(char *number);
 int			ft_free(void **ptr, size_t n);
