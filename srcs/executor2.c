@@ -6,30 +6,25 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/22 19:20:29 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/23 22:50:21 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void init_exec(t_exec *exec)
+void init_exec(t_exec *exec, t_node **head)
 {
 	exec->exit_status = 0;
 	exec->pid = 1;
-	exec->tmp_fd = dup(STDIN_FILENO);
+	exec->tmp_fd = ft_dup(STDIN_FILENO, "init_exec", head, NO_EXIT);
 }
 
-void	exec_error(char *file)
+void parent(t_exec *exec, t_node **head)
 {
-	printf("error %s\n", file);
-}
-
-void parent(t_exec *exec)
-{
-	close(exec->pipe[1]);
-	close(exec->tmp_fd);
-	exec->tmp_fd = dup(exec->pipe[0]);
-	close(exec->pipe[0]);
+	ft_close(exec->pipe[1], "parent", head, NO_EXIT);
+	ft_close(exec->tmp_fd, "parent", head, NO_EXIT);
+	exec->tmp_fd = ft_dup(exec->pipe[0], "parent", head, NO_EXIT);
+	ft_close(exec->pipe[0], "parent", head, NO_EXIT);
 }
 
 void	free_redir_op(t_tok **head, t_tok *node)
@@ -48,12 +43,12 @@ void	free_redir_op(t_tok **head, t_tok *node)
 	}
 }
 
-void	set_output(t_node *command)
+int	set_output(t_node *command)
 {
 	t_tok *current;
 
 	if (!command || !command->args)
-		return ;
+		return (ERROR);
 	current = command->args;
 	command->out = PIPEOUT;	
 	if (!command->next || command->next->type == OR 
@@ -64,43 +59,46 @@ void	set_output(t_node *command)
 		if (current->type == GREAT)
 		{
 			if (current->next && current->next->data)
-				command->out = open(current->next->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (command->out == ERROR)
-				exec_error(current->next->data);
+				command->out = ft_open(current->next->data, GREAT);
 			free_redir_op(&command->args, current);
 		}
 		else if (current->type == GREATGREAT)
 		{
 			if (current->next && current->next->data)
-				command->out = open(current->next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (command->out == ERROR)
-				exec_error(current->next->data);
+				command->out = ft_open(current->next->data, GREATGREAT);
 			free_redir_op(&command->args, current);
 		}
+		if (command->out == ERROR)
+			return (ERROR);
 		current = current->next;
 	}
+	return (1);
 }
 
-void	set_input(t_node *command)
+int	set_input(t_node *command, t_node **head)
 {
 	t_tok *current;
 
 	if (!command || !command->args)
-		return ;
+		return (ERROR);
 	current = command->args;
 	command->in = PIPEIN;
-	if (!command->previous || command->previous->type == OR 
-			|| command->previous->type == AND)
-			command->in = 0;
+	if (!command->previous || command->previous->type == OR
+	|| command->previous->type == AND)
+		command->in = STDIN_FILENO;
 	while (current)
 	{
 		if (current->type == LESS)
 		{
 			if (current->next && current->next->data)
-				command->in = open(current->next->data, O_RDONLY, 0644);
-			if (command->in == ERROR)
-				exec_error(current->next->data);
+			{
+				if (command->in != PIPEIN && command->in != STDIN_FILENO)
+					ft_close(command->in, "set_input", head, NO_EXIT);
+				command->in = ft_open(current->next->data, LESS);
+			}
 			free_redir_op(&command->args, current);
+			if (command->in == ERROR)
+				return (ERROR);
 		}
 		else if (current->type == LESSLESS)
 		{
@@ -109,9 +107,10 @@ void	set_input(t_node *command)
 		}
 		current = current->next;
 	}
+	return (1);
 }
 
-void	create_array(t_node *command)
+int	create_array(t_node *command)
 {
 	t_tok	*current;
 	int		args_count;
@@ -127,7 +126,7 @@ void	create_array(t_node *command)
 	}
 	command->cmd_arr = ft_calloc(args_count + 1, sizeof(char *));
 	if (!command->cmd_arr)
-		exit(EXIT_FAILURE);
+		return(ERROR);
 	current = command->args;
 	args_count = 0;
 	while(current)
@@ -136,25 +135,29 @@ void	create_array(t_node *command)
 			command->cmd_arr[args_count++] = current->data;
 		current = current->next;
 	}
+	return (1);
 }
 
-void	parse_command(t_node *current, t_node **head)
+int	parse_command(t_node *current, t_node **head)
 {
 	if (!current)
-		return ;
+		return (ERROR);
 	expander(current, head);
-	set_input(current);
-	set_output(current);
-	get_cmd_path(current);
-	create_array(current);
+	if (set_input(current, head) == ERROR || set_output(current) == ERROR)
+		return (ERROR);
+	if (get_cmd_path(current) == ERROR)
+		return (ERROR);
+	if (create_array(current) == ERROR)
+		return(ERROR);
+	return (1);
 }
 
-void	retrieve_here_doc(t_node *command)
+void	retrieve_here_doc(t_node *command, t_node **head)
 {
 	t_tok	*token;
 	int		here_pipe[2];
 	
-	pipe(here_pipe);
+	ft_pipe(here_pipe, "retrieve_here_doc", head, NO_EXIT);
 	token = command->here_doc;
 	while(token)
 	{
@@ -162,34 +165,36 @@ void	retrieve_here_doc(t_node *command)
 			ft_putendl_fd(token->data, here_pipe[1]);
 		token = token->next;
 	}
-	dup2(here_pipe[0], STDIN_FILENO);
-	close(here_pipe[1]);
-	close(here_pipe[0]);
+	ft_dup2(here_pipe[0], STDIN_FILENO, head, NO_EXIT);
+	ft_close(here_pipe[1], "retrieve_here_doc", head, NO_EXIT);
+	ft_close(here_pipe[0], "retrieve_here_doc", head, NO_EXIT);
 }
 
-void child(t_exec *exec, t_node *command)
+void child(t_exec *exec, t_node *command, t_node **head)
 {
+	if (parse_command(command, head) == ERROR)
+		ft_exit(EXIT_FAILURE, head);
 	if (command->in == PIPEIN)
-		dup2(exec->tmp_fd, STDIN_FILENO);
+		ft_dup2(exec->tmp_fd, STDIN_FILENO, head, EXIT);
 	else if (command->in == HERE_DOC)
-		retrieve_here_doc(command);
+		retrieve_here_doc(command, head);
 	else
-		dup2(command->in, STDIN_FILENO);
+		ft_dup2(command->in, STDIN_FILENO, head, EXIT);
 	if (command->out == PIPEOUT)
-		dup2(exec->pipe[1], STDOUT_FILENO);
+		ft_dup2(exec->pipe[1], STDOUT_FILENO, head, EXIT);
 	else
-		dup2(command->out, STDOUT_FILENO);
-	close(exec->pipe[0]);
-	close(exec->pipe[1]);
-	close(exec->tmp_fd);
+		ft_dup2(command->out, STDOUT_FILENO, head, EXIT);
+	ft_close(exec->pipe[0], "child", head, EXIT);
+	ft_close(exec->pipe[1], "child", head, EXIT);
+	ft_close(exec->tmp_fd, "child", head, EXIT);
 	if (check_builtin(command))
 	{
-		if(!execute_builtin (command))
-			exit (EXIT_SUCCESS);
-		exit (EXIT_FAILURE);
+		if(!execute_builtin (command, head))
+			ft_exit (EXIT_SUCCESS, head);
+		ft_exit (EXIT_FAILURE, head);
 	}
 	execve(command->cmdpath, command->cmd_arr, g_utils.environment);
-	exit(EXIT_FAILURE);
+	ft_exit(EXIT_FAILURE, head);
 }
 
 t_node	*skip_paren_content(t_node *current)
@@ -210,17 +215,17 @@ t_node	*skip_paren_content(t_node *current)
 void subshell (t_exec *exec, t_node *command, t_node *par_temp, t_node **head)
 {
 	if (command->previous && command->previous->type == PIPE)
-		dup2(exec->tmp_fd, STDIN_FILENO);
+		ft_dup2(exec->tmp_fd, STDIN_FILENO, head, EXIT);
 	if (par_temp->next && par_temp->next->type == PIPE)
-		dup2(exec->pipe[1], STDOUT_FILENO);
-	close(exec->pipe[0]);
-	close(exec->pipe[1]);
-	close(exec->tmp_fd);
+		ft_dup2(exec->pipe[1], STDOUT_FILENO, head, EXIT);
+	ft_close(exec->pipe[0], "subshell", head, EXIT);
+	ft_close(exec->pipe[1], "subshell", head, EXIT);
+	ft_close(exec->tmp_fd, "subshell", head, EXIT);
 	command = command->next;
 	command->previous = NULL;
 	par_temp->previous->next = NULL;
 	executor(command, head);
-	exit(EXIT_SUCCESS);
+	ft_exit(EXIT_SUCCESS, head);
 }
 
 int	is_pipeline(t_node *command)
@@ -232,24 +237,26 @@ int	is_pipeline(t_node *command)
 	return (0);
 }
 
-void builtin (t_node *command)
+void builtin (t_node *command, t_node **head)
 {
 	int tmp_in;
 	int tmp_out;
 	
-	tmp_in = dup(STDIN_FILENO);
-	tmp_out = dup(STDOUT_FILENO);
+	if (parse_command(command, head) == ERROR)
+		return ;
+	tmp_in = ft_dup(STDIN_FILENO, "builtin", head, NO_EXIT);
+	tmp_out = ft_dup(STDOUT_FILENO, "builtin", head, NO_EXIT);
 	if (command->in == HERE_DOC)
-		retrieve_here_doc(command);
+		retrieve_here_doc(command, head);
 	else if (command->in != STDIN_FILENO)
-		dup2(command->in, STDIN_FILENO);
+		ft_dup2(command->in, STDIN_FILENO, head, NO_EXIT);
 	if (command->out != STDOUT_FILENO)
-		dup2(command->out, STDOUT_FILENO);
-	g_utils.exit_status = execute_builtin (command);
-	dup2(tmp_in, STDIN_FILENO);
-	dup2(tmp_out, STDOUT_FILENO);
-	close(tmp_in);
-	close(tmp_out);
+		ft_dup2(command->out, STDOUT_FILENO, head, NO_EXIT);
+	g_utils.exit_status = execute_builtin (command, head);
+	ft_dup2(tmp_in, STDIN_FILENO, head, NO_EXIT);
+	ft_dup2(tmp_out, STDOUT_FILENO, head, NO_EXIT);
+	ft_close(tmp_in, "builtin", head, NO_EXIT);
+	ft_close(tmp_out, "builtin", head, NO_EXIT);
 }
 
 void execute_command (t_exec *exec, t_node **command, t_node **head)
@@ -257,20 +264,19 @@ void execute_command (t_exec *exec, t_node **command, t_node **head)
 	t_node *par_temp;
 	
 	par_temp = *command;
-	parse_command(*command, head);
 	if ((*command)->type == LPAREN)
 		par_temp = skip_paren_content(*command);
-	pipe(exec->pipe);
+	ft_pipe(exec->pipe, "execute_command", head, NO_EXIT);
 	if (!check_builtin(*command) || is_pipeline(*command))
-		exec->pid = fork();
+		exec->pid = ft_fork("execute_command", head, NO_EXIT);
 	else
-		builtin(*command);
+		builtin(*command, head);
 	if (!exec->pid && par_temp != *command)
 		subshell(exec, *command, par_temp, head);
 	else if (!exec->pid)
-		child(exec, *command);
+		child(exec, *command, head);
 	if (exec->pid)
-		parent(exec);
+		parent(exec, head);
 	*command = par_temp;
 }
 
@@ -326,15 +332,15 @@ void executor (t_node *current, t_node **head)
 {
 	t_exec	exec;
 
-	init_exec(&exec);
+	init_exec(&exec, head);
 	while (1)
 	{
 		if (current && (current->type == COMMAND || current->type == LPAREN))
 			execute_command(&exec, &current, head);
 		if (!current || current->type == OR || current->type == AND)
 		{
-			close(exec.tmp_fd);
-			exec.tmp_fd = dup(STDIN_FILENO);
+			ft_close(exec.tmp_fd, "executor", head, NO_EXIT);
+			exec.tmp_fd = ft_dup(STDIN_FILENO, "executor", head, NO_EXIT);
 			exit_status(&exec);
 		}
 		if (current && current->type == OR && g_utils.exit_status == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dll_nodes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:50:02 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/18 00:23:54 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/23 22:26:47 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_node	*ft_dll_append_node(t_node **head)
 
 	newnode = ft_calloc(1, sizeof(t_node));
 	if (!newnode)
-		exit(free_nodes(head));
+		ft_exit(EXIT_FAILURE, head);
 	newnode->here_doc = NULL;
 	newnode->cmd_arr = NULL;
 	newnode->cmdpath = NULL;

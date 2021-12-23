@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dll_toks.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:53:53 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/18 00:31:27 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/23 22:31:19 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_tok	*ft_dll_append_tok(t_tok **head, t_node **head_node)
 
 	newtok = ft_calloc(1, sizeof(t_tok));
 	if (!newtok)
-		exit(free_nodes(head_node));
+		ft_exit(EXIT_FAILURE, head_node);
 	newtok->next = NULL;
 	newtok->previous = NULL;
 	newtok->state = FALSE;

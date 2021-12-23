@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 20:23:23 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/23 22:49:35 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,12 @@
 # define ENV_VAR_CONTENT 1
 # define VAR_VALUE 0
 # define NEW_NODE 1
-# define NEW_TOK 2
-# define CONTINUE 1
-# define TMP 1
 # define TRUE 1
 # define FALSE 0
-# define EVEN 0
-# define ODD 1
+# define EXIT 1
+# define NO_EXIT 0
+# define NORIGHTS 13
+# define NOFILE 2
 
 typedef enum e_token
 {
@@ -135,14 +134,21 @@ t_tok	*create_new_tok(t_tok **headtok, t_node **head);
 void	read_here_docs(t_node **head);
 void	expand_here_doc(t_tok *here_doc);
 void	executor (t_node *current, t_node **head);
-void	init_exec(t_exec *exec);
+void	init_exec(t_exec *exec, t_node **head);
 void	expander(t_node *node, t_node **head);
 int		change_dir(char *path);
 char	*ft_getenv(char *envvar, char **env);
-void	get_cmd_path(t_node *command);
+int		get_cmd_path(t_node *command);
 int		check_builtin (t_node *command);
-void	parse_command(t_node *current, t_node **head);
-void	ft_copy_env(char **environ, int skip_var);
-int		execute_builtin (t_node *command);
+int		parse_command(t_node *current, t_node **head);
+void	ft_copy_env(char **environ, int skip_var, t_node **head);
+int		execute_builtin (t_node *command, t_node **head);
+void	ft_close(int fd, char *function, t_node **head, int exit_flag);
+void	ft_pipe(int *fds, char *function, t_node **head, int exit_flag);
+int		ft_fork(char *function, t_node **head, int exit_flag);
+int		ft_dup(int fd, char *function, t_node **head, int exit_flag);
+void	ft_dup2(int fd1, int fd2, t_node **head, int exit_flag);
+int		ft_open(char *file, int type);
+void	ft_exit(int status, t_node **head);
 
 #endif

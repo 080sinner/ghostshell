@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/22 16:42:45 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/23 22:41:37 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_append(char *line, char c, t_node **head)
 	if (longer == NULL)
 	{
 		free(line);
-		exit(free_nodes(head));
+		ft_exit(EXIT_FAILURE, head);
 	}
 	i = 0;
 	while (line[i] != '\0')
@@ -156,6 +156,7 @@ void expander(t_node *node, t_node **head)
 {
 	t_tok	*current;
 	t_tok	*newlist;
+	t_tok	*tmp;
 
 	current = node->args;
 	while (current)
@@ -171,8 +172,9 @@ void expander(t_node *node, t_node **head)
 		}
 		if (node->here_doc && node->here_doc->state == FALSE)
 			expand_here_doc(node->here_doc);
+		tmp = current->next;
 		expand_wildcards(&current, &node->args, head);
-		current = current->next;
+		current = tmp;
 	}
 }
 

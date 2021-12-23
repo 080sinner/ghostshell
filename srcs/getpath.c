@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   getpath.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/20 17:00:35 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/23 22:17:39 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void append_slash(char **paths, char *appendage)
+static int append_slash(char **paths, char *appendage)
 {
 	int		i;
 	char	*temp;
@@ -25,15 +25,15 @@ static void append_slash(char **paths, char *appendage)
 		{
 			paths[i] = temp;
 			ft_free_strarray(paths);
-			exit(EXIT_FAILURE);
+			return(ERROR);
 		}
 		free(temp);
 		i++;
 	}
-	return ;
+	return (1);
 }
 
-static void cmdpath(t_node *command, char **paths)
+static int cmdpath(t_node *command, char **paths)
 {
 	int i;
 	i = 0;
@@ -43,14 +43,13 @@ static void cmdpath(t_node *command, char **paths)
 	{
 		command->cmdpath = ft_strjoin(paths[i], command->args->data);
 		if (!command->cmdpath)
-			exit(EXIT_FAILURE);
+			return (ERROR);
 		if (access(command->cmdpath, F_OK) == 0)
-			return ;
+			return (1);
 		ft_free((void *)&command->cmdpath, ft_strlen(command->cmdpath));
 		i++;
 	}
-	// errno = NOCOMMAND;
-	// ft_error(input->args[0], input);
+	return (ERROR);
 }
 
 char	*ft_getenv(char *envvar, char **env)
@@ -70,22 +69,28 @@ char	*ft_getenv(char *envvar, char **env)
 	return (NULL);
 }
 
-void	get_cmd_path(t_node *command)
+int	get_cmd_path(t_node *command)
 {
 	char	**paths;
+
 	if (!command->args)
-		return ;
+		return (ERROR);
 	if (access(command->args->data, F_OK) == 0)
 	{
 		command->cmdpath = ft_strdup(command->args->data);
-		return ;
+		return (1);
 	}
 	paths = ft_split(ft_getenv("PATH", g_utils.environment), ':');
 	if (!paths)
-		exit(EXIT_FAILURE);
-	append_slash(paths, "/");
-	cmdpath(command, paths);
-	ft_free_strarray(paths);
-	// errno = NOCOMMAND;
-	// ft_error(input->args[0], input);
+		return (ERROR);
+	if (append_slash(paths, "/") == ERROR)
+		return (ERROR);
+	if (cmdpath(command, paths) == ERROR)
+	{
+		ft_free_strarray(paths);
+		ft_putstr_fd("error: command not found: ", 2);
+		ft_putendl_fd(command->args->data, 2);
+		return (ERROR);
+	}
+	return (1);
 }

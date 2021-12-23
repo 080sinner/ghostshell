@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/20 17:15:58 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/23 22:53:31 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	append_dquoted_variable(char **varcontent, t_tok *new, t_node **head)
 	tmp = new->data;
 	new->data = ft_strjoin(new->data, *varcontent);
 	if (!new->data)
-		exit(free_nodes(head));
+		ft_exit(EXIT_FAILURE, head);
 	free(tmp);
 	if (*varcontent)
 		free(*varcontent);
@@ -39,7 +39,7 @@ int	read_variable_name(char *data, t_node **head, char **varname)
 		i++;
 	*varname = ft_substr(data, 0, i);
 	if (!*varname)
-		exit(free_nodes(head));
+		ft_exit(EXIT_FAILURE, head);
 	return (i + 1);
 }
 
@@ -86,7 +86,7 @@ t_tok	*create_new_tok(t_tok **headtok, t_node **head)
 	new = ft_dll_append_tok(headtok, head);
 	new->data = ft_strdup("");
 	if (!new->data)
-		exit(free_nodes(head));
+		ft_exit(EXIT_FAILURE, head);
 	return (new);
 }
 

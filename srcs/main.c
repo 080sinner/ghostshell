@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/21 23:14:14 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/23 22:47:37 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	signal_handler(void)
 	return (0);
 }
 
-void	ft_copy_env(char **environ, int skip_var)
+void	ft_copy_env(char **environ, int skip_var, t_node **head)
 {
 	int			i;
 	int			x;
@@ -122,7 +122,7 @@ void	ft_copy_env(char **environ, int skip_var)
 		i++;
 	g_utils.environment = ft_calloc(i + 2, sizeof(char *));
 	if (!g_utils.environment)
-		exit(EXIT_FAILURE);
+		ft_exit(EXIT_FAILURE, head);
 	i = 0;
 	x = i;
 	while (environ[i])
@@ -168,7 +168,7 @@ void	get_input(t_node **head)
 		else if (read == NULL)
 		{
 			free_nodes(head);
-			exit(0);
+			ft_exit(EXIT_SUCCESS, head);
 		}
 	}
 }
@@ -178,7 +178,7 @@ int	main(__unused int argc, __unused char *argv[], char **environ)
 {
 	t_node	*head;
 
-	ft_copy_env(environ, -1);
+	ft_copy_env(environ, -1, &head);
 	head = NULL;
 	get_input(&head);
 	// free_nodes(&head);

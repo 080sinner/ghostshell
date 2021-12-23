@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 22:50:12 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/23 22:49:24 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	search_envvar(char *envvar, char **env)
 	return (0);
 }
 
-int	create_new_env(char **env)
+int	create_new_env(char **env, t_node **head)
 {
 	char	**tmp_env;
 	int		i;
@@ -115,7 +115,7 @@ int	create_new_env(char **env)
 	while (env[++i])
 		tmp_env[i] = env[i];
 	env_len = i;
-	ft_copy_env(g_utils.environment, -1);
+	ft_copy_env(g_utils.environment, -1, head);
 	i = -1;
 	while (tmp_env[++i])
 		ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
@@ -123,7 +123,7 @@ int	create_new_env(char **env)
 	return (env_len);
 }
 
-int	export(t_node *command)
+int	export(t_node *command, t_node **head)
 {
 	int		env_len;
 	char	*envvar[2];
@@ -132,7 +132,7 @@ int	export(t_node *command)
 	i = 0;
 	while (command->cmd_arr[++i])
 	{
-		env_len = create_new_env(g_utils.environment);
+		env_len = create_new_env(g_utils.environment, head);
 		envvar[ENV_VAR_CONTENT] = ft_strdup(ft_strchr(command->cmd_arr[i], '='));
 		if (!envvar[ENV_VAR_CONTENT])
 			return (0);
@@ -151,7 +151,7 @@ int	export(t_node *command)
 	return (0);
 }
 
-int unset(t_node *command)
+int unset(t_node *command, t_node **head)
 {
     int     var_index;
     char    **tmp_env;
@@ -167,7 +167,7 @@ int unset(t_node *command)
         var_index = search_envvar(command->cmd_arr[count], g_utils.environment);
         if (!var_index)
             return (1);
-        ft_copy_env(g_utils.environment, var_index);
+        ft_copy_env(g_utils.environment, var_index, head);
         i = -1;
         while (tmp_env[++i])
             ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
@@ -176,7 +176,7 @@ int unset(t_node *command)
     return (0);
 }
 
-int	execute_builtin (t_node *command)
+int	execute_builtin (t_node *command, t_node **head)
 {
 	if (command->cmd_arr && command->cmd_arr[0])
 	{
@@ -187,13 +187,13 @@ int	execute_builtin (t_node *command)
 		else if (ft_strcmp(command->cmd_arr[0], "pwd"))
 			return (print_pwd());
 		else if (ft_strcmp(command->cmd_arr[0], "export"))
-			return (export(command));
+			return (export(command, head));
 		else if (ft_strcmp(command->cmd_arr[0], "unset"))
-			return (unset(command));
+			return (unset(command, head));
 		else if (ft_strcmp(command->cmd_arr[0], "env"))
 			return (print_env());
 	}
-	return (-1);
+	return (ERROR);
 }
 
 int	check_builtin (t_node *command)
@@ -201,6 +201,8 @@ int	check_builtin (t_node *command)
 	char	*builtins[6];
 	int		i;
 
+	if (command->cmd_arr == NULL)
+		return (0);
 	ft_striteri(command->cmd_arr[0], ft_tolower);
 	builtins[0] = "cd";
 	builtins[1] = "echo";
