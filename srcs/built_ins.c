@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/23 22:49:24 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/27 22:36:06 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,11 +196,13 @@ int	execute_builtin (t_node *command, t_node **head)
 	return (ERROR);
 }
 
-int	check_builtin (t_node *command)
+int	check_builtin (t_node *command, t_node **head, int child_flag)
 {
 	char	*builtins[6];
 	int		i;
 
+	if (child_flag == 0 && parse_command(command, head, 1) == ERROR)
+		return (ERROR);
 	if (command->cmd_arr == NULL)
 		return (0);
 	ft_striteri(command->cmd_arr[0], ft_tolower);

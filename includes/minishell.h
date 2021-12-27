@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/23 22:49:35 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/27 22:38:23 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ void	expander(t_node *node, t_node **head);
 int		change_dir(char *path);
 char	*ft_getenv(char *envvar, char **env);
 int		get_cmd_path(t_node *command);
-int		check_builtin (t_node *command);
-int		parse_command(t_node *current, t_node **head);
+int		check_builtin (t_node *command, t_node **head, int child_flag);
+int		parse_command(t_node *current, t_node **head, int builtin_flag);
 void	ft_copy_env(char **environ, int skip_var, t_node **head);
 int		execute_builtin (t_node *command, t_node **head);
 void	ft_close(int fd, char *function, t_node **head, int exit_flag);
