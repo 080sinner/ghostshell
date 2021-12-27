@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/27 19:53:17 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/27 21:09:56 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,10 +192,12 @@ void child(t_exec *exec, t_node *command)
 	exit(EXIT_FAILURE);
 }
 
-t_node	*skip_paren_content(t_node *current)
+t_node	*skip_paren_content(t_node *current, int first_call)
 {
-	static int parencount;
+	static int	parencount;
 
+	if (first_call == 0)
+		parencount = 0;
 	if (!current)
 		return (NULL);
 	if (current->type == LPAREN)
@@ -204,7 +206,7 @@ t_node	*skip_paren_content(t_node *current)
 		parencount--;
 	if (parencount == 0)
 		return (current);
-	return (skip_paren_content(current->next));
+	return (skip_paren_content(current->next, ++first_call));
 }
 
 void subshell (t_exec *exec, t_node *command, t_node *par_temp, t_node **head)
@@ -234,9 +236,9 @@ int	is_pipeline(t_node *command)
 
 void builtin (t_node *command)
 {
-	int tmp_in;
-	int tmp_out;
-	
+	int	tmp_in;
+	int	tmp_out;
+
 	tmp_in = dup(STDIN_FILENO);
 	tmp_out = dup(STDOUT_FILENO);
 	if (command->in == HERE_DOC)
@@ -255,11 +257,11 @@ void builtin (t_node *command)
 void execute_command (t_exec *exec, t_node **command, t_node **head)
 {
 	t_node *par_temp;
-	
+
 	par_temp = *command;
 	parse_command(*command, head);
 	if ((*command)->type == LPAREN)
-		par_temp = skip_paren_content(*command);
+		par_temp = skip_paren_content(*command, 0);
 	pipe(exec->pipe);
 	if (!check_builtin(*command) || is_pipeline(*command))
 		exec->pid = fork();
@@ -276,9 +278,9 @@ void execute_command (t_exec *exec, t_node **command, t_node **head)
 
 void	exit_status(t_exec *exec)
 {
-	int exit_status;
-	int status;
-	
+	int	exit_status;
+	int	status;
+
 	while (1)
 	{
 		exit_status = waitpid(-1, &status, 0);
@@ -299,8 +301,8 @@ void	exit_status(t_exec *exec)
 				g_utils.exit_status = 127 + WTERMSIG(status);
 			}
 		}
-	if (exit_status == -1)
-		break ;
+		if (exit_status == -1)
+			break ;
 	}
 }
 

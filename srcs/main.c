@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/27 20:00:18 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/27 20:20:29 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,8 @@ void	get_input(t_node **head)
 			}
 			if (!check_empty_input(read))
 			{
-				lexer(head, read);
-				executor(*head, head);
+				if (!lexer(head, read))
+					executor(*head, head);
 				//print_list(*head);
 			}
 			free(read);

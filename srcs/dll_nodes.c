@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:50:02 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/18 00:23:54 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/27 21:06:57 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	free_nodes(t_node **head)
 	if ((*head)->here_doc != NULL)
 		free_toks(&(*head)->here_doc);
 	if ((*head)->cmdpath != NULL)
-		ft_free((void*)&(*head)->cmdpath, ft_strlen((*head)->cmdpath));
+		ft_free((void *)&(*head)->cmdpath, ft_strlen((*head)->cmdpath));
 	if ((*head)->cmd_arr != NULL)
 		free((*head)->cmd_arr);
 	free(detach_node(head, *head));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 20:23:23 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/27 21:00:01 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,7 @@ int		check_builtin (t_node *command);
 void	parse_command(t_node *current, t_node **head);
 void	ft_copy_env(char **environ, int skip_var);
 int		execute_builtin (t_node *command);
+int		check_input(t_node **head);
+t_node	*skip_paren_content(t_node *current, int first_call);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/27 19:54:46 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/27 21:06:29 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int	export(t_node *command)
 	while (command->cmd_arr[++i])
 	{
 		env_len = create_new_env(g_utils.environment);
-		envvar[ENV_VAR_CONTENT] = ft_strdup(ft_strchr(command->cmd_arr[i], '='));
+		envvar[1] = ft_strdup(ft_strchr(command->cmd_arr[i], '='));
 		if (!envvar[ENV_VAR_CONTENT])
 			return (0);
 		*(ft_strchr(command->cmd_arr[i], '=')) = '\0';

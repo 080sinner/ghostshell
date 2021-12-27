@@ -6,7 +6,7 @@
 #    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/12/21 15:12:14 by eozben           ###   ########.fr        #
+#    Updated: 2021/12/27 20:26:52 by eozben           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBFT = ./libft/libft.a
 SRC_PATH = ./srcs/
 SRC_FILES =	dll_functions.c lexer_new.c main.c check_functions.c dll_nodes.c \
 			dll_toks.c header.c variables.c wildcards.c here_doc.c executor2.c \
-			getpath.c built_ins.c
+			getpath.c built_ins.c input_check.c
 SRCS = $(addprefix $(SRC_PATH), $(SRC_FILES))
 
 all:$(NAME)
