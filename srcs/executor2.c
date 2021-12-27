@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/27 21:09:56 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/27 21:27:39 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ void init_exec(t_exec *exec)
 	exec->tmp_fd = dup(STDIN_FILENO);
 }
 
-void	exec_error(char *file)
+void	exec_error(t_tok *current)
 {
-	printf("error %s\n", file);
+	if (current->type == COMMAND && current->data[0] != '\0')
+		printf("%s: No such file or directory\n", current->data);
+	else
+		printf("syntax error: unexpected token\n");
 }
 
 void parent(t_exec *exec)
@@ -66,7 +69,7 @@ void	set_output(t_node *command)
 			if (current->next && current->next->data)
 				command->out = open(current->next->data, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (command->out == ERROR)
-				exec_error(current->next->data);
+				exec_error(current->next);
 			free_redir_op(&command->args, current);
 		}
 		else if (current->type == GREATGREAT)
@@ -74,7 +77,7 @@ void	set_output(t_node *command)
 			if (current->next && current->next->data)
 				command->out = open(current->next->data, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (command->out == ERROR)
-				exec_error(current->next->data);
+				exec_error(current->next);
 			free_redir_op(&command->args, current);
 		}
 		current = current->next;
@@ -99,7 +102,7 @@ void	set_input(t_node *command)
 			if (current->next && current->next->data)
 				command->in = open(current->next->data, O_RDONLY, 0644);
 			if (command->in == ERROR)
-				exec_error(current->next->data);
+				exec_error(current->next);
 			free_redir_op(&command->args, current);
 		}
 		else if (current->type == LESSLESS)
@@ -115,7 +118,7 @@ void	create_array(t_node *command)
 {
 	t_tok	*current;
 	int		args_count;
-	
+
 	current = NULL;
 	if (command->args)
 		current = command->args;
