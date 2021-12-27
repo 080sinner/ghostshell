@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/22 16:42:45 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/27 20:02:16 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ void expander(t_node *node, t_node **head)
 {
 	t_tok	*current;
 	t_tok	*newlist;
+	t_tok	*tmp;
 
 	current = node->args;
 	while (current)
@@ -171,8 +172,9 @@ void expander(t_node *node, t_node **head)
 		}
 		if (node->here_doc && node->here_doc->state == FALSE)
 			expand_here_doc(node->here_doc);
+		tmp = current->next;
 		expand_wildcards(&current, &node->args, head);
-		current = current->next;
+		current = tmp;
 	}
 }
 

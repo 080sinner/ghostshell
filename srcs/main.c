@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/21 23:14:14 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/27 20:00:18 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	print_list(t_node *head)
 {
-	int		i;
 	t_node	*tmpnode;
 	t_tok	*tmptok;
 
-	i = 0;
 	tmpnode = head;
 	while (tmpnode != NULL)
 	{
@@ -174,8 +172,9 @@ void	get_input(t_node **head)
 }
 
 
-int	main(__unused int argc, __unused char *argv[], char **environ)
+int	main(void)
 {
+	extern char **environ;
 	t_node	*head;
 
 	ft_copy_env(environ, -1);
