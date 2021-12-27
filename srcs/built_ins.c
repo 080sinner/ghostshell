@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 22:50:12 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/27 19:54:46 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,27 +153,28 @@ int	export(t_node *command)
 
 int unset(t_node *command)
 {
-    int     var_index;
-    char    **tmp_env;
-    int     i;
-    int     count;
-    count = 0;
-    while (command->cmd_arr[++count])
-    {
-        tmp_env = g_utils.environment;
-        i = -1;
-        while (++i)
-            tmp_env[i] = g_utils.environment[i];
-        var_index = search_envvar(command->cmd_arr[count], g_utils.environment);
-        if (!var_index)
-            return (1);
-        ft_copy_env(g_utils.environment, var_index);
-        i = -1;
-        while (tmp_env[++i])
-            ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
-        free(tmp_env);
-    }
-    return (0);
+	int		var_index;
+	char	**tmp_env;
+	int		i;
+	int		count;
+
+	count = 0;
+	while (command->cmd_arr[++count])
+	{
+		tmp_env = g_utils.environment;
+		i = -1;
+		while (++i)
+			tmp_env[i] = g_utils.environment[i];
+		var_index = search_envvar(command->cmd_arr[count], g_utils.environment);
+		if (!var_index)
+			return (1);
+		ft_copy_env(g_utils.environment, var_index);
+		i = -1;
+		while (tmp_env[++i])
+			ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
+		free(tmp_env);
+	}
+	return (0);
 }
 
 int	execute_builtin (t_node *command)
