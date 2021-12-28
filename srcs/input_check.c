@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 20:11:59 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/27 21:20:17 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/28 18:19:00 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_syntax_controlop(t_node *current)
 	return (0);
 }
 
-int	check_syntax_command(t_tok *args)
+int	check_syntax_command(t_tok *args, t_node *next_node)
 {
 	t_tok	*current;
 
@@ -40,6 +40,11 @@ int	check_syntax_command(t_tok *args)
 		if (current->type != COMMAND && !current->next)
 		{
 			printf("syntax error: missing token after redirection operator\n");
+			return (1);
+		}
+		else if (current->type != COMMAND && next_node && next_node->type != COMMAND)
+		{
+			printf("syntax error: wrong token after redirection operator\n");
 			return (1);
 		}
 		current = current->next;
@@ -70,7 +75,7 @@ int	check_input(t_node **head)
 		if ((current->type == LPAREN && skip_paren_content(current, 0) == NULL)
 			|| (current->type == RPAREN && !search_lparen(current)))
 			return (printf("unequal amount of parentheses\n"));
-		if (current->type == COMMAND && check_syntax_command(current->args))
+		if (current->type == COMMAND && check_syntax_command(current->args, current->next))
 			return (1);
 		current = current->next;
 	}

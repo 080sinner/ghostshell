@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/27 21:27:39 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/28 18:18:15 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void init_exec(t_exec *exec)
 
 void	exec_error(t_tok *current)
 {
-	if (current->type == COMMAND && current->data[0] != '\0')
+	if (current->type == COMMAND)
 		printf("%s: No such file or directory\n", current->data);
-	else
-		printf("syntax error: unexpected token\n");
 }
 
 void parent(t_exec *exec)
