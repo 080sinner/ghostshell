@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/29 22:38:32 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/29 23:11:08 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,10 +197,12 @@ void child(t_exec *exec, t_node *command, t_node **head)
 	ft_exit(EXIT_FAILURE, head);
 }
 
-t_node	*skip_paren_content(t_node *current)
+t_node	*skip_paren_content(t_node *current, int first_call)
 {
-	static int parencount;
+	static int	parencount;
 
+	if (first_call == 0)
+		parencount = 0;
 	if (!current)
 		return (NULL);
 	if (current->type == LPAREN)
@@ -209,8 +211,9 @@ t_node	*skip_paren_content(t_node *current)
 		parencount--;
 	if (parencount == 0)
 		return (current);
-	return (skip_paren_content(current->next));
+	return (skip_paren_content(current->next, ++first_call));
 }
+
 
 void subshell (t_exec *exec, t_node *command, t_node *par_temp, t_node **head)
 {
@@ -268,7 +271,7 @@ void execute_command (t_exec *exec, t_node **command, t_node **head)
 	
 	par_temp = *command;
 	if ((*command)->type == LPAREN)
-		par_temp = skip_paren_content(*command);
+		par_temp = skip_paren_content(*command, 0);
 	ft_pipe(exec->pipe, "execute_command", head, NO_EXIT);
 	if (is_pipeline(*command) || par_temp != *command || !check_builtin((*command)->args))
 		exec->pid = ft_fork("execute_command", head, NO_EXIT);

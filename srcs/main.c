@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/23 22:47:37 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/29 23:12:05 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ void	get_input(t_node **head)
 			}
 			if (!check_empty_input(read))
 			{
-				lexer(head, read);
-				executor(*head, head);
+				if (!lexer(head, read))
+					executor(*head, head);
 				//print_list(*head);
 			}
 			free(read);

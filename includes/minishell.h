@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/29 23:09:47 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/29 23:10:55 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,6 @@ void	ft_dup2(int fd1, int fd2, t_node **head, int exit_flag);
 int		ft_open(char *file, int type);
 void	ft_exit(int status, t_node **head);
 int		check_input(t_node **head);
-t_node	*skip_paren_content(t_node *current);
+t_node	*skip_paren_content(t_node *current, int first_call);
 
 #endif
