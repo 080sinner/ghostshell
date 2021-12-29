@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
+#    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/12/22 20:43:23 by fbindere         ###   ########.fr        #
+#    Updated: 2021/12/29 23:09:16 by eozben           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBFT = ./libft/libft.a
 SRC_PATH = ./srcs/
 SRC_FILES =	dll_functions.c lexer_new.c main.c check_functions.c dll_nodes.c \
 			dll_toks.c header.c variables.c wildcards.c here_doc.c executor2.c \
-			getpath.c built_ins.c error/ft_systemcalls.c
+			getpath.c built_ins.c error/ft_systemcalls.c input_check.c
 SRCS = $(addprefix $(SRC_PATH), $(SRC_FILES))
 
 all:$(NAME)

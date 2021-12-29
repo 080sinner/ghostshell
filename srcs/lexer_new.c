@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/29 23:06:51 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/29 23:08:34 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,11 @@ int	get_word(char **input, t_tok *new, int *state, t_node **head)
 	return (0);
 }
 
-int	read_command(char **input, t_node **command, t_node **head)
+int	read_command(char **input, t_node **command, t_node **head, int *state)
 {
-	int		state;
 	t_tok	*new;
 
-	state = GENERAL_STATE;
+	*state = GENERAL_STATE;
 	new = NULL;
 	(*command)->args = NULL;
 	while (**input != '\0')
@@ -118,7 +117,7 @@ int	read_command(char **input, t_node **command, t_node **head)
 				*input += 1;
 			continue ;
 		}
-		if (get_word(input, new, &state, head) == NEW_NODE)
+		if (get_word(input, new, state, head) == NEW_NODE)
 			return (NEW_NODE);
 	}
 	return (0);
@@ -127,7 +126,9 @@ int	read_command(char **input, t_node **command, t_node **head)
 int	read_input(t_node **head, char *input)
 {
 	t_node	*new;
+	int		state;
 
+	state = 0;
 	new = NULL;
 	while (*input != '\0')
 	{
@@ -140,9 +141,9 @@ int	read_input(t_node **head, char *input)
 		else if (new->type != COMMAND)
 			input++;
 		else
-			read_command(&input, &new, head);
+			read_command(&input, &new, head, &state);
 	}
-	return (0);
+	return (state);
 }
 
 void	free_tok(t_tok **head, t_tok *tok)
