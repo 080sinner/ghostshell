@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/29 22:38:04 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/29 23:00:37 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int		change_dir(char *path);
 char	*ft_getenv(char *envvar, char **env);
 int		get_cmd_path(t_node *command);
 int		check_builtin (t_tok *command);
+int		print_env(int declare_flag);
 int		parse_command(t_node *current, t_node **head);
 void	ft_copy_env(char **environ, int skip_var, t_node **head);
 int		execute_builtin (t_node *command, t_node **head);

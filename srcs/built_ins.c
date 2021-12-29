@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/29 22:36:14 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/29 23:00:22 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,30 @@ int	change_dir(char *path)
 	return (ret);
 }
 
-int	print_env(void)
+int	print_env(int declare_flag)
 {
 	int	i;
 
 	i = 0;
-	while (g_utils.environment[i])
-		printf("%s\n", g_utils.environment[i++]);
+	if (declare_flag)
+	{
+		while (g_utils.environment[i])
+		{
+			if (g_utils.environment[i][0] == '.')
+				printf("declare -x %s\n", g_utils.environment[i++] + 1);
+			else
+				printf("declare -x %s\n", g_utils.environment[i++]);
+		}
+	}
+	else
+	{
+		while (g_utils.environment[i])
+		{
+			if (g_utils.environment[i][0] != '.')
+				printf("%s\n", g_utils.environment[i]);
+			i++;
+		}
+	}
 	return (0);
 }
 
@@ -93,11 +110,20 @@ int	print_pwd(void)
 int	search_envvar(char *envvar, char **env)
 {
 	int	i;
+	int	hidden_flag;
 
+	hidden_flag = 0;
 	i = 0;
+	if (!envvar)
+		return (0);
+	if (envvar[0] == '.')
+		envvar++;
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], envvar, ft_strlen(envvar)))
+		if ((env[i][0] == '.' || env[i][ft_strlen(envvar)] == '=')
+			&& (!ft_strncmp(env[i], envvar, ft_strlen(envvar))
+			|| (env[i][0] == '.'
+				&& !ft_strncmp(env[i] + 1, envvar, ft_strlen(envvar)))))
 			return (i);
 		i++;
 	}
@@ -123,57 +149,104 @@ int	create_new_env(char **env, t_node **head)
 	return (env_len);
 }
 
+int	check_valid_var_name(char *varname)
+{
+	int	i;
+
+	if (!ft_isalpha(varname[0]) && varname[0] != '_')
+		return (1);
+	i = 1;
+	while (varname[i])
+	{
+		if (!ft_isalnum(varname[i]) && varname[i] != '_')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	export(t_node *command, t_node **head)
 {
 	int		env_len;
 	char	*envvar[2];
 	int		i;
+	int		env_flag;
+	int		ret;
 
 	i = 0;
+	ret = 0;
+	if (ft_strcmp(command->cmd_arr[0], "export") && !command->cmd_arr[1])
+		return (print_env(1));
 	while (command->cmd_arr[++i])
 	{
+		env_flag = 0;
 		env_len = create_new_env(g_utils.environment, head);
 		envvar[ENV_VAR_CONTENT] = ft_strdup(ft_strchr(command->cmd_arr[i], '='));
 		if (!envvar[ENV_VAR_CONTENT])
-			return (0);
-		*(ft_strchr(command->cmd_arr[i], '=')) = '\0';
-		envvar[ENV_VAR_NAME] = command->cmd_arr[i];
-		if (!search_envvar(envvar[ENV_VAR_NAME], g_utils.environment))
-			g_utils.environment[env_len] = ft_strjoin(envvar[0], envvar[1]);
+		{
+			envvar[ENV_VAR_CONTENT] = ft_strdup("");
+			envvar[ENV_VAR_NAME] = command->cmd_arr[i];
+		}
 		else
+		{
+			env_flag = 1;
+			*(ft_strchr(command->cmd_arr[i], '=')) = '\0';
+			envvar[ENV_VAR_NAME] = command->cmd_arr[i];
+		}
+		if (check_valid_var_name(envvar[ENV_VAR_NAME]))
+		{
+			printf("export: '%s' not a valid identifier\n", envvar[ENV_VAR_NAME]);
+			ft_free((void *)&envvar[ENV_VAR_CONTENT], ft_strlen(envvar[1]));
+			ret = 1;
+			envvar[ENV_VAR_NAME] = NULL;
+		}
+		if (env_flag == 1 && !search_envvar(envvar[ENV_VAR_NAME], g_utils.environment))
+			g_utils.environment[env_len] = ft_strjoin(envvar[0], envvar[1]);
+		else if (env_flag == 1 && envvar[ENV_VAR_NAME])
 		{
 			env_len = search_envvar(envvar[ENV_VAR_NAME], g_utils.environment);
 			free(g_utils.environment[env_len]);
 			g_utils.environment[env_len] = ft_strjoin(envvar[0], envvar[1]);
 		}
+		else if (!search_envvar(envvar[ENV_VAR_NAME], g_utils.environment))
+			g_utils.environment[env_len] = ft_strjoin(".", envvar[ENV_VAR_NAME]);
 		ft_free((void *)&envvar[ENV_VAR_CONTENT], ft_strlen(envvar[1]));
 	}
-	return (0);
+	return (ret);
 }
 
 int unset(t_node *command, t_node **head)
 {
-    int     var_index;
-    char    **tmp_env;
-    int     i;
-    int     count;
-    count = 0;
-    while (command->cmd_arr[++count])
-    {
-        tmp_env = g_utils.environment;
-        i = -1;
-        while (++i)
-            tmp_env[i] = g_utils.environment[i];
-        var_index = search_envvar(command->cmd_arr[count], g_utils.environment);
-        if (!var_index)
-            return (1);
-        ft_copy_env(g_utils.environment, var_index, head);
-        i = -1;
-        while (tmp_env[++i])
-            ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
-        free(tmp_env);
-    }
-    return (0);
+	int		var_index;
+	char	**tmp_env;
+	int		i;
+	int		count;
+	int		ret;
+
+	ret = 0;
+	count = 0;
+	while (command->cmd_arr[++count])
+	{
+		tmp_env = g_utils.environment;
+		i = -1;
+		while (++i)
+			tmp_env[i] = g_utils.environment[i];
+		if (check_valid_var_name(command->cmd_arr[count]))
+		{
+			printf("unset: '%s' not a valid identifier\n", command->cmd_arr[count]);
+			ret = 1;
+		}
+		else
+		{
+			var_index = search_envvar(command->cmd_arr[count], g_utils.environment);
+			ft_copy_env(g_utils.environment, var_index, head);
+			i = -1;
+			while (tmp_env[++i])
+				ft_free((void *)&tmp_env[i], ft_strlen(tmp_env[i]));
+			free(tmp_env);
+		}
+	}
+	return (ret);
 }
 
 int	execute_builtin (t_node *command, t_node **head)
@@ -191,7 +264,7 @@ int	execute_builtin (t_node *command, t_node **head)
 		else if (ft_strcmp(command->cmd_arr[0], "unset"))
 			return (unset(command, head));
 		else if (ft_strcmp(command->cmd_arr[0], "env"))
-			return (print_env());
+			return (print_env(0));
 	}
 	return (ERROR);
 }
