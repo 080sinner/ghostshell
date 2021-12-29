@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/23 22:49:24 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/29 22:36:14 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,14 +196,46 @@ int	execute_builtin (t_node *command, t_node **head)
 	return (ERROR);
 }
 
-int	check_builtin (t_node *command)
+// int	check_builtin (t_node *command)
+// {
+// 	char	*builtins[6];
+// 	int		i;
+
+// 	if (command->cmd_arr == NULL)
+// 		return (0);
+// 	ft_striteri(command->cmd_arr[0], ft_tolower);
+// 	builtins[0] = "cd";
+// 	builtins[1] = "echo";
+// 	builtins[2] = "pwd";
+// 	builtins[3] = "export";
+// 	builtins[4] = "env";
+// 	builtins[5] = "unset";
+// 	i = 0;
+// 	if (command->cmd_arr && command->cmd_arr[0])
+// 	{
+// 		while (i <= 5)
+// 		{
+// 			if (ft_strcmp(command->cmd_arr[0], builtins[i]))
+// 				return (1);
+// 			i++;
+// 		}
+// 	}
+// 	return (0);
+// }
+
+
+int	check_builtin (t_tok *command)
 {
 	char	*builtins[6];
 	int		i;
 
-	if (command->cmd_arr == NULL)
+	if (command == NULL)
 		return (0);
-	ft_striteri(command->cmd_arr[0], ft_tolower);
+	while (command->type != COMMAND)
+		command = command->next;
+	if (command->previous && command->previous->type != COMMAND)
+		command = command->next;
+	ft_striteri(command->data, ft_tolower);
 	builtins[0] = "cd";
 	builtins[1] = "echo";
 	builtins[2] = "pwd";
@@ -211,14 +243,11 @@ int	check_builtin (t_node *command)
 	builtins[4] = "env";
 	builtins[5] = "unset";
 	i = 0;
-	if (command->cmd_arr && command->cmd_arr[0])
+	while (i <= 5)
 	{
-		while (i <= 5)
-		{
-			if (ft_strcmp(command->cmd_arr[0], builtins[i]))
-				return (1);
-			i++;
-		}
+		if (ft_strcmp(command->data, builtins[i]))
+			return (1);
+		i++;
 	}
 	return (0);
 }

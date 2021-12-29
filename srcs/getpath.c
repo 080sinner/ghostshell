@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getpath.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/23 22:17:39 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/29 22:37:31 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	get_cmd_path(t_node *command)
 
 	if (!command->args)
 		return (ERROR);
+	if (check_builtin(command->args))
+		return (1);
 	if (access(command->args->data, F_OK) == 0)
 	{
 		command->cmdpath = ft_strdup(command->args->data);

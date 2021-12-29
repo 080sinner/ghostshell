@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/23 22:50:21 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/29 22:38:32 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,6 @@ int	parse_command(t_node *current, t_node **head)
 	expander(current, head);
 	if (set_input(current, head) == ERROR || set_output(current) == ERROR)
 		return (ERROR);
-	if (get_cmd_path(current) == ERROR)
-		return (ERROR);
 	if (create_array(current) == ERROR)
 		return(ERROR);
 	return (1);
@@ -172,7 +170,9 @@ void	retrieve_here_doc(t_node *command, t_node **head)
 
 void child(t_exec *exec, t_node *command, t_node **head)
 {
-	if (parse_command(command, head) == ERROR)
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	if (parse_command(command, head) == ERROR || get_cmd_path(command) == ERROR)
 		ft_exit(EXIT_FAILURE, head);
 	if (command->in == PIPEIN)
 		ft_dup2(exec->tmp_fd, STDIN_FILENO, head, EXIT);
@@ -187,7 +187,7 @@ void child(t_exec *exec, t_node *command, t_node **head)
 	ft_close(exec->pipe[0], "child", head, EXIT);
 	ft_close(exec->pipe[1], "child", head, EXIT);
 	ft_close(exec->tmp_fd, "child", head, EXIT);
-	if (check_builtin(command))
+	if (check_builtin(command->args))
 	{
 		if(!execute_builtin (command, head))
 			ft_exit (EXIT_SUCCESS, head);
@@ -243,7 +243,10 @@ void builtin (t_node *command, t_node **head)
 	int tmp_out;
 	
 	if (parse_command(command, head) == ERROR)
+	{
+		g_utils.exit_status = EXIT_FAILURE;
 		return ;
+	}
 	tmp_in = ft_dup(STDIN_FILENO, "builtin", head, NO_EXIT);
 	tmp_out = ft_dup(STDOUT_FILENO, "builtin", head, NO_EXIT);
 	if (command->in == HERE_DOC)
@@ -267,7 +270,7 @@ void execute_command (t_exec *exec, t_node **command, t_node **head)
 	if ((*command)->type == LPAREN)
 		par_temp = skip_paren_content(*command);
 	ft_pipe(exec->pipe, "execute_command", head, NO_EXIT);
-	if (!check_builtin(*command) || is_pipeline(*command))
+	if (is_pipeline(*command) || par_temp != *command || !check_builtin((*command)->args))
 		exec->pid = ft_fork("execute_command", head, NO_EXIT);
 	else
 		builtin(*command, head);
