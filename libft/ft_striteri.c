@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_freestrarray.c                                  :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/24 23:11:23 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 16:17:46 by eozben           ###   ########.fr       */
+/*   Created: 2021/12/21 22:20:13 by fbindere          #+#    #+#             */
+/*   Updated: 2021/12/21 22:24:28 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_free_strarray(char **split)
+void	ft_striteri(char *str, int (*f)(int))
 {
 	int	i;
 
 	i = 0;
-	while (split[i])
-		free(split[i++]);
-	if (split)
-		free(split);
-	return (0);
+	if (!str)
+		return ;
+	while (str[i])
+		f(str[i++]);
 }

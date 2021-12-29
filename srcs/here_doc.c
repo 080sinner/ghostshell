@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 20:57:30 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/16 21:05:37 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/22 17:12:37 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ char	*combine_strings(char *front, char *variable, char *end)
 	char	*temp[2];
 	char	*new;
 
-	if (getenv(variable) != NULL)
-		temp[1] = ft_strdup(getenv(variable));
+	if (ft_getenv(variable, g_utils.environment) != NULL)
+		temp[1] = ft_strdup(ft_getenv(variable, g_utils.environment));
 	else
 		temp[1] = ft_strdup("");
 	ft_free((void *)&variable, ft_strlen(variable));
@@ -84,6 +84,30 @@ void	expand_here_doc(t_tok *here_doc)
 	}
 }
 
+char	*convert_variable_delimiter(char *data)
+{
+	char	*new_var;
+	int		counter[2];
+
+	new_var = ft_calloc(ft_strlen(data), sizeof(char));
+	while (data && ft_strchr(data, GENERAL_STATE))
+		*(ft_strchr(data, GENERAL_STATE)) = '$';
+	while (data && ft_strchr(data, DQUOTED_STATE))
+		*(ft_strchr(data, DQUOTED_STATE)) = '$';
+	counter[0] = 0;
+	counter[1] = 0;
+	while (data[counter[0]])
+	{
+		if (data[counter[0]] != END)
+		{
+			new_var[counter[1]] = data[counter[0]];
+			counter[1]++;
+		}
+		counter[0]++;
+	}
+	ft_free((void *)&data, ft_strlen(data));
+	return (new_var);
+}
 
 int	here_doc(t_node *command, t_tok *here_doc, t_node **head)
 {
@@ -93,6 +117,8 @@ int	here_doc(t_node *command, t_tok *here_doc, t_node **head)
 	line = NULL;
 	if (!here_doc->next)
 		return (0);
+	if (here_doc->next->data && ft_strchr(here_doc->next->data, END))
+		here_doc->next->data = convert_variable_delimiter(here_doc->next->data);
 	while (1)
 	{
 		line = readline(">");

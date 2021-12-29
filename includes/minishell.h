@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/16 23:41:58 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/29 23:10:55 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,16 @@
 # define PIPEIN -3
 # define PIPEOUT -2
 # define ERROR -1
+# define ENV_VAR_NAME 0
+# define ENV_VAR_CONTENT 1
 # define VAR_VALUE 0
 # define NEW_NODE 1
-# define NEW_TOK 2
-# define CONTINUE 1
-# define TMP 1
 # define TRUE 1
 # define FALSE 0
-# define EVEN 0
-# define ODD 1
+# define EXIT 1
+# define NO_EXIT 0
+# define NORIGHTS 13
+# define NOFILE 2
 
 typedef enum e_token
 {
@@ -75,10 +76,9 @@ typedef struct s_tok
 
 typedef struct s_exec
 {
-	int				pipe1[2];
-	int				pipe2[2];
+	int				pipe[2];
+	int				tmp_fd;
 	pid_t			pid;
-	int				cmd_count;
 	int				exit_status;
 }				t_exec;
 
@@ -133,9 +133,25 @@ char	*ft_append(char *line, char c, t_node **head);
 t_tok	*create_new_tok(t_tok **headtok, t_node **head);
 void	read_here_docs(t_node **head);
 void	expand_here_doc(t_tok *here_doc);
-t_node	*executor(t_node *current, t_node *end_of_loop, t_node **head);
-void init_exec(t_exec *exec);
+void	executor (t_node *current, t_node **head);
+void	init_exec(t_exec *exec, t_node **head);
 void	expander(t_node *node, t_node **head);
-void	get_cmd_path(t_node *command);
+int		change_dir(char *path);
+char	*ft_getenv(char *envvar, char **env);
+int		get_cmd_path(t_node *command);
+int		check_builtin (t_tok *command);
+int		print_env(int declare_flag);
+int		parse_command(t_node *current, t_node **head);
+void	ft_copy_env(char **environ, int skip_var, t_node **head);
+int		execute_builtin (t_node *command, t_node **head);
+void	ft_close(int fd, char *function, t_node **head, int exit_flag);
+void	ft_pipe(int *fds, char *function, t_node **head, int exit_flag);
+int		ft_fork(char *function, t_node **head, int exit_flag);
+int		ft_dup(int fd, char *function, t_node **head, int exit_flag);
+void	ft_dup2(int fd1, int fd2, t_node **head, int exit_flag);
+int		ft_open(char *file, int type);
+void	ft_exit(int status, t_node **head);
+int		check_input(t_node **head);
+t_node	*skip_paren_content(t_node *current, int first_call);
 
 #endif

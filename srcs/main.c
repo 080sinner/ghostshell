@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/16 23:41:29 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/29 23:12:05 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_list(t_node *head)
 		while (tmptok != NULL)
 		{
 			if (tmptok->type == COMMAND)
-				printf("%s ", tmptok->data);
+				printf("'%s' ", tmptok->data);
 			else if (tmptok->type == LESS)
 				printf("< ");
 			else if (tmptok->type == LESSLESS)
@@ -50,7 +50,7 @@ void	print_list(t_node *head)
 		if (tmpnode->type == COMMAND && tmpnode->here_doc)
 		{
 			printf("\nHEREDOC: ");
-			while(tmptok)
+			while (tmptok)
 			{
 				printf("%s ", tmptok->data);
 				tmptok = tmptok->next;
@@ -112,35 +112,34 @@ int	signal_handler(void)
 	return (0);
 }
 
-void	ft_copy_env(void)
+void	ft_copy_env(char **environ, int skip_var, t_node **head)
 {
-	extern char	**environ;
 	int			i;
+	int			x;
 
 	i = 0;
 	while (environ[i])
 		i++;
-	g_utils.environment = ft_calloc(i + 1, sizeof(char *));
+	g_utils.environment = ft_calloc(i + 2, sizeof(char *));
 	if (!g_utils.environment)
-		exit(EXIT_FAILURE);
+		ft_exit(EXIT_FAILURE, head);
 	i = 0;
+	x = i;
 	while (environ[i])
 	{
-		g_utils.environment[i] = ft_strdup(environ[i]);
-		i++;
+		if (skip_var == -1 || x != skip_var)
+		{
+			g_utils.environment[i] = ft_strdup(environ[x]);
+			i++;
+		}
+		x++;
 	}
-}
-
-void init_exec(t_exec *exec)
-{
-	exec->exit_status = 0;
-	exec->cmd_count = 0;
-	exec->pid = 0;
 }
 
 void	get_input(t_node **head)
 {
-	char	*read;	
+	char	*read;
+
 	//print_ghostshell();
 	while (1)
 	{
@@ -159,29 +158,32 @@ void	get_input(t_node **head)
 			}
 			if (!check_empty_input(read))
 			{
-				lexer(head, read);
-				executor( NULL, NULL, head);
+				if (!lexer(head, read))
+					executor(*head, head);
 				//print_list(*head);
 			}
 			free(read);
 			free_nodes(head);
 		}
 		else if (read == NULL)
-			exit(0);
+		{
+			free_nodes(head);
+			ft_exit(EXIT_SUCCESS, head);
+		}
 	}
 }
 
 
-int	main(void)
+int	main(__unused int argc, __unused char *argv[], char **environ)
 {
 	t_node	*head;
 
-	ft_copy_env();
+	ft_copy_env(environ, -1, &head);
 	head = NULL;
 	get_input(&head);
 	// free_nodes(&head);
 	head = NULL;
 	ft_free_strarray(g_utils.environment);
-	//system("leaks minishell");
+	system("leaks minishell");
 	return (0);
 }
