@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/23 22:41:37 by fbindere         ###   ########.fr       */
+/*   Updated: 2021/12/29 23:06:51 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,10 @@ void expander(t_node *node, t_node **head)
 
 int	lexer(t_node **head, char *input)
 {
-	read_input(head, input);
+	if (read_input(head, input) != GENERAL_STATE)
+		return (printf("syntax error: unequal amount of quotes\n"));
+	if (check_input(head))
+		return (1);
 	read_here_docs(head);
 	// tmp = *head;
 	// while (tmp != NULL)
