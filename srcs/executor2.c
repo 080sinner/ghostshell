@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/29 23:11:08 by eozben           ###   ########.fr       */
+/*   Updated: 2021/12/29 23:32:55 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	set_input(t_node *command, t_node **head)
 		{
 			if (current->next && current->next->data)
 			{
-				if (command->in != PIPEIN && command->in != STDIN_FILENO)
+				if (command->in != PIPEIN && command->in != STDIN_FILENO && command->in != HERE_DOC)
 					ft_close(command->in, "set_input", head, NO_EXIT);
 				command->in = ft_open(current->next->data, LESS);
 			}
