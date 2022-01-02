@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/29 23:08:34 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/02 20:49:00 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	read_input(t_node **head, char *input)
 	t_node	*new;
 	int		state;
 
-	state = 0;
+	state = GENERAL_STATE;
 	new = NULL;
 	while (*input != '\0')
 	{
