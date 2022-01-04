@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/02 22:58:23 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/03 18:02:36 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,12 @@ int unset(t_node *command, t_node **head)
 	return (ret);
 }
 
+int exit_builtin(t_node **head)
+{
+	free_nodes(head);
+	exit(EXIT_SUCCESS);
+}
+
 int	execute_builtin (t_node *command, t_node **head)
 {
 	if (command->cmd_arr && command->cmd_arr[0])
@@ -265,6 +271,8 @@ int	execute_builtin (t_node *command, t_node **head)
 			return (unset(command, head));
 		else if (ft_strcmp(command->cmd_arr[0], "env"))
 			return (print_env(0));
+		else if (ft_strcmp(command->cmd_arr[0], "exit"))
+			exit_builtin(head);
 	}
 	return (ERROR);
 }
@@ -299,7 +307,7 @@ int	execute_builtin (t_node *command, t_node **head)
 
 int	check_builtin (t_tok *command)
 {
-	char	*builtins[6];
+	char	*builtins[7];
 	int		i;
 
 	if (command == NULL)
@@ -315,8 +323,9 @@ int	check_builtin (t_tok *command)
 	builtins[3] = "export";
 	builtins[4] = "env";
 	builtins[5] = "unset";
+	builtins[6] = "exit";
 	i = 0;
-	while (i <= 5)
+	while (i <= 6)
 	{
 		if (ft_strcmp(command->data, builtins[i]))
 			return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/29 23:12:05 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/03 18:04:44 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,11 +151,11 @@ void	get_input(t_node **head)
 		if (read != NULL && !ft_strcmp(read, ""))
 		{
 			add_history(read);
-			if (ft_strcmp(read, "exit"))
-			{
-				free(read);
-				break ;
-			}
+			// if (ft_strcmp(read, "exit"))
+			// {
+			// 	free(read);
+			// 	break ;
+			// }
 			if (!check_empty_input(read))
 			{
 				if (!lexer(head, read))
