@@ -6,13 +6,13 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/29 23:08:34 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/04 23:42:32 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_append(char *line, char c, t_node **head)
+char	*ft_append(char *line, char c)
 {
 	int		length;
 	int		i;
@@ -23,18 +23,17 @@ char	*ft_append(char *line, char c, t_node **head)
 	length = ft_strlen(line);
 	longer = ft_calloc(length + 2, sizeof(char));
 	if (longer == NULL)
-	{
-		free(line);
-		ft_exit(EXIT_FAILURE, head);
-	}
+		ft_free((void *)&line, ft_strlen(line));
 	i = 0;
-	while (line[i] != '\0')
+	while (line && line[i] != '\0')
 	{
 		longer[i] = line[i];
 		i++;
 	}
-	longer[i] = c;
-	free(line);
+	if (longer)
+		longer[i] = c;
+	if (line)
+		free(line);
 	return (longer);
 }
 
@@ -54,24 +53,33 @@ int	check_expansion(char **input, int *state)
 	return (0);
 }
 
-void	mark_variable(char **input, t_tok *new, t_node **head)
+int		mark_variable(char **input, t_tok *new)
 {
-	new->data = ft_append(new->data, **input, head);
+	new->data = ft_append(new->data, **input);
+	if (!new->data)
+		return (-1);
 	*input += 1;
 	while (**input != '\0' && (ft_isalnum(**input) || **input== '_'))
 	{
-		new->data = ft_append(new->data, **input, head);
+		new->data = ft_append(new->data, **input);
+		if (!new->data)
+			return (-1);
 		*input += 1;
 	}
 	if(**input != '\0' && *(*input) == '?')
 	{
-		new->data = ft_append(new->data, **input, head);
+		new->data = ft_append(new->data, **input);
+		if (!new->data)
+			return (-1);
 		*input += 1;
 	}
-	new->data = ft_append(new->data, -4, head);
+	new->data = ft_append(new->data, -4);
+	if (!new->data)
+		return (-1);
+	return (0);
 }
 
-int	get_word(char **input, t_tok *new, int *state, t_node **head)
+int	get_word(char **input, t_tok *new, int *state)
 {
 	while (**input != '\0')
 	{
@@ -79,7 +87,8 @@ int	get_word(char **input, t_tok *new, int *state, t_node **head)
 			continue ;
 		if(check_expansion(input, state))
 		{
-			mark_variable(input, new, head);
+			if (mark_variable(input, new) == -1)
+				return (-1);
 			continue ;
 		}
 		if (*state == GENERAL_STATE && (check_whitespace(**input)
@@ -91,22 +100,27 @@ int	get_word(char **input, t_tok *new, int *state, t_node **head)
 				return (NEW_NODE);
 			break;
 		}
-		new->data = ft_append(new->data, **input, head);
+		new->data = ft_append(new->data, **input);
+		if (!new->data)
+			return (-1);
 		*input += 1;
 	}
 	return (0);
 }
 
-int	read_command(char **input, t_node **command, t_node **head, int *state)
+int	read_command(char **input, t_node **command, int *state)
 {
 	t_tok	*new;
+	int		ret;
 
 	*state = GENERAL_STATE;
 	new = NULL;
 	(*command)->args = NULL;
 	while (**input != '\0')
 	{
-		new = create_new_tok(&(*command)->args, head);
+		new = create_new_tok(&(*command)->args);
+		if (!new)
+			return (-1);
 		if (is_redir_op(*input))
 		{
 			new->type = is_redir_op(*input);
@@ -117,7 +131,10 @@ int	read_command(char **input, t_node **command, t_node **head, int *state)
 				*input += 1;
 			continue ;
 		}
-		if (get_word(input, new, state, head) == NEW_NODE)
+		ret = get_word(input, new, state);
+		if (ret == -1)
+			return (-1);
+		else if (ret == NEW_NODE)
 			return (NEW_NODE);
 	}
 	return (0);
@@ -135,13 +152,15 @@ int	read_input(t_node **head, char *input)
 		while (check_whitespace(*input))
 			input++;
 		new = ft_dll_append_node(head);
+		if (!new)
+			return (-1);
 		new->type = check_type(input);
 		if (new->type > 127)
 			input += 2;
 		else if (new->type != COMMAND)
 			input++;
-		else
-			read_command(&input, &new, head, &state);
+		else if (read_command(&input, &new, &state) == -1)
+			return (-1);
 	}
 	return (state);
 }
@@ -153,7 +172,7 @@ void	free_tok(t_tok **head, t_tok *tok)
 	free(detach_tok(head, tok));
 }
 
-void expander(t_node *node, t_node **head)
+int	expander(t_node *node)
 {
 	t_tok	*current;
 	t_tok	*newlist;
@@ -164,34 +183,42 @@ void expander(t_node *node, t_node **head)
 	{
 		if (ft_strchr(current->data, END))
 		{
-			newlist = expand_variable(current->data, head, NULL, 0);
+			newlist = expand_variable(current->data, NULL, 0);
 			if (!newlist)
-				return (free_tok(&node->args, current));
+			{
+				free_tok(&node->args, current);
+				return (-1);
+			}
 			insert_sublist(current, newlist);
 			free_tok(&node->args, current);
 			current = newlist;
 		}
 		if (node->here_doc && node->here_doc->state == FALSE)
-			expand_here_doc(node->here_doc);
+		{
+			if (expand_here_doc(node->here_doc) == -1)
+				return (-1);
+		}
 		tmp = current->next;
-		expand_wildcards(&current, &node->args, head);
+		if (expand_wildcards(&current, &node->args) == -1)
+			return (-1);
 		current = tmp;
 	}
+	return (0);
 }
 
 int	lexer(t_node **head, char *input)
 {
-	if (read_input(head, input) != GENERAL_STATE)
+	int		ret;
+
+	ret = 0;
+	ret = read_input(head, input);
+	if (ret == -1)
+		return (-1);
+	else if (ret != GENERAL_STATE)
 		return (printf("syntax error: unequal amount of quotes\n"));
 	if (check_input(head))
 		return (1);
-	read_here_docs(head);
-	// tmp = *head;
-	// while (tmp != NULL)
-	// {
-	// 	expander(tmp, head);
-	// 	tmp = tmp->next;
-	// }
+	if (read_here_docs(head) == -1)
+		return (-1);
 	return (0);
 }
-

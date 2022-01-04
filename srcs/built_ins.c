@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:20:43 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/29 23:00:22 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/04 23:43:08 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,7 @@ int	print_pwd(void)
 int	search_envvar(char *envvar, char **env)
 {
 	int	i;
-	int	hidden_flag;
 
-	hidden_flag = 0;
 	i = 0;
 	if (!envvar)
 		return (0);

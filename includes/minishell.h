@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/29 23:10:55 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/04 23:44:10 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define SIGQUIT 3
 # define SIGABRT 6
 
-# define GENERAL_STATE -1
+# define GENERAL_STATE -4
 # define SQUOTED_STATE -2
 # define DQUOTED_STATE -3
 # define END -4
@@ -108,7 +108,7 @@ void	free_list(t_tok *head);
 t_tok	*ft_last_tok(t_tok *head);
 void	ft_dll_attach_tok(t_tok **head, t_tok *attachment);
 void	ft_dll_insert_tok(t_tok **head, t_tok *attachment);
-t_tok	*ft_dll_append_tok(t_tok **head, t_node **head_node);
+t_tok	*ft_dll_append_tok(t_tok **head);
 t_node	*ft_dll_append_node(t_node **head);
 t_tok	*detach_tok(t_tok **head, t_tok *node);
 void	insert_sublist(t_tok *slot, t_tok *insert);
@@ -123,19 +123,19 @@ int		check_whitespace(char c);
 int		is_control_op(t_token c);
 void	ft_dll_attach_node(t_node **head, t_node *attachment);
 t_node	*ft_last_node(t_node *head);
-int		expand_wildcards(t_tok **new, t_tok **tokhead, t_node **head);
-t_tok	*expand_variable(char *data, t_node **head, char *varcontent, int tmp);
+int		expand_wildcards(t_tok **new, t_tok **tokhead);
+t_tok	*expand_variable(char *data, char *varcontent, int tmp);
 t_token	is_redir_op(char *s);
 void	print_ghostshell(void);
-int		here_doc(t_node *command, t_tok *here_doc, t_node **head);
+int		here_doc(t_node *command, t_tok *here_doc);
 int		lexer(t_node **head, char *input);
-char	*ft_append(char *line, char c, t_node **head);
-t_tok	*create_new_tok(t_tok **headtok, t_node **head);
-void	read_here_docs(t_node **head);
-void	expand_here_doc(t_tok *here_doc);
+char	*ft_append(char *line, char c);
+t_tok	*create_new_tok(t_tok **headtok);
+int		read_here_docs(t_node **head);
+int		expand_here_doc(t_tok *here_doc);
 void	executor (t_node *current, t_node **head);
 void	init_exec(t_exec *exec, t_node **head);
-void	expander(t_node *node, t_node **head);
+int		expander(t_node *node);
 int		change_dir(char *path);
 char	*ft_getenv(char *envvar, char **env);
 int		get_cmd_path(t_node *command);

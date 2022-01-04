@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2021/12/29 23:32:55 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/04 23:42:54 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,9 @@ int	parse_command(t_node *current, t_node **head)
 {
 	if (!current)
 		return (ERROR);
-	expander(current, head);
-	if (set_input(current, head) == ERROR || set_output(current) == ERROR)
+	if (expander(current) == ERROR)
+		return (ERROR);
+	if (set_redir(current, head, current->previous, current->next) == ERROR)
 		return (ERROR);
 	if (create_array(current) == ERROR)
 		return(ERROR);
