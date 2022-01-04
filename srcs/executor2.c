@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/04 23:42:54 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/04 23:48:49 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,34 @@ int	create_array(t_node *command)
 	return (1);
 }
 
+int	set_redir(t_node *command, t_node **head, t_node *prev, t_node *next)
+{
+	t_tok	*current;
+
+	if (!command || !command->args)
+		return (ERROR);
+	current = command->args;
+	if (!next || next->type == OR || next->type == AND)
+		command->out = 1;
+	if (!prev || prev->type == OR || prev->type == AND)
+		command->in = STDIN_FILENO;
+	while (current)
+	{
+		if (current->type == LESS || current->type == LESSLESS)
+		{
+			if (set_input(command, current, head) == ERROR)
+				return (ERROR);
+		}
+		else if (current->type == GREAT || current->type == GREATGREAT)
+		{
+			if (set_output(command, current) == ERROR)
+				return (ERROR);
+		}
+		current = current->next;
+	}
+	return (1);
+}
+
 int	parse_command(t_node *current, t_node **head)
 {
 	if (!current)
@@ -214,7 +242,6 @@ t_node	*skip_paren_content(t_node *current, int first_call)
 		return (current);
 	return (skip_paren_content(current->next, ++first_call));
 }
-
 
 void subshell (t_exec *exec, t_node *command, t_node *par_temp, t_node **head)
 {
