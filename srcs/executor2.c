@@ -6,20 +6,20 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/04 19:11:45 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/04 19:47:42 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void init_exec(t_exec *exec, t_node **head)
+void	init_exec(t_exec *exec, t_node **head)
 {
 	exec->exit_status = 0;
 	exec->pid = 1;
 	exec->tmp_fd = ft_dup(STDIN_FILENO, "init_exec", head, NO_EXIT);
 }
 
-void parent(t_exec *exec, t_node **head)
+void	parent(t_exec *exec, t_node **head)
 {
 	ft_close(exec->pipe[1], "parent", head, NO_EXIT);
 	ft_close(exec->tmp_fd, "parent", head, NO_EXIT);
@@ -29,18 +29,17 @@ void parent(t_exec *exec, t_node **head)
 
 void	free_redir_op(t_tok **head, t_tok *node)
 {
-	if (node)
+	if (!node)
+		return ;
+	if (node->next)
 	{
-		if (node->next)
-		{
-			if (node->next->data)
-				ft_free((void *)&node->next->data, ft_strlen(node->next->data));
-			free(detach_tok(head, node->next));
-		}
-		if (node->data)
-			ft_free((void *)&node->data, ft_strlen(node->data));
-		free(detach_tok(head, node));
+		if (node->next->data)
+			ft_free((void *)&node->next->data, ft_strlen(node->next->data));
+		free(detach_tok(head, node->next));
 	}
+	if (node->data)
+		ft_free((void *)&node->data, ft_strlen(node->data));
+	free(detach_tok(head, node));
 }
 
 int	set_output(t_node *command, t_tok *arg)
@@ -64,12 +63,12 @@ int	set_output(t_node *command, t_tok *arg)
 
 int	set_input(t_node *command, t_tok *arg, t_node **head)
 {
-
 	if (arg->type == LESS)
 	{
 		if (arg->next && arg->next->data)
 		{
-			if (command->in != PIPEIN && command->in != STDIN_FILENO && command->in != HERE_DOC)
+			if (command->in != PIPEIN && command->in != STDIN_FILENO
+				&& command->in != HERE_DOC)
 				ft_close(command->in, "set_input", head, NO_EXIT);
 			command->in = ft_open(arg->next->data, LESS);
 		}
@@ -85,27 +84,25 @@ int	set_input(t_node *command, t_tok *arg, t_node **head)
 	return (1);
 }
 
-int	set_redirections(t_node *command, t_node **head)
+int	set_redir(t_node *command, t_node **head, t_node *prev, t_node *next)
 {
-	t_tok *current;
+	t_tok	*current;
 
 	if (!command || !command->args)
 		return (ERROR);
 	current = command->args;
-	command->in = PIPEIN;
-	command->out = PIPEOUT;
-	if (!command->next || command->next->type == OR || command->next->type == AND)
+	if (!next || next->type == OR || next->type == AND)
 		command->out = 1;
-	if (!command->previous || command->previous->type == OR || command->previous->type == AND)
+	if (!prev || prev->type == OR || prev->type == AND)
 		command->in = STDIN_FILENO;
-	while(current)
+	while (current)
 	{
 		if (current->type == LESS || current->type == LESSLESS)
 		{
-			if(set_input(command, current, head) == ERROR)
+			if (set_input(command, current, head) == ERROR)
 				return (ERROR);
 		}
-		else if(current->type == GREAT || current->type == GREATGREAT)
+		else if (current->type == GREAT || current->type == GREATGREAT)
 		{
 			if (set_output(command, current) == ERROR)
 				return (ERROR);
@@ -115,12 +112,11 @@ int	set_redirections(t_node *command, t_node **head)
 	return (1);
 }
 
-
 int	create_array(t_node *command)
 {
 	t_tok	*current;
 	int		args_count;
-	
+
 	current = NULL;
 	if (command->args)
 		current = command->args;
@@ -128,14 +124,14 @@ int	create_array(t_node *command)
 	while (current)
 	{
 		args_count++;
-		current =  current->next;
+		current = current->next;
 	}
 	command->cmd_arr = ft_calloc(args_count + 1, sizeof(char *));
 	if (!command->cmd_arr)
-		return(ERROR);
+		return (ERROR);
 	current = command->args;
 	args_count = 0;
-	while(current)
+	while (current)
 	{
 		if (current->data)
 			command->cmd_arr[args_count++] = current->data;
@@ -149,10 +145,10 @@ int	parse_command(t_node *current, t_node **head)
 	if (!current)
 		return (ERROR);
 	expander(current, head);
-	if (set_redirections(current, head) == ERROR)
+	if (set_redir(current, head, current->previous, current->next) == ERROR)
 		return (ERROR);
 	if (create_array(current) == ERROR)
-		return(ERROR);
+		return (ERROR);
 	return (1);
 }
 
@@ -160,10 +156,10 @@ void	retrieve_here_doc(t_node *command, t_node **head)
 {
 	t_tok	*token;
 	int		here_pipe[2];
-	
+
 	ft_pipe(here_pipe, "retrieve_here_doc", head, NO_EXIT);
 	token = command->here_doc;
-	while(token)
+	while (token)
 	{
 		if (token->data)
 			ft_putendl_fd(token->data, here_pipe[1]);
@@ -174,7 +170,7 @@ void	retrieve_here_doc(t_node *command, t_node **head)
 	ft_close(here_pipe[0], "retrieve_here_doc", head, NO_EXIT);
 }
 
-void child(t_exec *exec, t_node *command, t_node **head)
+void	child(t_exec *exec, t_node *command, t_node **head)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -195,7 +191,7 @@ void child(t_exec *exec, t_node *command, t_node **head)
 	ft_close(exec->tmp_fd, "child", head, EXIT);
 	if (check_builtin(command->args))
 	{
-		if(!execute_builtin (command, head))
+		if (!execute_builtin (command, head))
 			ft_exit (EXIT_SUCCESS, head);
 		ft_exit (EXIT_FAILURE, head);
 	}
@@ -220,8 +216,7 @@ t_node	*skip_paren_content(t_node *current, int first_call)
 	return (skip_paren_content(current->next, ++first_call));
 }
 
-
-void subshell (t_exec *exec, t_node *command, t_node *par_temp, t_node **head)
+void	subshell(t_exec *exec, t_node *command, t_node *par_temp, t_node **head)
 {
 	if (command->previous && command->previous->type == PIPE)
 		ft_dup2(exec->tmp_fd, STDIN_FILENO, head, EXIT);
@@ -246,11 +241,11 @@ int	is_pipeline(t_node *command)
 	return (0);
 }
 
-void builtin (t_node *command, t_node **head)
+void	builtin(t_node *command, t_node **head)
 {
-	int tmp_in;
-	int tmp_out;
-	
+	int	tmp_in;
+	int	tmp_out;
+
 	if (parse_command(command, head) == ERROR)
 	{
 		g_utils.exit_status = EXIT_FAILURE;
@@ -271,15 +266,16 @@ void builtin (t_node *command, t_node **head)
 	ft_close(tmp_out, "builtin", head, NO_EXIT);
 }
 
-void execute_command (t_exec *exec, t_node **command, t_node **head)
+void	execute_command(t_exec *exec, t_node **command, t_node **head)
 {
-	t_node *par_temp;
-	
+	t_node	*par_temp;
+
 	par_temp = *command;
 	if ((*command)->type == LPAREN)
 		par_temp = skip_paren_content(*command, 0);
 	ft_pipe(exec->pipe, "execute_command", head, NO_EXIT);
-	if (is_pipeline(*command) || par_temp != *command || !check_builtin((*command)->args))
+	if (is_pipeline(*command) || par_temp != *command
+		|| !check_builtin((*command)->args))
 		exec->pid = ft_fork("execute_command", head, NO_EXIT);
 	else
 		builtin(*command, head);
@@ -294,9 +290,9 @@ void execute_command (t_exec *exec, t_node **command, t_node **head)
 
 void	exit_status(t_exec *exec)
 {
-	int exit_status;
-	int status;
-	
+	int	exit_status;
+	int	status;
+
 	while (1)
 	{
 		exit_status = waitpid(-1, &status, 0);
@@ -317,12 +313,12 @@ void	exit_status(t_exec *exec)
 				g_utils.exit_status = 127 + WTERMSIG(status);
 			}
 		}
-	if (exit_status == -1)
-		break ;
+		if (exit_status == ERROR)
+			break ;
 	}
 }
 
-t_node *skip_pipeline(t_node *command)
+t_node	*skip_pipeline(t_node *command)
 {
 	static int	count;
 
@@ -336,11 +332,10 @@ t_node *skip_pipeline(t_node *command)
 	if (count == 0 && (command->type == OR || command->type == AND))
 		return (command);
 	else
-		return(skip_pipeline(command));
+		return (skip_pipeline(command));
 }
 
-
-void executor (t_node *current, t_node **head)
+void	executor(t_node *current, t_node **head)
 {
 	t_exec	exec;
 
@@ -360,7 +355,7 @@ void executor (t_node *current, t_node **head)
 		else if (current && current->type == AND && g_utils.exit_status != 0)
 			current = skip_pipeline(current);
 		if (!current)
-			break;
+			break ;
 		current = current->next;
 	}
 }

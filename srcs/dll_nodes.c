@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:50:02 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/23 22:26:47 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/04 19:38:00 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ t_node	*ft_dll_append_node(t_node **head)
 	if (!newnode)
 		ft_exit(EXIT_FAILURE, head);
 	newnode->here_doc = NULL;
+	newnode->in = PIPEIN;
+	newnode->out = PIPEOUT;
 	newnode->cmd_arr = NULL;
 	newnode->cmdpath = NULL;
 	newnode->args = NULL;
