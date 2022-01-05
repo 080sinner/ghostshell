@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mark_expansions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 20:02:59 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/05 20:25:23 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 00:56:56 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	check_expansion(char **input, int *state)
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
 		if ((!ft_isalnum(*(*input + 1)) && *(*input + 1) != '_'
-				&& *(*input + 1) != '?') || (check_whitespace(*(*input + 1))
+				&& *(*input + 1) != '?' && *(*input + 1) != SQUOTE
+				&& *(*input + 1) != DQUOTE) || (check_whitespace(*(*input + 1))
 				|| *(*input + 1) == '\0' || is_control_op(*(*input + 1))))
 			return (0);
 		**input = *state;
