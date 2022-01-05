@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getpath.c                                          :+:      :+:    :+:   */
+/*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/29 22:37:31 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/06 00:07:55 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int append_slash(char **paths, char *appendage)
+static int	append_slash(char **paths, char *appendage)
 {
 	int		i;
 	char	*temp;
+
 	i = 0;
 	while (paths[i] != NULL)
 	{
@@ -25,7 +26,7 @@ static int append_slash(char **paths, char *appendage)
 		{
 			paths[i] = temp;
 			ft_free_strarray(paths);
-			return(ERROR);
+			return (ERROR);
 		}
 		free(temp);
 		i++;
@@ -33,9 +34,10 @@ static int append_slash(char **paths, char *appendage)
 	return (1);
 }
 
-static int cmdpath(t_node *command, char **paths)
+static int	cmdpath(t_node *command, char **paths)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	if (command->cmdpath)
 		ft_free((void *)&command->cmdpath, ft_strlen(command->cmdpath));

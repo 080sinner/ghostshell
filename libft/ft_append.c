@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_append.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/15 19:20:37 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 00:09:39 by fbindere         ###   ########.fr       */
+/*   Created: 2022/01/05 20:04:25 by fbindere          #+#    #+#             */
+/*   Updated: 2022/01/05 20:04:42 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_bzero(void *str, size_t n)
+char	*ft_append(char *line, char c)
 {
-	size_t	i;
+	int		length;
+	int		i;
+	char	*longer;
 
-	if (!str || n == 0)
-		return ;
+	if (line == NULL)
+		return (NULL);
+	length = ft_strlen(line);
+	longer = ft_calloc(length + 2, sizeof(char));
+	if (longer == NULL)
+		ft_free((void *)&line, ft_strlen(line));
 	i = 0;
-	while (i < n)
+	while (line && line[i] != '\0')
 	{
-		*((char *)str + i) = '\0';
+		longer[i] = line[i];
 		i++;
 	}
+	if (longer)
+		longer[i] = c;
+	if (line)
+		free(line);
+	return (longer);
 }

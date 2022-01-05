@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/15 19:20:37 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 00:09:39 by fbindere         ###   ########.fr       */
+/*   Created: 2022/01/05 21:52:43 by fbindere          #+#    #+#             */
+/*   Updated: 2022/01/05 23:19:06 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-void	ft_bzero(void *str, size_t n)
+int	exit_builtin(t_node **head)
 {
-	size_t	i;
-
-	if (!str || n == 0)
-		return ;
-	i = 0;
-	while (i < n)
-	{
-		*((char *)str + i) = '\0';
-		i++;
-	}
+	free_nodes(head);
+	exit(EXIT_SUCCESS);
 }

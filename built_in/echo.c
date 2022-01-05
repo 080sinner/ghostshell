@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/15 19:20:37 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 00:09:39 by fbindere         ###   ########.fr       */
+/*   Created: 2022/01/05 21:52:34 by fbindere          #+#    #+#             */
+/*   Updated: 2022/01/05 21:52:53 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-void	ft_bzero(void *str, size_t n)
+int	echo(char **args)
 {
-	size_t	i;
+	int	i;
 
-	if (!str || n == 0)
-		return ;
-	i = 0;
-	while (i < n)
+	i = 1;
+	if (!args[i])
 	{
-		*((char *)str + i) = '\0';
+		write(1, "\n", 1);
+		return (0);
+	}
+	while (!ft_strncmp(args[i], "-n", 2))
+		i++;
+	while (args[i])
+	{
+		printf("%s ", args[i]);
 		i++;
 	}
+	if (ft_strncmp(args[1], "-n", 2))
+		printf("\n");
+	return (0);
 }

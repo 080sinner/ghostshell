@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 14:46:47 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/09 22:35:20 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/05 19:49:58 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ t_token	check_type(char *s)
 
 int	check_state(char **input, int *state, t_tok *new)
 {
-	if (**input == SQUOTE && (*state == GENERAL_STATE || *state == SQUOTED_STATE))
+	if (**input == SQUOTE && (*state == GENERAL_STATE
+			|| *state == SQUOTED_STATE))
 	{
 		if (*state == GENERAL_STATE)
 			*state = SQUOTED_STATE;
@@ -38,7 +39,8 @@ int	check_state(char **input, int *state, t_tok *new)
 		*input += 1;
 		return (1);
 	}
-	if (**input == DQUOTE && (*state == GENERAL_STATE || *state == DQUOTED_STATE))
+	if (**input == DQUOTE && (*state == GENERAL_STATE
+			|| *state == DQUOTED_STATE))
 	{
 		if (*state == GENERAL_STATE)
 			*state = DQUOTED_STATE;
@@ -53,7 +55,7 @@ int	check_state(char **input, int *state, t_tok *new)
 
 int	is_control_op(t_token c)
 {
-	if (c == PIPE || c == LPAREN || c == RPAREN	|| c == AND || c == OR)
+	if (c == PIPE || c == LPAREN || c == RPAREN || c == AND || c == OR)
 		return (1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
+#    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2021/12/29 23:09:16 by eozben           ###   ########.fr        #
+#    Updated: 2022/01/06 00:19:28 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,16 +15,42 @@ INC = -Iincludes
 LIBS = -Llibft -lft -I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline
 FLAGS = -o "minishell" -Wall -Wextra -Werror
 LIBFT = ./libft/libft.a
+EXECUTOR_PATH = ./executor/
+PARSER_PATH = ./parser/
+DATA_STRUCT_PATH = ./data_struct/
+SYS_CALLS_PATH = ./sys_calls/
+LEXER_PATH = ./lexer/
 SRC_PATH = ./srcs/
-SRC_FILES =	dll_functions.c lexer_new.c main.c check_functions.c dll_nodes.c \
-			dll_toks.c header.c variables.c wildcards.c here_doc.c executor2.c \
-			getpath.c built_ins.c error/ft_systemcalls.c input_check.c
+EXPANDER_PATH = ./expander/
+SIGNAL_HANDLER_PATH = ./signals/
+BUILTIN_PATH = ./built_in/
+
+EXECUTOR_FILES = execute_cmd.c executor.c execute_utils.c get_cmd_path.c
+PARSER_FILES = cmd_arr.c parser.c
+DATA_STRUCT_FILES = nodes.c create_toks.c free_toks.c manipulate_toks.c 
+SYS_CALLS_FILES = fd_calls.c process_calls.c
+LEXER_FILES = check_functions.c input_control.c lexer.c mark_expansions.c
+EXPANDER_FILES = expander.c wildcards.c variables.c
+SIGNAL_HANDLER_FILES = signal_handler.c
+BUILTIN_FILES = builtin_handler.c cd.c echo.c env_utils.c env.c exit.c \
+				export.c pwd.c unset.c
+
+SRC_FILES =	here_doc.c
+
 SRCS = $(addprefix $(SRC_PATH), $(SRC_FILES))
+SRCS += $(addprefix $(EXECUTOR_PATH), $(EXECUTOR_FILES))
+SRCS += $(addprefix $(PARSER_PATH), $(PARSER_FILES))
+SRCS += $(addprefix $(DATA_STRUCT_PATH), $(DATA_STRUCT_FILES))
+SRCS += $(addprefix $(SYS_CALLS_PATH), $(SYS_CALLS_FILES))
+SRCS += $(addprefix $(LEXER_PATH), $(LEXER_FILES))
+SRCS += $(addprefix $(EXPANDER_PATH), $(EXPANDER_FILES))
+SRCS += $(addprefix $(SIGNAL_HANDLER_PATH), $(SIGNAL_HANDLER_FILES))
+SRCS += $(addprefix $(BUILTIN_PATH), $(BUILTIN_FILES))
 
 all:$(NAME)
 
-$(NAME): $(LIBFT) $(SRCS)
-	@gcc $(FLAGS) $(SRCS) $(INC) $(LIBS)
+$(NAME): $(LIBFT) $(SRCS) 
+	@gcc $(FLAGS) $(SRCS) $(INC) $(LIBS) main.c header.c
 	@echo "                                                         "
 	@echo " \033[1;32m  ___|   _ \    \  |   _ \ _ _|  |      ____|  __ \   | "
 	@echo "  |      |   |  |\/ |  |   |  |   |      __|    |   |  | "

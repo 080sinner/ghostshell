@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/03 18:04:44 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/05 21:35:34 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	print_list(t_node *head)
 {
-	int		i;
 	t_node	*tmpnode;
 	t_tok	*tmptok;
 
-	i = 0;
 	tmpnode = head;
 	while (tmpnode != NULL)
 	{
@@ -74,44 +72,6 @@ static int	check_empty_input(char *input)
 		return (0);
 }
 
-void	clear_signals(void)
-{
-	struct termios	term;
-
-	tcgetattr(1, &term);
-	if ((term.c_lflag & (0x1 << 6)) != ECHOCTL)
-	{
-		term.c_lflag += ECHOCTL;
-		tcsetattr(1, 0, &term);
-	}
-}
-
-void	sig_ctrl(int signum)
-{
-	if (signum == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-	}
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-int	signal_handler(void)
-{
-	struct termios	term;
-
-	signal(SIGINT, sig_ctrl);
-	signal(SIGQUIT, sig_ctrl);
-	tcgetattr(1, &term);
-	if ((term.c_lflag & (0x1 << 6)) == ECHOCTL)
-	{
-		term.c_lflag -= ECHOCTL;
-		tcsetattr(1, 0, &term);
-	}
-	return (0);
-}
-
 void	ft_copy_env(char **environ, int skip_var, t_node **head)
 {
 	int			i;
@@ -151,11 +111,6 @@ void	get_input(t_node **head)
 		if (read != NULL && !ft_strcmp(read, ""))
 		{
 			add_history(read);
-			// if (ft_strcmp(read, "exit"))
-			// {
-			// 	free(read);
-			// 	break ;
-			// }
 			if (!check_empty_input(read))
 			{
 				if (!lexer(head, read))

@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:30:54 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/21 22:24:50 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/05 20:04:56 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ int			ft_strcmp(char *s1, char *s2);
 int			ft_isint(char *number);
 int			ft_free_strarray(char **split);
 int			ft_free(void **ptr, size_t n);
+char		*ft_append(char *line, char c);
 
 #endif

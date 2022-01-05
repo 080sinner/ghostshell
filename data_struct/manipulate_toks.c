@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 20:41:00 by eozben            #+#    #+#             */
-/*   Updated: 2021/12/04 19:34:52 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 00:16:30 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_dll_insert_tok(t_tok **head, t_tok *insert)
 		insert->next = NULL;
 		insert->previous = NULL;
 	}
+	else if ((*head)->next == NULL)
+		ft_dll_attach_tok(head, insert);
 	else
 	{
 		(*head)->next->previous = insert;
@@ -38,4 +40,24 @@ void	insert_sublist(t_tok *slot, t_tok *insert)
 	ft_last_tok(insert)->next = slot->next;
 	slot->next = insert;
 	insert->previous = slot;
+}
+
+void	ft_dll_attach_tok(t_tok **head, t_tok *attachment)
+{
+	if (*head == NULL)
+		(*head) = attachment;
+	else
+	{
+		attachment->previous = ft_last_tok(*head);
+		ft_last_tok(*head)->next = attachment;
+	}
+}
+
+t_tok	*ft_last_tok(t_tok *head)
+{
+	if (head == NULL)
+		return (NULL);
+	while (head->next != NULL)
+		head = head->next;
+	return (head);
 }
