@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 02:16:23 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 19:58:02 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	read_variable_name(char *data, char **varname)
 	return (i + 1);
 }
 
-int	read_variable(char *data, char **varcontent, t_tok *headtok)
+int	read_variable(char *data, char **varcontent)
 {
 	int		i;
 	char	*varname;
@@ -52,8 +52,6 @@ int	read_variable(char *data, char **varcontent, t_tok *headtok)
 	if (i == ERROR)
 		return (ERROR);
 	*varcontent = ft_strdup(ft_getenv(varname, g_utils.environment));
-	if (!*varcontent)
-		free_toks(&headtok);
 	ft_free((void *) &varname, ft_strlen(varname));
 	return (i);
 }
@@ -82,19 +80,18 @@ int	append_general_variable(t_tok *new, char **varcontent)
 }
 
 int	append_quoted_variable(char **varcontent, char **data,
-	t_tok **headtok, t_tok *new)
+	 t_tok *new)
 {
 	int		ret;
 	int		tmp;
 
 	ret = 0;
 	tmp = **data;
-	ret = read_variable(*data, varcontent, *headtok);
+	ret = read_variable(*data, varcontent);
 	if (ret == ERROR)
 		return (0);
 	*data += ret;
-	if (!*varcontent)
-		return (0);
+
 	if (tmp == DQUOTED_STATE
 		&& append_dquoted_variable(varcontent, new) == ERROR)
 		return (0);
@@ -122,7 +119,7 @@ t_tok	*expand_variable(char *data, char *varcontent)
 		}
 		else if (*data == DQUOTED_STATE || *data == GENERAL_STATE)
 		{
-			if (!append_quoted_variable(&varcontent, &data, &headtok, new))
+			if (!append_quoted_variable(&varcontent, &data, new))
 				return (NULL);
 		}
 		else if (!varcontent)
