@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   variables.c                                        :+:      :+:    :+:   */
+/*   exp_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 02:20:37 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 02:16:23 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	append_dquoted_var(char **varcontent, t_tok *new)
+int	append_dquoted_variable(char **varcontent, t_tok *new)
 {
 	char	*tmp;
 
@@ -58,7 +58,7 @@ int	read_variable(char *data, char **varcontent, t_tok *headtok)
 	return (i);
 }
 
-int	append_general_var(t_tok *new, char **varcontent)
+int	append_general_variable(t_tok *new, char **varcontent)
 {
 	static int	i;
 
@@ -81,8 +81,8 @@ int	append_general_var(t_tok *new, char **varcontent)
 	return (0);
 }
 
-static int	append_quoted_var(char **varcontent,
-	char **data, t_tok **headtok, t_tok *new)
+int	append_quoted_variable(char **varcontent, char **data,
+	t_tok **headtok, t_tok *new)
 {
 	int		ret;
 	int		tmp;
@@ -95,7 +95,8 @@ static int	append_quoted_var(char **varcontent,
 	*data += ret;
 	if (!*varcontent)
 		return (0);
-	if (tmp == DQUOTED_STATE && append_dquoted_var(varcontent, new) == ERROR)
+	if (tmp == DQUOTED_STATE
+		&& append_dquoted_variable(varcontent, new) == ERROR)
 		return (0);
 	return (1);
 }
@@ -121,7 +122,7 @@ t_tok	*expand_variable(char *data, char *varcontent)
 		}
 		else if (*data == DQUOTED_STATE || *data == GENERAL_STATE)
 		{
-			if (!append_quoted_var(&varcontent, &data, &headtok, new))
+			if (!append_quoted_variable(&varcontent, &data, &headtok, new))
 				return (NULL);
 		}
 		else if (!varcontent)

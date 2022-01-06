@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/05 22:58:25 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 02:17:51 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	read_command(char **input, t_node **command, int *state)
 	(*command)->args = NULL;
 	while (**input != '\0')
 	{
-		new = create_new_tok(&(*command)->args);
+		new = create_new_tok();
 		if (!new)
 			return (ERROR);
 		ft_dll_attach_tok(&(*command)->args, new);

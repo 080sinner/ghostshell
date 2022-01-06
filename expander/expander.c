@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:53:36 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 01:27:14 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/06 02:05:53 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	check_variable_expansion(t_tok **current, t_node *node)
 			tmp = (*current)->data;
 			while (tmp[i] != END)
 				i++;
-			(*current)->data = ft_substr((*current)->data, i + 1, ft_strlen((*current)->data));
+			(*current)->data = ft_substr((*current)->data,
+					i + 1, ft_strlen((*current)->data));
 			ft_free((void *)&tmp, ft_strlen(tmp));
 			return (ERROR);
 		}

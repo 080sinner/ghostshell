@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   exp_here_doc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 00:45:47 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 00:47:15 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 01:59:51 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 static int	contains_variable(char *string)
 {
@@ -20,7 +19,7 @@ static int	contains_variable(char *string)
 	i = 0;
 	while (string[i] != '\0')
 	{
-		if (string[i] == '$' && (ft_isalnum(string[i + 1]) 
+		if (string[i] == '$' && (ft_isalnum(string[i + 1])
 				|| string[i + 1] == '_'))
 			return (1);
 		i++;
@@ -47,12 +46,12 @@ char	*combine_strings(char *front, char *variable, char *end)
 	return (new);
 }
 
-int		expand_here_doc(t_tok *here_doc)
+int	expand_here_doc(t_tok *here_doc)
 {
 	char	*front;
 	char	*variable;
 	char	*end;
-	t_tok 	*current;
+	t_tok	*current;
 	int		i;
 	int		varlen;
 

@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   read_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 20:57:30 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 00:48:10 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 01:27:32 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*convert_variable_delimiter(char *data)
+static char	*convert_variable_delimiter(char *data)
 {
 	char	*new_var;
 	int		counter[2];
 
 	new_var = ft_calloc(ft_strlen(data), sizeof(char));
 	if (!new_var)
-	{
-		ft_free((void *)&data, ft_strlen(data));
-		return (NULL);
-	}
+		return (ft_free((void *)&data, ft_strlen(data)));
 	while (data && ft_strchr(data, GENERAL_STATE))
 		*(ft_strchr(data, GENERAL_STATE)) = '$';
 	while (data && ft_strchr(data, DQUOTED_STATE))
@@ -42,23 +39,21 @@ char	*convert_variable_delimiter(char *data)
 	return (new_var);
 }
 
-int	here_doc(t_node *command, t_tok *here_doc)
+static int	here_doc(t_node *command, t_tok *delim)
 {
 	char	*line;
 	t_tok	*new;
 
-	line = NULL;
-	if (!here_doc->next)
+	if (!delim)
 		return (0);
-	if (here_doc->next->data && ft_strchr(here_doc->next->data, END))
-		here_doc->next->data = convert_variable_delimiter(here_doc->next->data);
-	if (!here_doc->next->data)
+	if (delim->data && ft_strchr(delim->data, END))
+		delim->data = convert_variable_delimiter(delim->data);
+	if (!delim->data)
 		return (ERROR);
 	while (1)
 	{
 		line = readline(">");
-		if (ft_strcmp(line, here_doc->next->data)
-			|| here_doc->next->type != COMMAND || line == NULL)
+		if (ft_strcmp(line, delim->data) || delim->type != COMMAND || !line)
 		{
 			if (line != NULL)
 				free(line);
@@ -68,7 +63,7 @@ int	here_doc(t_node *command, t_tok *here_doc)
 		if (!new)
 			return (ERROR);
 		new->data = line;
-		new->state = here_doc->next->state;
+		new->state = delim->state;
 	}
 	return (0);
 }
@@ -88,7 +83,7 @@ int	read_here_docs(t_node **head)
 			{
 				if (curr_node->here_doc)
 					free_toks(&(curr_node->here_doc));
-				if (here_doc(curr_node, curr_tok) == ERROR)
+				if (here_doc(curr_node, curr_tok->next) == ERROR)
 					return (ERROR);
 			}
 			curr_tok = curr_tok->next;

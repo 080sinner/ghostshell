@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:48:51 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/05 23:09:38 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 02:04:46 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,26 @@ int	execute_builtin(t_node *command, t_node **head)
 	return (ERROR);
 }
 
+static int	skip_redirections(t_tok **command)
+{
+	if (!*command)
+		return (0);
+	while ((*command)->type != COMMAND)
+		*command = (*command)->next;
+	if ((*command)->previous && (*command)->previous->type != COMMAND)
+		*command = (*command)->next;
+	if (!*command)
+		return (0);
+	return (1);
+}
+
 int	check_builtin(t_tok *command)
 {
 	char	*builtins[7];
 	int		i;
 
-	if (command == NULL)
+	if (!skip_redirections(&command))
 		return (0);
-	while (command->type != COMMAND)
-		command = command->next;
-	if (command->previous && command->previous->type != COMMAND)
-		command = command->next;
 	ft_striteri(command->data, ft_tolower);
 	builtins[0] = "cd";
 	builtins[1] = "echo";

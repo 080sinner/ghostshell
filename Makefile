@@ -6,7 +6,7 @@
 #    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2022/01/06 00:46:06 by fbindere         ###   ########.fr        #
+#    Updated: 2022/01/06 01:37:23 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,12 @@ EXECUTOR_FILES = execute_cmd.c executor.c execute_utils.c get_cmd_path.c
 PARSER_FILES = cmd_arr.c parser.c
 DATA_STRUCT_FILES = nodes.c create_toks.c free_toks.c manipulate_toks.c 
 SYS_CALLS_FILES = fd_calls.c process_calls.c
-LEXER_FILES = check_functions.c input_control.c lexer.c mark_expansions.c
-EXPANDER_FILES = expander.c wildcards.c variables.c here_doc.c
+LEXER_FILES = check_functions.c input_control.c lexer.c mark_expansions.c \
+				read_here_doc.c
+EXPANDER_FILES = expander.c exp_wildcards.c exp_variables.c exp_here_doc.c
 SIGNAL_HANDLER_FILES = signal_handler.c
 BUILTIN_FILES = builtin_handler.c cd.c echo.c env_utils.c env.c exit.c \
 				export.c pwd.c unset.c
-
-SRC_FILES =	here_doc.c
 
 SRCS = $(addprefix $(SRC_PATH), $(SRC_FILES))
 SRCS += $(addprefix $(EXECUTOR_PATH), $(EXECUTOR_FILES))

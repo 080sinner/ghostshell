@@ -6,16 +6,17 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:52:34 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 00:53:27 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 02:05:17 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int check_newline_flag(int *i, char **args)
+int	check_newline_flag(int *i, char **args)
 {
-	int j;
-	int newline_flag;
+	int	j;
+	int	newline_flag;
+
 	newline_flag = 1;
 	while (args[*i] && args[*i][0] == '-')
 	{
@@ -36,10 +37,11 @@ int check_newline_flag(int *i, char **args)
 	return (newline_flag);
 }
 
-int echo(char **args)
+int	echo(char **args)
 {
-	int i;
-	int newline_flag;
+	int	i;
+	int	newline_flag;
+
 	newline_flag = 1;
 	i = 1;
 	if (!args[i])

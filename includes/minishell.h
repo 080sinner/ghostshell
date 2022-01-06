@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 01:14:16 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/06 02:08:39 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define SIGHUP 1
 # define SIGQUIT 3
 # define SIGABRT 6
-
 # define GENERAL_STATE -5
 # define SQUOTED_STATE -2
 # define DQUOTED_STATE -3
@@ -48,7 +47,6 @@
 # define NORIGHTS 13
 # define NOFILE 2
 # define LOG 0
-
 
 typedef enum e_token
 {
@@ -84,7 +82,6 @@ typedef struct s_exec
 	int				exit_status;
 }				t_exec;
 
-
 typedef struct s_node
 {
 	t_tok			*args;
@@ -104,7 +101,7 @@ typedef struct s_utils
 	pid_t	exit_status;
 }				t_utils;
 
-t_utils g_utils;
+t_utils	g_utils;
 
 void	free_list(t_tok *head);
 t_tok	*ft_last_tok(t_tok *head);
@@ -128,23 +125,22 @@ int		expand_wildcards(t_tok **new, t_tok **tokhead);
 t_tok	*expand_variable(char *data, char *varcontent);
 t_token	is_redir_op(char *s);
 void	print_ghostshell(void);
-int		here_doc(t_node *command, t_tok *here_doc);
 int		lexer(t_node **head, char *input);
 char	*ft_append(char *line, char c);
-t_tok	*create_new_tok();
+t_tok	*create_new_tok(void);
 int		read_here_docs(t_node **head);
 int		expand_here_doc(t_tok *here_doc);
-void	executor (t_node *current, t_node **head);
+void	executor(t_node *current, t_node **head);
 void	init_exec(t_exec *exec, t_node **head);
 int		expander(t_node *node);
 int		change_dir(char *path);
 char	*ft_getenv(char *envvar, char **env);
 int		get_cmd_path(t_node *command);
-int		check_builtin (t_tok *command);
+int		check_builtin(t_tok *command);
 int		print_env(int declare_flag);
 int		parse_command(t_node *current, t_node **head);
 void	ft_copy_env(char **environ, int skip_var, t_node **head);
-int		execute_builtin (t_node *command, t_node **head);
+int		execute_builtin(t_node *command, t_node **head);
 void	ft_close(int fd, char *function, t_node **head, int exit_flag);
 void	ft_pipe(int *fds, char *function, t_node **head, int exit_flag);
 int		ft_fork(char *function, t_node **head, int exit_flag);
@@ -176,6 +172,5 @@ int		execute_builtin(t_node *command, t_node **head);
 int		check_valid_var_name(char *varname);
 int		search_envvar(char *envvar, char **env);
 int		create_new_env(char **env, t_node **head);
-
 
 #endif
