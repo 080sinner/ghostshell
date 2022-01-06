@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 00:01:23 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 01:14:16 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define SIGQUIT 3
 # define SIGABRT 6
 
-# define GENERAL_STATE -4
+# define GENERAL_STATE -5
 # define SQUOTED_STATE -2
 # define DQUOTED_STATE -3
 # define END -4

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:53:36 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 00:11:58 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 01:27:14 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,20 @@
 int	check_variable_expansion(t_tok **current, t_node *node)
 {
 	t_tok	*newlist;
+	char	*tmp;
+	int		i;
 
+	i = 0;
 	if (ft_strchr((*current)->data, END))
 	{
 		newlist = expand_variable((*current)->data, NULL);
 		if (!newlist)
 		{
-			free_tok(&node->args, *current);
+			tmp = (*current)->data;
+			while (tmp[i] != END)
+				i++;
+			(*current)->data = ft_substr((*current)->data, i + 1, ft_strlen((*current)->data));
+			ft_free((void *)&tmp, ft_strlen(tmp));
 			return (ERROR);
 		}
 		insert_sublist(*current, newlist);
