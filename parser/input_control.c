@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_check.c                                      :+:      :+:    :+:   */
+/*   input_control.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 20:11:59 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/05 20:06:29 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 21:48:26 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,20 @@ static int	print_error_type(t_node *node, t_tok *token)
 
 static int	check_syntax_controlop(t_node *current)
 {
+	t_node	*next;
+
+	next = current->next;
 	if (!current->previous)
 	{
 		printf("syntax error: missing command before control operator");
 		return (print_error_type(current, NULL));
 	}
-	if (!current->next || (current->next && current->next->type != COMMAND))
+	if (!next)
+	{
+		printf("syntax error: missing command after control operator");
+		return (print_error_type(current, NULL));
+	}
+	if (next && next->type != LPAREN && next->type != COMMAND)
 	{
 		printf("syntax error: missing command after control operator");
 		return (print_error_type(current, NULL));
@@ -76,15 +84,21 @@ static int	check_syntax_command(t_node *node)
 	return (0);
 }
 
-static int	search_lparen(t_node *current)
+static t_node	*search_lparen(t_node *current, int first_call)
 {
-	while (current)
-	{
-		if (current->type == LPAREN)
-			return (1);
-		current = current->previous;
-	}
-	return (0);
+	static int	parencount;
+
+	if (first_call == 0)
+		parencount = 0;
+	if (!current)
+		return (NULL);
+	if (current->type == RPAREN)
+		parencount++;
+	if (current->type == LPAREN)
+		parencount--;
+	if (parencount == 0)
+		return (current);
+	return (search_lparen(current->previous, ++first_call));
 }
 
 int	check_input(t_node **head)
@@ -94,10 +108,16 @@ int	check_input(t_node **head)
 	current = *head;
 	while (current)
 	{
-		if (current->type == LPAREN && !skip_paren_content(current, 0))
-			return (printf("missing closing parentheses"));
-		else if (current->type == RPAREN && !search_lparen(current))
-			return (printf("missing opening parentheses"));
+		if (current->type == LPAREN)
+		{
+			if (!skip_paren_content(current, 0))
+				return (printf("syntax error: missing closing parentheses\n"));
+		}
+		else if (current->type == RPAREN)
+		{
+			if (!search_lparen(current, 0))
+				return (printf("syntax error: missing opening parentheses\n"));
+		}
 		else if (current->type != COMMAND && check_syntax_controlop(current))
 			return (1);
 		else if (current->type == COMMAND && check_syntax_command(current))

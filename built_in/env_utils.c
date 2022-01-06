@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:46:11 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/05 23:33:08 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 22:25:27 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,28 @@ int	search_envvar(char *envvar, char **env)
 		i++;
 	}
 	return (0);
+}
+
+void	ft_copy_env(char **environ, int skip_var, t_node **head)
+{
+	int			i;
+	int			x;
+
+	i = 0;
+	while (environ[i])
+		i++;
+	g_utils.environment = ft_calloc(i + 2, sizeof(char *));
+	if (!g_utils.environment)
+		ft_exit(EXIT_FAILURE, head);
+	i = 0;
+	x = i;
+	while (environ[i])
+	{
+		if (skip_var == -1 || x != skip_var)
+		{
+			g_utils.environment[i] = ft_strdup(environ[x]);
+			i++;
+		}
+		x++;
+	}
 }

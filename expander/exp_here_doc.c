@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 00:45:47 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 01:59:51 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 21:44:26 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,40 +46,44 @@ char	*combine_strings(char *front, char *variable, char *end)
 	return (new);
 }
 
-int	expand_here_doc(t_tok *here_doc)
+static void	expand_here_doc_variable(t_tok *current)
 {
+	int		i;
+	int		varlen;
 	char	*front;
 	char	*variable;
 	char	*end;
+
+	i = 0;
+	while (current->data[i] != '$')
+		i++;
+	varlen = i;
+	while (current->data[i] == '$')
+		i++;
+	i = varlen;
+	front = ft_substr(current->data, 0, i);
+	i++;
+	varlen = 0;
+	while (ft_isalnum(current->data[i]) || current->data[i] == '_')
+	{
+		i++;
+		varlen++;
+	}
+	variable = ft_substr(ft_strchr(current->data, '$'), 1, varlen);
+	end = ft_substr(current->data, i, ft_strlen(current->data) - 1);
+	free(current->data);
+	current->data = combine_strings(front, variable, end);
+}
+
+int	expand_here_doc(t_tok *here_doc)
+{
 	t_tok	*current;
-	int		i;
-	int		varlen;
 
 	current = here_doc;
 	while (current)
 	{
 		while (contains_variable(current->data))
-		{
-			i = 0;
-			while (current->data[i] != '$')
-				i++;
-			varlen = i;
-			while (current->data[i] == '$')
-				i++;
-			i = varlen;
-			front = ft_substr(current->data, 0, i);
-			i++;
-			varlen = 0;
-			while (ft_isalnum(current->data[i]) || current->data[i] == '_')
-			{
-				i++;
-				varlen++;
-			}
-			variable = ft_substr(ft_strchr(current->data, '$'), 1, varlen);
-			end = ft_substr(current->data, i, ft_strlen(current->data) - 1);
-			free(current->data);
-			current->data = combine_strings(front, variable, end);
-		}
+			expand_here_doc_variable(current);
 		current = current->next;
 	}
 	return (0);

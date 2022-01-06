@@ -6,13 +6,13 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 19:58:02 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 22:40:16 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	append_dquoted_variable(char **varcontent, t_tok *new)
+int	append_dquoted_var(char **varcontent, t_tok *new)
 {
 	char	*tmp;
 
@@ -79,8 +79,7 @@ int	append_general_variable(t_tok *new, char **varcontent)
 	return (0);
 }
 
-int	append_quoted_variable(char **varcontent, char **data,
-	 t_tok *new)
+int	get_varcontent(char **varcontent, char **data)
 {
 	int		ret;
 	int		tmp;
@@ -91,17 +90,16 @@ int	append_quoted_variable(char **varcontent, char **data,
 	if (ret == ERROR)
 		return (0);
 	*data += ret;
-
-	if (tmp == DQUOTED_STATE
-		&& append_dquoted_variable(varcontent, new) == ERROR)
-		return (0);
-	return (1);
+	return (tmp);
 }
+
+
 
 t_tok	*expand_variable(char *data, char *varcontent)
 {
 	t_tok	*headtok;
 	t_tok	*new;
+	int		var_type;
 
 	headtok = NULL;
 	while (*data != '\0' || varcontent)
@@ -119,7 +117,13 @@ t_tok	*expand_variable(char *data, char *varcontent)
 		}
 		else if (*data == DQUOTED_STATE || *data == GENERAL_STATE)
 		{
-			if (!append_quoted_variable(&varcontent, &data, new))
+			var_type = get_varcontent(&varcontent, &data);
+			if (var_type == DQUOTED_STATE)
+			{
+				if (append_dquoted_var(&varcontent, new) == ERROR)
+					return (NULL);
+			}
+			else if (!var_type)
 				return (NULL);
 		}
 		else if (!varcontent)
