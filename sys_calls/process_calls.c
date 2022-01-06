@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 19:21:54 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 00:09:05 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/06 20:06:12 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_pipe(int *fds, char *function, t_node **head, int exit_flag)
 void	ft_exit(int status, t_node **head)
 {
 	free_nodes(head);
+	ft_free_strarray(g_utils.environment);
 	if (status == EXIT_SUCCESS)
 		exit(EXIT_SUCCESS);
 	else

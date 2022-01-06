@@ -3,61 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 00:57:33 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/06 20:07:06 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-void	print_list(t_node *head)
-{
-	t_node	*tmpnode;
-	t_tok	*tmptok;
-
-	tmpnode = head;
-	while (tmpnode != NULL)
-	{
-		printf("		NEWNODE\n");
-		if (tmpnode->type != COMMAND && tmpnode->type <= 127)
-			printf("OPERATOR :%c", tmpnode->type);
-		if (tmpnode->type != COMMAND && tmpnode->type == 152)
-			printf("OPERATOR :&& ");
-		if (tmpnode->type != COMMAND && tmpnode->type == 496)
-			printf("OPERATOR :|| ");
-		tmptok = tmpnode->args;
-		if(tmpnode->args)
-			printf("COMMAND: ");
-		while (tmptok != NULL)
-		{
-			if (tmptok->type == COMMAND)
-				printf("'%s' ", tmptok->data);
-			else if (tmptok->type == LESS)
-				printf("< ");
-			else if (tmptok->type == LESSLESS)
-				printf("<< ");
-			else if (tmptok->type == GREAT)
-				printf("> ");
-			else if (tmptok->type == GREATGREAT)
-				printf(">> ");
-			tmptok = tmptok->next;
-		}
-		tmptok = tmpnode->here_doc;
-		if (tmpnode->type == COMMAND && tmpnode->here_doc)
-		{
-			printf("\nHEREDOC: ");
-			while (tmptok)
-			{
-				printf("%s ", tmptok->data);
-				tmptok = tmptok->next;
-			}
-		}
-		tmpnode = tmpnode->next;
-		printf("\n");
-	}
-}
 
 static int	check_empty_input(char *input)
 {
@@ -115,16 +68,12 @@ void	get_input(t_node **head)
 			{
 				if (!lexer(head, read))
 					executor(*head, head);
-				//print_list(*head);
 			}
 			free(read);
 			free_nodes(head);
 		}
 		else if (read == NULL)
-		{
-			free_nodes(head);
 			ft_exit(EXIT_SUCCESS, head);
-		}
 	}
 }
 
@@ -136,9 +85,5 @@ int	main(__unused int argc, __unused char *argv[], char **environ)
 	ft_copy_env(environ, -1, &head);
 	head = NULL;
 	get_input(&head);
-	// free_nodes(&head);
-	head = NULL;
-	ft_free_strarray(g_utils.environment);
-	system("leaks minishell");
 	return (0);
 }
