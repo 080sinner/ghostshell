@@ -6,27 +6,27 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 22:40:16 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/07 16:41:46 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	append_dquoted_var(char **varcontent, t_tok *new)
+int	dquoted_var(char **varcontent, t_tok *new)
 {
 	char	*tmp;
 
 	if (*varcontent == NULL)
-		return (0);
+		return (1);
 	tmp = new->data;
 	new->data = ft_strjoin(new->data, *varcontent);
 	free(tmp);
 	if (!new->data)
-		return (ERROR);
+		return (0);
 	if (*varcontent)
 		free(*varcontent);
 	*varcontent = NULL;
-	return (0);
+	return (1);
 }
 
 int	read_variable_name(char *data, char **varname)
@@ -56,7 +56,7 @@ int	read_variable(char *data, char **varcontent)
 	return (i);
 }
 
-int	append_general_variable(t_tok *new, char **varcontent)
+int	general_variable(t_tok *new, char **varcontent)
 {
 	static int	i;
 
@@ -93,8 +93,6 @@ int	get_varcontent(char **varcontent, char **data)
 	return (tmp);
 }
 
-
-
 t_tok	*expand_variable(char *data, char *varcontent)
 {
 	t_tok	*headtok;
@@ -106,7 +104,7 @@ t_tok	*expand_variable(char *data, char *varcontent)
 	{
 		if (varcontent || !headtok)
 		{
-			if (append_general_variable(new, &varcontent) || !headtok)
+			if (general_variable(new, &varcontent) || !headtok)
 			{
 				new = create_new_tok();
 				if (!new)
@@ -118,11 +116,8 @@ t_tok	*expand_variable(char *data, char *varcontent)
 		else if (*data == DQUOTED_STATE || *data == GENERAL_STATE)
 		{
 			var_type = get_varcontent(&varcontent, &data);
-			if (var_type == DQUOTED_STATE)
-			{
-				if (append_dquoted_var(&varcontent, new) == ERROR)
-					return (NULL);
-			}
+			if (var_type == DQUOTED_STATE && !dquoted_var(&varcontent, new))
+				return (NULL);
 			else if (!var_type)
 				return (NULL);
 		}
