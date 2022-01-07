@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/07 16:41:46 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/07 17:32:12 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	general_variable(t_tok *new, char **varcontent)
 		{
 			while (check_whitespace((*varcontent)[i]))
 				i++;
+			return (i);
 		}
 		if ((*varcontent)[i] == '*')
 			(*varcontent)[i] = -42;
