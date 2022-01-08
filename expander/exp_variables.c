@@ -6,28 +6,11 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/07 17:32:12 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/07 22:20:21 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	dquoted_var(char **varcontent, t_tok *new)
-{
-	char	*tmp;
-
-	if (*varcontent == NULL)
-		return (1);
-	tmp = new->data;
-	new->data = ft_strjoin(new->data, *varcontent);
-	free(tmp);
-	if (!new->data)
-		return (0);
-	if (*varcontent)
-		free(*varcontent);
-	*varcontent = NULL;
-	return (1);
-}
 
 int	read_variable_name(char *data, char **varname)
 {
@@ -56,31 +39,7 @@ int	read_variable(char *data, char **varcontent)
 	return (i);
 }
 
-int	general_variable(t_tok *new, char **varcontent)
-{
-	static int	i;
-
-	while (*varcontent && (*varcontent)[i] != '\0')
-	{
-		if (check_whitespace((*varcontent)[i]))
-		{
-			while (check_whitespace((*varcontent)[i]))
-				i++;
-			return (i);
-		}
-		if ((*varcontent)[i] == '*')
-			(*varcontent)[i] = -42;
-		new->data = ft_append(new->data, (*varcontent)[i]);
-		i++;
-	}
-	if (*varcontent)
-		free(*varcontent);
-	*varcontent = NULL;
-	i = 0;
-	return (0);
-}
-
-int	get_varcontent(char **varcontent, char **data)
+static int	get_varcontent(char **varcontent, char **data)
 {
 	int		ret;
 	int		tmp;
@@ -94,41 +53,40 @@ int	get_varcontent(char **varcontent, char **data)
 	return (tmp);
 }
 
-t_tok	*expand_variable(char *data, char *varcontent)
+static t_tok	*append_char(t_tok *new, char **data)
 {
-	t_tok	*headtok;
-	t_tok	*new;
-	int		var_type;
+	new->data = ft_append(new->data, **data);
+	if (!new->data)
+		return (NULL);
+	(*data)++;
+	return (new);
+}
 
-	headtok = NULL;
+t_tok	*expand_variable(char *data, char *varcontent, int var_type)
+{
+	t_tok	*tok[2];
+
+	tok[HEAD] = NULL;
 	while (*data != '\0' || varcontent)
 	{
-		if (varcontent || !headtok)
+		if (!tok[HEAD] || (var_type == GENERAL_STATE && varcontent))
 		{
-			if (general_variable(new, &varcontent) || !headtok)
+			if (general_variable(tok[HEAD], &varcontent) || !tok[HEAD])
 			{
-				new = create_new_tok();
-				if (!new)
+				tok[NEW] = create_new_tok();
+				if (!tok[NEW])
 					return (NULL);
-				ft_dll_attach_tok(&headtok, new);
+				ft_dll_attach_tok(&tok[HEAD], tok[NEW]);
 			}
-			continue ;
 		}
 		else if (*data == DQUOTED_STATE || *data == GENERAL_STATE)
 		{
 			var_type = get_varcontent(&varcontent, &data);
-			if (var_type == DQUOTED_STATE && !dquoted_var(&varcontent, new))
-				return (NULL);
-			else if (!var_type)
+			if (!var_type || !dquoted_var(&varcontent, tok[NEW], var_type))
 				return (NULL);
 		}
-		else if (!varcontent)
-		{
-			new->data = ft_append(new->data, *data);
-			if (!new->data)
-				return (NULL);
-			data++;
-		}
+		else if (!varcontent && !append_char(tok[NEW], &data))
+			return (NULL);
 	}
-	return (headtok);
+	return (tok[HEAD]);
 }

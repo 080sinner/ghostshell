@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:53:36 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 02:05:53 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/07 19:51:20 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_variable_expansion(t_tok **current, t_node *node)
 	i = 0;
 	if (ft_strchr((*current)->data, END))
 	{
-		newlist = expand_variable((*current)->data, NULL);
+		newlist = expand_variable((*current)->data, NULL, 42);
 		if (!newlist)
 		{
 			tmp = (*current)->data;

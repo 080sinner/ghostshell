@@ -6,7 +6,7 @@
 #    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2022/01/06 20:10:53 by fbindere         ###   ########.fr        #
+#    Updated: 2022/01/07 22:23:54 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ PARSER_FILES = cmd_arr.c parser.c input_control.c
 DATA_STRUCT_FILES = nodes.c create_toks.c free_toks.c manipulate_toks.c 
 SYS_CALLS_FILES = fd_calls.c process_calls.c
 LEXER_FILES = check_functions.c lexer.c mark_expansions.c read_here_doc.c
-EXPANDER_FILES = expander.c exp_wildcards.c exp_variables.c exp_here_doc.c
+EXPANDER_FILES = expander.c exp_wildcards.c exp_variables.c exp_here_doc.c \
+				exp_var_content.c
 SIGNAL_HANDLER_FILES = signal_handler.c
 BUILTIN_FILES = builtin_handler.c cd.c echo.c env_utils.c env.c exit.c \
 				export.c pwd.c unset.c

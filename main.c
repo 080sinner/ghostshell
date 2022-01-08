@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 22:25:40 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/07 22:25:15 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	ghosthell(t_node **head)
 {
 	char	*read;
 
-	//print_ghostshell();
+	print_ghostshell();
 	while (1)
 	{
 		signal_handler();
