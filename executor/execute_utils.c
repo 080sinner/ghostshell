@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:37:26 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/05 17:44:34 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/08 19:55:11 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,21 @@ void	retrieve_here_doc(t_node *command, t_node **head)
 	ft_dup2(here_pipe[0], STDIN_FILENO, head, NO_EXIT);
 	ft_close(here_pipe[1], "retrieve_here_doc", head, NO_EXIT);
 	ft_close(here_pipe[0], "retrieve_here_doc", head, NO_EXIT);
+}
+
+void	execute_error(char *command, t_node **head)
+{
+	if (errno == NORIGHTS)
+	{
+		ft_putstr_fd("how scary: permission denied: ", 2);
+		ft_putstr_fd(command, 2);
+		ft_putendl_fd("", 2);
+	}
+	else
+	{
+		ft_putstr_fd("how scary: error at execution of command: ", 2);
+		ft_putstr_fd(command, 2);
+		ft_putendl_fd("", 2);
+	}
+	ft_exit(EXIT_FAILURE, head);
 }

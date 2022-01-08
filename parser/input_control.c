@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 20:11:59 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/06 21:48:26 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/08 19:21:25 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ static int	check_syntax_controlop(t_node *current)
 static int	check_syntax_command(t_node *node)
 {
 	t_tok	*current;
-	t_node	*next;
+	t_tok	*next;
 
 	current = node->args;
-	next = node->next;
+	next = current->next;
 	while (current)
 	{
 		if (current->type != COMMAND && !current->next)

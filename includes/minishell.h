@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/08 17:09:57 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/08 19:50:04 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void	executor(t_node *current, t_node **head);
 void	retrieve_here_doc(t_node *command, t_node **head);
 void	init_exec(t_exec *exec, t_node **head);
 void	execute_command(t_exec *exec, t_node **command, t_node **head);
+void	execute_error(char *command, t_node **head);
 int		execute_builtin(t_node *command, t_node **head);
 int		is_pipeline(t_node *command);
 int		create_array(t_node *command);
