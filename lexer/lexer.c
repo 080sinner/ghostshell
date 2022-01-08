@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 02:17:51 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:19:59 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ int	lexer(t_node **head, char *input)
 		return (ERROR);
 	else if (ret != GENERAL_STATE)
 		return (printf("syntax error: invalid use of quotes"));
-	if (check_input(head))
-		return (1);
+	// if (check_input(head))
+	// 	return (1);
 	if (read_here_docs(head) == ERROR)
 		return (ERROR);
 	return (0);

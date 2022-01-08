@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:52:34 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 02:05:17 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:50:20 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	echo(char **args)
 	}
 	newline_flag = check_newline_flag(&i, args);
 	while (args[i])
-		printf("%s ", args[i++]);
+		ft_putstr_fd(args[i++], 1);
 	if (newline_flag)
-		printf("\n");
+		ft_putendl_fd("", 1);
 	return (0);
 }

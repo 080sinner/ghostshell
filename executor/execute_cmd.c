@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:31:42 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/05 19:05:22 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:51:28 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	builtin(t_node *command, t_node **head)
 		retrieve_here_doc(command, head);
 	else if (command->in != STDIN_FILENO)
 		ft_dup2(command->in, STDIN_FILENO, head, NO_EXIT);
-	if (command->out != STDOUT_FILENO)
+	if (command->out != STDOUT_FILENO)	
 		ft_dup2(command->out, STDOUT_FILENO, head, NO_EXIT);
 	g_utils.exit_status = execute_builtin (command, head);
 	ft_dup2(tmp_in, STDIN_FILENO, head, NO_EXIT);
