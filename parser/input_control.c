@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 20:11:59 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/08 19:21:25 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:57:50 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ static int	check_syntax_controlop(t_node *current)
 	next = current->next;
 	if (!current->previous)
 	{
-		printf("syntax error: missing command before control operator");
+		printf("spooky syntax : missing command before control operator");
 		return (print_error_type(current, NULL));
 	}
 	if (!next)
 	{
-		printf("syntax error: missing command after control operator");
+		printf("spooky syntax : missing command after control operator");
 		return (print_error_type(current, NULL));
 	}
 	if (next && next->type != LPAREN && next->type != COMMAND)
 	{
-		printf("syntax error: missing command after control operator");
+		printf("spooky syntax : missing command after control operator");
 		return (print_error_type(current, NULL));
 	}
 	return (0);
@@ -71,12 +71,14 @@ static int	check_syntax_command(t_node *node)
 	{
 		if (current->type != COMMAND && !current->next)
 		{
-			printf("syntax error: missing token after redirection operator");
+			printf("spooky syntax : missing token after ");
+			printf("redirection operator");
 			return (print_error_type(NULL, current));
 		}
 		else if (current->type != COMMAND && next && next->type != COMMAND)
 		{
-			printf("syntax error: wrong token after redirection operator");
+			printf("spooky syntax : wrong token after ");
+			printf("redirection operator");
 			return (print_error_type(NULL, current));
 		}
 		current = current->next;
@@ -111,12 +113,12 @@ int	check_input(t_node **head)
 		if (current->type == LPAREN)
 		{
 			if (!skip_paren_content(current, 0))
-				return (printf("syntax error: missing closing parentheses\n"));
+				return (printf("spooky syntax : missing closing parentheses\n"));
 		}
 		else if (current->type == RPAREN)
 		{
 			if (!search_lparen(current, 0))
-				return (printf("syntax error: missing opening parentheses\n"));
+				return (printf("syntax : missing opening parentheses\n"));
 		}
 		else if (current->type != COMMAND && check_syntax_controlop(current))
 			return (1);

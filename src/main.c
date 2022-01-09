@@ -6,11 +6,11 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/07 22:25:15 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:53:12 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
 static int	check_empty_input(char *input)
 {
@@ -43,7 +43,7 @@ static void	ghosthell(t_node **head)
 			if (!check_empty_input(read))
 			{
 				if (!lexer(head, read))
-					executor(*head, head);
+					executor(*head, 0, head);
 			}
 			free(read);
 			free_nodes(head);

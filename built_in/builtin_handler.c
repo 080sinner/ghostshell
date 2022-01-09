@@ -6,13 +6,13 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:48:51 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 02:04:46 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:32:22 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	execute_builtin(t_node *command, t_node **head)
+int	execute_builtin(t_node *command, int process_lvl, t_node **head)
 {
 	if (command->cmd_arr && command->cmd_arr[0])
 	{
@@ -29,7 +29,7 @@ int	execute_builtin(t_node *command, t_node **head)
 		else if (ft_strcmp(command->cmd_arr[0], "env"))
 			return (print_env(0));
 		else if (ft_strcmp(command->cmd_arr[0], "exit"))
-			exit_builtin(head);
+			exit_builtin(head, process_lvl);
 	}
 	return (ERROR);
 }

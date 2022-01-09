@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/08 19:50:04 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:47:12 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ typedef struct s_exec
 {
 	int				pipe[2];
 	int				tmp_fd;
-	pid_t			pid;
 	int				exit_status;
+	int				process_lvl;
+	pid_t			pid;
 }				t_exec;
 
 typedef struct s_node
@@ -116,9 +117,9 @@ int		print_env(int declare_flag);
 int		change_dir(char *path);
 int		check_builtin(t_tok *command);
 int		create_new_env(char **env, t_node **head);
-int		exit_builtin(t_node **head);
+int		exit_builtin(t_node **head, int process_lvl);
 int		check_valid_var_name(char *varname);
-int		execute_builtin(t_node *command, t_node **head);
+int		execute_builtin(t_node *command, int process_lvl, t_node **head);
 int		check_builtin(t_tok *command);
 char	*ft_getenv(char *envvar, char **env);
 
@@ -140,13 +141,11 @@ t_tok	*ft_last_tok(t_tok *head);
 t_tok	*create_new_tok(void);
 
 /* executor functions*/
-void	init_exec(t_exec *exec, t_node **head);
-void	executor(t_node *current, t_node **head);
+void	init_exec(t_exec *exec, int process_lvl, t_node **head);
+void	executor(t_node *current, int process_lvl, t_node **head);
 void	retrieve_here_doc(t_node *command, t_node **head);
-void	init_exec(t_exec *exec, t_node **head);
 void	execute_command(t_exec *exec, t_node **command, t_node **head);
 void	execute_error(char *command, t_node **head);
-int		execute_builtin(t_node *command, t_node **head);
 int		is_pipeline(t_node *command);
 int		create_array(t_node *command);
 t_node	*skip_paren_content(t_node *current, int first_call);

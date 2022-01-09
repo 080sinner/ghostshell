@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:31:42 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/08 19:55:54 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:49:03 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	child(t_exec *exec, t_node *command, t_node **head)
 	ft_close(exec->tmp_fd, "child", head, EXIT);
 	if (check_builtin(command->args))
 	{
-		if (!execute_builtin (command, head))
+		if (!execute_builtin (command, FALSE, head))
 			ft_exit (EXIT_SUCCESS, head);
 		ft_exit (EXIT_FAILURE, head);
 	}
@@ -54,11 +54,11 @@ static void	subshell(t_exec *exec, t_node *command, t_node *par_temp,
 	command = command->next;
 	command->previous = NULL;
 	par_temp->previous->next = NULL;
-	executor(command, head);
+	executor(command, exec->process_lvl + 1, head);
 	ft_exit(EXIT_SUCCESS, head);
 }
 
-static void	builtin(t_node *command, t_node **head)
+static void	builtin(t_exec *exec, t_node *command, t_node **head)
 {
 	int	tmp_in;
 	int	tmp_out;
@@ -76,7 +76,7 @@ static void	builtin(t_node *command, t_node **head)
 		ft_dup2(command->in, STDIN_FILENO, head, NO_EXIT);
 	if (command->out != STDOUT_FILENO)
 		ft_dup2(command->out, STDOUT_FILENO, head, NO_EXIT);
-	g_utils.exit_status = execute_builtin (command, head);
+	g_utils.exit_status = execute_builtin (command, exec->process_lvl, head);
 	ft_dup2(tmp_in, STDIN_FILENO, head, NO_EXIT);
 	ft_dup2(tmp_out, STDOUT_FILENO, head, NO_EXIT);
 	ft_close(tmp_in, "builtin", head, NO_EXIT);
@@ -103,7 +103,7 @@ void	execute_command(t_exec *exec, t_node **command, t_node **head)
 		|| !check_builtin((*command)->args))
 		exec->pid = ft_fork("execute_command", head, NO_EXIT);
 	else
-		builtin(*command, head);
+		builtin(exec, *command, head);
 	if (!exec->pid && par_temp != *command)
 		subshell(exec, *command, par_temp, head);
 	else if (!exec->pid)

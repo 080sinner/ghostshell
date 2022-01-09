@@ -6,7 +6,7 @@
 #    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2022/01/07 22:23:54 by fbindere         ###   ########.fr        #
+#    Updated: 2022/01/09 18:54:17 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,10 @@ PARSER_PATH = ./parser/
 DATA_STRUCT_PATH = ./data_struct/
 SYS_CALLS_PATH = ./sys_calls/
 LEXER_PATH = ./lexer/
-SRC_PATH = ./srcs/
 EXPANDER_PATH = ./expander/
 SIGNAL_HANDLER_PATH = ./signals/
 BUILTIN_PATH = ./built_in/
+SRC_PATH = ./src/
 
 EXECUTOR_FILES = execute_cmd.c executor.c execute_utils.c get_cmd_path.c
 PARSER_FILES = cmd_arr.c parser.c input_control.c
@@ -35,6 +35,7 @@ EXPANDER_FILES = expander.c exp_wildcards.c exp_variables.c exp_here_doc.c \
 SIGNAL_HANDLER_FILES = signal_handler.c
 BUILTIN_FILES = builtin_handler.c cd.c echo.c env_utils.c env.c exit.c \
 				export.c pwd.c unset.c
+SRC_FILES = main.c header.c
 
 SRCS = $(addprefix $(SRC_PATH), $(SRC_FILES))
 SRCS += $(addprefix $(EXECUTOR_PATH), $(EXECUTOR_FILES))
@@ -49,7 +50,7 @@ SRCS += $(addprefix $(BUILTIN_PATH), $(BUILTIN_FILES))
 all:$(NAME)
 
 $(NAME): $(LIBFT) $(SRCS) 
-	@gcc $(FLAGS) $(SRCS) $(INC) $(LIBS) main.c header.c
+	@gcc $(FLAGS) $(SRCS) $(INC) $(LIBS)
 	@echo "                                                         "
 	@echo " \033[1;32m  ___|   _ \    \  |   _ \ _ _|  |      ____|  __ \   | "
 	@echo "  |      |   |  |\/ |  |   |  |   |      __|    |   |  | "

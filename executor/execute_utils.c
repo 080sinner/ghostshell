@@ -6,17 +6,18 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:37:26 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/08 19:55:11 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:42:38 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	init_exec(t_exec *exec, t_node **head)
+void	init_exec(t_exec *exec, int process_lvl, t_node **head)
 {
 	exec->exit_status = 0;
 	exec->pid = 1;
 	exec->tmp_fd = ft_dup(STDIN_FILENO, "init_exec", head, NO_EXIT);
+	exec->process_lvl = process_lvl;
 }
 
 int	is_pipeline(t_node *command)
@@ -67,13 +68,13 @@ void	execute_error(char *command, t_node **head)
 {
 	if (errno == NORIGHTS)
 	{
-		ft_putstr_fd("how scary: permission denied: ", 2);
+		ft_putstr_fd("how spooky: permission denied: ", 2);
 		ft_putstr_fd(command, 2);
 		ft_putendl_fd("", 2);
 	}
 	else
 	{
-		ft_putstr_fd("how scary: error at execution of command: ", 2);
+		ft_putstr_fd("how spooky: error at execution of command: ", 2);
 		ft_putstr_fd(command, 2);
 		ft_putendl_fd("", 2);
 	}

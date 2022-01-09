@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:50:09 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 20:16:40 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/08 20:05:10 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	cd_error(char *path)
 {
-	ft_putstr_fd("how scary: cd: ", 2);
+	ft_putstr_fd("how spooky: cd: ", 2);
 	ft_putstr_fd(path, 2);
 	if (errno == 13)
 		ft_putendl_fd(": permission denied", 2);

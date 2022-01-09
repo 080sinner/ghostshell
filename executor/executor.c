@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/05 18:48:07 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:47:36 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ static t_node	*skip_pipeline(t_node *command)
 		return (skip_pipeline(command));
 }
 
-void	executor(t_node *current, t_node **head)
+void	executor(t_node *current, int process_lvl, t_node **head)
 {
 	t_exec	exec;
 
-	init_exec(&exec, head);
+	init_exec(&exec, process_lvl, head);
 	while (1)
 	{
 		if (current && (current->type == COMMAND || current->type == LPAREN))
