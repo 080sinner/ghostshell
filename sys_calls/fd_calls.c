@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 19:29:04 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/08 20:05:45 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:38:25 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_dup2(int fd1, int fd2, t_node **head, int exit_flag)
 	{
 		ft_putstr_fd("how spooky: dup2 failed", 2);
 		if (exit_flag == 1)
-			ft_exit(EXIT_FAILURE, head);
+			ft_exit(g_utils.exit_status, head);
 	}
 }
 
@@ -32,7 +32,7 @@ int	ft_dup(int fd, char *function, t_node **head, int exit_flag)
 		ft_putstr_fd("how spooky: dup failed in function: ", 2);
 		ft_putstr_fd(function, 2);
 		if (exit_flag == 1)
-			ft_exit(EXIT_FAILURE, head);
+			ft_exit(g_utils.exit_status, head);
 	}
 	return (fd_return);
 }
@@ -44,7 +44,7 @@ void	ft_close(int fd, char *function, t_node **head, int exit_flag)
 		ft_putstr_fd("how spooky: close failed in function: ", 2);
 		ft_putstr_fd(function, 2);
 		if (exit_flag == 1)
-			ft_exit(EXIT_FAILURE, head);
+			ft_exit(g_utils.exit_status, head);
 	}
 }
 

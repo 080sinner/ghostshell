@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:48:51 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/09 18:32:22 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:46:06 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	execute_builtin(t_node *command, int process_lvl, t_node **head)
 		else if (ft_strcmp(command->cmd_arr[0], "env"))
 			return (print_env(0));
 		else if (ft_strcmp(command->cmd_arr[0], "exit"))
-			exit_builtin(head, process_lvl);
+			return (exit_builtin(head, command, process_lvl));
 	}
 	return (ERROR);
 }

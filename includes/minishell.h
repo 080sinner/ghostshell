@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/09 18:47:12 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:39:27 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,13 @@ int		print_env(int declare_flag);
 int		change_dir(char *path);
 int		check_builtin(t_tok *command);
 int		create_new_env(char **env, t_node **head);
-int		exit_builtin(t_node **head, int process_lvl);
+int		exit_builtin(t_node **head, t_node *command, int process_lvl);
 int		check_valid_var_name(char *varname);
 int		execute_builtin(t_node *command, int process_lvl, t_node **head);
 int		check_builtin(t_tok *command);
 char	*ft_getenv(char *envvar, char **env);
+void	ft_exit(int status, t_node **head);
+
 
 /* data_structure functions*/
 void	ft_dll_attach_tok(t_tok **head, t_tok *attachment);
@@ -164,7 +166,6 @@ t_tok	*expand_variable(char *data, char *varcontent, int var_type);
 void	ft_close(int fd, char *function, t_node **head, int exit_flag);
 void	ft_pipe(int *fds, char *function, t_node **head, int exit_flag);
 void	ft_dup2(int fd1, int fd2, t_node **head, int exit_flag);
-void	ft_exit(int status, t_node **head);
 int		ft_fork(char *function, t_node **head, int exit_flag);
 int		ft_dup(int fd, char *function, t_node **head, int exit_flag);
 int		ft_open(char *file, int type);

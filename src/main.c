@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/10 20:57:12 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:33:12 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,13 @@ static void	ghosthell(t_node **head)
 	while (1)
 	{
 		signal_handler();
-		
-		read = readline("\e[1m	\033[1;34m༼ つ ❍_❍ ༽つ\033[0m\e[0m	");
-		// if (get_next_line(&read, STDIN_FILENO) == 0)
-		// 	read = NULL;
+		if (isatty(0))
+			read = readline("\e[1m	\033[1;34m༼ つ ❍_❍ ༽つ\033[0m\e[0m	");
+		else
+		{
+			if (get_next_line(&read, STDIN_FILENO) == 0)
+				read = NULL;
+		}
 		clear_signals();
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
@@ -72,7 +75,7 @@ static void	ghosthell(t_node **head)
 			free_nodes(head);
 		}
 		else if (read == NULL)
-			ft_exit(EXIT_SUCCESS, head);
+			ft_exit(g_utils.exit_status, head);
 	}
 }
 

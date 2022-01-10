@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:37:26 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/09 18:42:38 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:43:12 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,5 @@ void	execute_error(char *command, t_node **head)
 		ft_putstr_fd(command, 2);
 		ft_putendl_fd("", 2);
 	}
-	ft_exit(EXIT_FAILURE, head);
+	ft_exit(g_utils.exit_status, head);
 }

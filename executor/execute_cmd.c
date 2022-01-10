@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:31:42 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/09 18:49:03 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:37:09 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	child(t_exec *exec, t_node *command, t_node **head)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (parse_command(command, head) == ERROR || get_cmd_path(command) == ERROR)
-		ft_exit(EXIT_FAILURE, head);
+		ft_exit(g_utils.exit_status, head);
 	if (command->in == PIPEIN)
 		ft_dup2(exec->tmp_fd, STDIN_FILENO, head, EXIT);
 	else if (command->in == HERE_DOC)
@@ -33,9 +33,8 @@ static void	child(t_exec *exec, t_node *command, t_node **head)
 	ft_close(exec->tmp_fd, "child", head, EXIT);
 	if (check_builtin(command->args))
 	{
-		if (!execute_builtin (command, FALSE, head))
-			ft_exit (EXIT_SUCCESS, head);
-		ft_exit (EXIT_FAILURE, head);
+		execute_builtin (command, FALSE, head);
+		ft_exit (g_utils.exit_status, head);
 	}
 	execve(command->cmdpath, command->cmd_arr, g_utils.environment);
 	execute_error(command->cmd_arr[0], head);
@@ -55,7 +54,7 @@ static void	subshell(t_exec *exec, t_node *command, t_node *par_temp,
 	command->previous = NULL;
 	par_temp->previous->next = NULL;
 	executor(command, exec->process_lvl + 1, head);
-	ft_exit(EXIT_SUCCESS, head);
+	ft_exit(g_utils.exit_status, head);
 }
 
 static void	builtin(t_exec *exec, t_node *command, t_node **head)

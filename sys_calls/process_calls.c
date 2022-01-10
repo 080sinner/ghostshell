@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 19:21:54 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/08 20:05:56 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/10 21:38:50 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_fork(char *function, t_node **head, int exit_flag)
 		ft_putstr_fd("how spooky: fork failed in function: ", 2);
 		ft_putstr_fd(function, 2);
 		if (exit_flag == 1)
-			ft_exit(EXIT_FAILURE, head);
+			ft_exit(g_utils.exit_status, head);
 	}
 	return (pid);
 }
@@ -34,7 +34,7 @@ void	ft_pipe(int *fds, char *function, t_node **head, int exit_flag)
 		ft_putstr_fd("how spooky: pipe failed in function: ", 2);
 		ft_putstr_fd(function, 2);
 		if (exit_flag == 1)
-			ft_exit(EXIT_FAILURE, head);
+			ft_exit(g_utils.exit_status, head);
 	}
 }
 
@@ -42,8 +42,5 @@ void	ft_exit(int status, t_node **head)
 {
 	free_nodes(head);
 	ft_free_strarray(g_utils.environment);
-	if (status == EXIT_SUCCESS)
-		exit(EXIT_SUCCESS);
-	else
-		exit(EXIT_FAILURE);
+	exit(status);
 }
