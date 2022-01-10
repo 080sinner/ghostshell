@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 20:11:59 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/09 18:57:50 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/10 18:06:51 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static int	check_syntax_command(t_node *node)
 	t_tok	*next;
 
 	current = node->args;
-	next = current->next;
 	while (current)
 	{
+		next = current->next;
 		if (current->type != COMMAND && !current->next)
 		{
 			printf("spooky syntax : missing token after ");
@@ -77,6 +77,7 @@ static int	check_syntax_command(t_node *node)
 		}
 		else if (current->type != COMMAND && next && next->type != COMMAND)
 		{
+			printf("current type %d, next type %d\n", current->type, current->next->type);
 			printf("spooky syntax : wrong token after ");
 			printf("redirection operator");
 			return (print_error_type(NULL, current));

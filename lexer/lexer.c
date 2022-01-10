@@ -6,11 +6,18 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/08 18:04:08 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/10 17:20:39 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	new_node(int state, char *input)
+{
+	if (state == GENERAL_STATE && is_control_op(check_type(input)))
+		return (1);
+	return (0);
+}
 
 static int	get_word(char **input, t_tok *new, int *state)
 {
@@ -29,7 +36,7 @@ static int	get_word(char **input, t_tok *new, int *state)
 		{
 			while (check_whitespace(**input))
 				*input += 1;
-			if (is_control_op(check_type(*input)) == TRUE)
+			if (new_node(*state, *input))
 				return (NEW_NODE);
 			break ;
 		}
@@ -47,7 +54,7 @@ static int	read_command(char **input, t_node **command, int *state)
 	int		ret;
 
 	(*command)->args = NULL;
-	while (**input != '\0')
+	while (**input != '\0' && !new_node(*state, *input))
 	{
 		new = create_new_tok();
 		if (!new)
@@ -104,7 +111,7 @@ int	lexer(t_node **head, char *input)
 	if (ret == ERROR)
 		return (ERROR);
 	else if (ret != GENERAL_STATE)
-		return (printf("syntax error: invalid use of quotes"));
+		return (printf("spooky syntax : invalid use of quotes"));
 	if (check_input(head))
 		return (1);
 	if (read_here_docs(head) == ERROR)
