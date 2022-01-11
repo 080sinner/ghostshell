@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/10 21:33:12 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/11 21:14:38 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static void	ghosthell(t_node **head)
 			{
 				if (!lexer(head, read))
 					executor(*head, 0, head);
+				else
+					g_utils.exit_status = 2;
 			}
 			free(read);
 			free_nodes(head);

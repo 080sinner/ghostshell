@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
+#    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/28 19:13:10 by eozben            #+#    #+#              #
-#    Updated: 2022/01/05 20:05:02 by fbindere         ###   ########.fr        #
+#    Updated: 2022/01/11 21:05:20 by eozben           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_strdup.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c \
 	ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c \
 	ft_substr.c ft_tolower.c ft_toupper.c ft_freestrarray.c \
-	ft_free.c ft_striteri.c ft_append.c
+	ft_free.c ft_striteri.c ft_append.c ft_printnl_fd.c
 
 all: bonus
 

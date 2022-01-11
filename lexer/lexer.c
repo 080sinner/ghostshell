@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/10 17:20:39 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/11 21:13:48 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	lexer(t_node **head, char *input)
 	if (ret == ERROR)
 		return (ERROR);
 	else if (ret != GENERAL_STATE)
-		return (printf("spooky syntax : invalid use of quotes"));
+		return (ft_printnl_fd("spooky syntax : invalid use of quotes", 2));
 	if (check_input(head))
 		return (1);
 	if (read_here_docs(head) == ERROR)

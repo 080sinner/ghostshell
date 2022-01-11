@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_control.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 20:11:59 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/10 18:09:03 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/11 21:12:40 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,22 @@ static int	print_error_type(t_node *node, t_tok *token)
 	if (node && node->type)
 	{
 		if (node->type == PIPE)
-			return (printf(" '|' \n"));
+			return (ft_printnl_fd(" '|' ", 2));
 		if (node->type == AND)
-			return (printf(" '&&' \n"));
+			return (ft_printnl_fd(" '&&' ", 2));
 		if (node->type == OR)
-			return (printf(" '||' \n"));
+			return (ft_printnl_fd(" '||' ", 2));
 	}
 	else if (token && token->type)
 	{
 		if (token->type == GREAT)
-			return (printf(" > \n"));
+			return (ft_printnl_fd(" > ", 2));
 		if (token->type == GREATGREAT)
-			return (printf(" >> \n"));
+			return (ft_printnl_fd(" >> ", 2));
 		if (token->type == LESS)
-			return (printf(" < \n"));
+			return (ft_printnl_fd(" < ", 2));
 		if (token->type == LESSLESS)
-			return (printf(" << \n"));
+			return (ft_printnl_fd(" << ", 2));
 	}
 	return (1);
 }
@@ -44,17 +44,20 @@ static int	check_syntax_controlop(t_node *current)
 	next = current->next;
 	if (!current->previous)
 	{
-		printf("spooky syntax : missing command before control operator");
+		ft_putstr_fd("spooky syntax : missing command before control operator",
+			2);
 		return (print_error_type(current, NULL));
 	}
 	if (!next)
 	{
-		printf("spooky syntax : missing command after control operator");
+		ft_putstr_fd("spooky syntax : missing command after control operator",
+			2);
 		return (print_error_type(current, NULL));
 	}
 	if (next && next->type != LPAREN && next->type != COMMAND)
 	{
-		printf("spooky syntax : missing command after control operator");
+		ft_putstr_fd("spooky syntax : missing command after control operator",
+			2);
 		return (print_error_type(current, NULL));
 	}
 	return (0);
@@ -71,14 +74,14 @@ static int	check_syntax_command(t_node *node)
 		next = current->next;
 		if (current->type != COMMAND && !current->next)
 		{
-			printf("spooky syntax : missing token after ");
-			printf("redirection operator");
+			ft_putstr_fd("spooky syntax : missing token after ", 2);
+			ft_putstr_fd("redirection operator", 2);
 			return (print_error_type(NULL, current));
 		}
 		else if (current->type != COMMAND && next && next->type != COMMAND)
 		{
-			printf("spooky syntax : wrong token after ");
-			printf("redirection operator");
+			ft_putstr_fd("spooky syntax : wrong token after ", 2);
+			ft_putstr_fd("redirection operator", 2);
 			return (print_error_type(NULL, current));
 		}
 		current = current->next;
@@ -113,12 +116,14 @@ int	check_input(t_node **head)
 		if (current->type == LPAREN)
 		{
 			if (!skip_paren_content(current, 0))
-				return (printf("spooky syntax : missing closing parentheses\n"));
+				return (ft_printnl_fd("spooky syntax : missing closing \
+						parentheses", 2));
 		}
 		else if (current->type == RPAREN)
 		{
 			if (!search_lparen(current, 0))
-				return (printf("syntax : missing opening parentheses\n"));
+				return (ft_printnl_fd("syntax : missing opening parentheses",
+						2));
 		}
 		else if (current->type != COMMAND && check_syntax_controlop(current))
 			return (1);
