@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:31:42 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/10 21:37:09 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/11 22:00:43 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	child(t_exec *exec, t_node *command, t_node **head)
 	if (check_builtin(command->args))
 	{
 		execute_builtin (command, FALSE, head);
-		ft_exit (g_utils.exit_status, head);
+		ft_exit(g_utils.exit_status, head);
 	}
 	execve(command->cmdpath, command->cmd_arr, g_utils.environment);
 	execute_error(command->cmd_arr[0], head);
