@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/11 21:14:38 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/11 21:21:17 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,25 @@ int	get_next_line(char **line, int fd)
 	char	buffer;
 	int		flag;
 
-	if(line == NULL)
+	if (line == NULL)
 		return(-1);
 	*line = malloc(1);
-	if(*line == NULL)
+	if (*line == NULL)
 		return(-1);
 	*line[0] = '\0';
 	while ((flag = read(fd, &buffer, 1) > 0))
 	{
-		if(buffer == '\n')
-			break;
+		if (buffer == '\n')
+			break ;
 		*line = ft_append(*line, buffer);
 	}
-	return(flag);		
+	return(flag);
 }
 
 static void	ghosthell(t_node **head)
 {
 	char	*read;
+	int		ret;
 
 	//print_ghostshell();
 	while (1)
@@ -68,9 +69,10 @@ static void	ghosthell(t_node **head)
 			add_history(read);
 			if (!check_empty_input(read))
 			{
-				if (!lexer(head, read))
+				ret = lexer(head, read);
+				if (ret == 0)
 					executor(*head, 0, head);
-				else
+				else if (ret >= 1)
 					g_utils.exit_status = 2;
 			}
 			free(read);
