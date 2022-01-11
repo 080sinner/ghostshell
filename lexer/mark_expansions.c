@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mark_expansions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 20:02:59 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 00:56:56 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/11 14:48:08 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	mark_variable(char **input, t_tok *new)
 			return (ERROR);
 		*input += 1;
 	}
-	new->data = ft_append(new->data, -4);
+	new->data = ft_append(new->data, END);
 	if (!new->data)
 		return (ERROR);
 	return (0);

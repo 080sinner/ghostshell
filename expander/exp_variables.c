@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/07 22:20:21 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/11 14:54:07 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int	read_variable(char *data, char **varcontent)
 	i = read_variable_name(data, &varname) + 1;
 	if (i == ERROR)
 		return (ERROR);
-	*varcontent = ft_strdup(ft_getenv(varname, g_utils.environment));
+	if (ft_strcmp(varname, "?"))
+		*varcontent = ft_itoa(g_utils.exit_status);
+	else
+		*varcontent = ft_strdup(ft_getenv(varname, g_utils.environment));
 	ft_free((void *) &varname, ft_strlen(varname));
 	return (i);
 }
