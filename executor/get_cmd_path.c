@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/09 19:18:59 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/11 19:49:49 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	get_cmd_path(t_node *command)
 		ft_free_strarray(paths);
 		ft_putstr_fd("error: command not found: ", 2);
 		ft_putendl_fd(command->args->data, 2);
+		g_utils.exit_status = 127;
 		return (ERROR);
 	}
 	return (1);
