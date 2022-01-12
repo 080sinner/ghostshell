@@ -6,11 +6,28 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:46:11 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/10 21:42:35 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/12 21:33:08 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*ft_getenv(char *envvar, char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], envvar, ft_strlen(envvar)))
+		{
+			if (*(env[i] + ft_strlen(envvar)) == '=')
+				return (env[i] + ft_strlen(envvar) + 1);
+		}
+		i++;
+	}
+	return (NULL);
+}
 
 int	check_valid_var_name(char *varname)
 {
@@ -50,9 +67,7 @@ int	create_new_env(char **env, t_node **head)
 int	search_envvar(char *envvar, char **env)
 {
 	int	i;
-	int	hidden_flag;
 
-	hidden_flag = 0;
 	i = 0;
 	if (!envvar)
 		return (0);

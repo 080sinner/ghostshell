@@ -6,14 +6,14 @@
 #    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2022/01/09 18:54:17 by fbindere         ###   ########.fr        #
+#    Updated: 2022/01/12 14:40:52 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
 LIBS = -Llibft -lft -I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline
-FLAGS = -o "minishell" -Wall -Wextra -Werror
+FLAGS = -o "minishell"
 LIBFT = ./libft/libft.a
 EXECUTOR_PATH = ./executor/
 PARSER_PATH = ./parser/
