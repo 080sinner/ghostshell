@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:52:43 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/12 19:41:09 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/13 15:10:59 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	check_exit_status(t_node *command, int error)
 	if (command->cmd_arr[1] && error == ERROR)
 	{
 		ft_putendl_fd("how spooky: exit: numeric argument required", 2);
-		g_utils.exit_status = 2;
+		g_utils.exit_status = 255;
 		return (1);
 	}
 	else if (command->cmd_arr[1] && command->cmd_arr[2])

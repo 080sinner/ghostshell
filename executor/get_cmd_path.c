@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/12 21:57:01 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/13 16:55:59 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,51 +56,55 @@ static int	cmdpath(t_node *command, char **paths)
 	return (ERROR);
 }
 
-static int	cmd_not_found(char **paths, t_node *command)
+static int	cmd_not_found(char **paths, char *command)
 {
+	struct stat dir;
+	int			dir_ret;
+
 	ft_free_strarray(paths);
-	if (ft_strcmp(command->args->data, "."))
-		ft_putendl_fd("error: .: filename argument required", 2);
+	dir_ret = stat(command, &dir);
+	if (dir_ret != ERROR && dir.st_mode & S_IFDIR 
+		&& !ft_strcmp(command, ".") && !ft_strcmp(command, ".."))
+	{
+		ft_putstr_fd("error: ", 2);
+		ft_putstr_fd(command, 2);
+		ft_putendl_fd(" is a directory", 2);
+		g_utils.exit_status = 126;
+	}
 	else
 	{
 		ft_putstr_fd("error: command not found: ", 2);
-		ft_putendl_fd(command->args->data, 2);
+		ft_putendl_fd(command, 2);
+		g_utils.exit_status = 127;
 	}
-	g_utils.exit_status = 127;
 	return (ERROR);
-}
-
-static int	is_directory(t_node *command)
-{
-	if (ft_strcmp(command->args->data, "."))
-		return (1);
-	//if (command->args->data[ft_strlen(command->args->data) - 1])
-		//return (1);
-	return (0);
 }
 
 int	get_cmd_path(t_node *command)
 {
-	char	**paths;
+	char		**paths;
+	char		*data;
+	struct stat	s;
 
 	paths = NULL;
-	if (!command->args)
+	if (!command->args || !command->args->data)
 		return (ERROR);
+	data = command->args->data;
 	if (check_builtin(command->args))
 		return (1);
-	if (ft_strchr(command->args->data, '/') || ft_strcmp(command->args->data, "."))
+	if (ft_strchr(data, '/') || ft_strcmp(data, ".") || ft_strcmp(data, ".."))
 	{
-		if (!access(command->args->data, F_OK) && !is_directory(command))
+		if (!access(data, F_OK) && !stat(data, &s) && !(s.st_mode & S_IFDIR))
 		{
-			command->cmdpath = ft_strdup(command->args->data);
+			command->cmdpath = ft_strdup(data);
 			return (1);
 		}
-		return(cmd_not_found(paths, command));
+		return(cmd_not_found(paths, command->args->data));
 	}
 	paths = ft_split(ft_getenv("PATH", g_utils.environment), ':');
 	if (!paths  || append_slash(paths, "/") == ERROR)
 		return (ERROR);
 	if (cmdpath(command, paths) == ERROR)
-		return (cmd_not_found(paths, command));
+		return (cmd_not_found(paths, command->args->data));
 	return (1);
 }

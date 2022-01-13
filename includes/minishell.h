@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/10 22:39:27 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/13 14:59:14 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <termios.h>
+# include <sys/stat.h>
 
 # define SIGINT 2
 # define SIGHUP 1
