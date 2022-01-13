@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_var_content.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 22:20:00 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/11 22:46:17 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/13 22:59:12 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	general_variable(t_tok *new, char **varcontent)
 		{
 			while (check_whitespace((*varcontent)[i]))
 				i++;
-			return (i);
+			if (*varcontent[i] == '\0')
+				break ;
+			if (new->data[0])
+				return (1);
 		}
 		if ((*varcontent)[i] == '*')
 			(*varcontent)[i] = -42;

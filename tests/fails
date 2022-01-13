@@ -15213,3 +15213,2669 @@ echo $?
 echo $?
 /bin/ls
 
+pwd
+cd "$PWD/file_tests"
+pwd
+
+pwd
+cd $PWD/file_tests
+pwd
+
+pwd
+cd $OLDPWD/something
+pwd
+
+pwd
+cd "1$HOME"
+pwd
+
+echo $?
+export ?=hallo
+echo $?
+
+unset "$"
+
+unset $""
+
+/bin/echo $HOME
+unset $HOME
+/bin/echo $HOME
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+unset PATH
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+unset PATH
+/bin/ls
+unset PATH
+unset PATH
+unset PATH
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=""
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=1
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+export pipe_var=1 | echo $pipe_var
+echo $pipe_var
+
+echo $PATH
+echo $HOME
+unset PATH HOME
+echo $PATH
+echo $HOME
+
+echo "env | /usr/bin/wc -l" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "ls" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "unset PATH" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+pwd
+cd "$PWD/file_tests"
+pwd
+
+pwd
+cd $PWD/file_tests
+pwd
+
+pwd
+cd $OLDPWD/something
+pwd
+
+pwd
+cd "1$HOME"
+pwd
+
+echo $?
+export ?=hallo
+echo $?
+
+unset "$"
+
+unset $""
+
+/bin/echo $HOME
+unset $HOME
+/bin/echo $HOME
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+unset PATH
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+unset PATH
+/bin/ls
+unset PATH
+unset PATH
+unset PATH
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=""
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=1
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+export pipe_var=1 | echo $pipe_var
+echo $pipe_var
+
+echo $PATH
+echo $HOME
+unset PATH HOME
+echo $PATH
+echo $HOME
+
+echo "env | /usr/bin/wc -l" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "ls" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "unset PATH" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+/bin/echo $HALLO
+env | grep HALLO
+export HALLO=42
+/bin/echo $HALLO
+env | grep HALLO
+
+/bin/echo $HOME
+env | grep HOME
+export HOME=42
+/bin/echo $HOME
+env | grep HOME
+
+export TES_T=123
+/bin/echo $TES_T
+env | grep TES_T
+
+export HELLO42=T=""
+/bin/echo $HELLO42
+env | grep HELLO42
+env | grep HELLO42=T=
+
+echo $?
+export ?=hallo
+echo $?
+
+/bin/echo $test
+export test=42 | echo 99
+/bin/echo $test
+
+/bin/echo $mini_test
+env | grep mini_test
+export mini_test=
+/bin/echo $mini_test
+env | grep mini_test
+
+/bin/echo $HOME
+unset $HOME
+/bin/echo $HOME
+
+/bin/echo $HOME
+unset HOME
+/bin/echo $HOME
+
+/bin/echo $HOME
+unset HOME
+unset HOME
+unset HOME
+/bin/echo $HOME
+
+/bin/echo $HOME
+unset HOME
+unset HOME
+unset HOME
+unset HOME
+/bin/echo $HOME
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+/bin/echo $?
+
+/bin/echo $HOME
+/bin/echo $HOME$USER
+/bin/echo $"HOME"$USER
+/bin/echo $"HOM"E$USER
+/bin/echo $"'HOM'E"$USER
+/bin/echo $'HOM'E$USER
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+/bin/echo $TESTNOTFOUND
+/bin/echo $HOME$TESTNOTFOUND
+/bin/echo $TESTNOTFOUND$HOME
+
+/bin/echo ""$?""
+/bin/echo " "$?" "
+/bin/echo $?"42"
+/bin/echo ''$?''"42"
+/bin/echo 'HELLO'$?:''"42"
+
+/bin/echo "$?"
+/bin/echo '$?'
+/bin/echo "'$?'"
+/bin/echo '"$?"'
+
+mkdir "tmp_test_folder"
+/bin/echo $PWD
+cd "tmp_test_folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test_folder"
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X=""
+/bin/echo "1"$X'2'
+
+export X=" "
+/bin/echo "1"$X'2'
+
+export X="   "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+export test=" * "
+touch "$USER * ?eHallo"
+/bin/echo "$USER "*" ?e"*
+rm -f "$USER * ?eHallo"
+
+unset PATH
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+unset PATH
+/bin/ls
+unset PATH
+unset PATH
+unset PATH
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=""
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=1
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+cat /dev/urandom | head -1 > tmp_out
+bash -c "[ -s tmp_out ] && echo nice"
+/bin/echo $?
+rm -f tmp_out
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+export pipe_var=1 | echo $pipe_var
+echo $pipe_var
+
+echo $PATH
+echo $HOME
+unset PATH HOME
+echo $PATH
+echo $HOME
+
+echo "env | /usr/bin/wc -l" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "ls" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "unset PATH" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+/bin/echo $?
+
+/bin/echo $HOME
+/bin/echo $HOME$USER
+/bin/echo $"HOME"$USER
+/bin/echo $"HOM"E$USER
+/bin/echo $"'HOM'E"$USER
+/bin/echo $'HOM'E$USER
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+/bin/echo $TESTNOTFOUND
+/bin/echo $HOME$TESTNOTFOUND
+/bin/echo $TESTNOTFOUND$HOME
+
+/bin/echo ""$?""
+/bin/echo " "$?" "
+/bin/echo $?"42"
+/bin/echo ''$?''"42"
+/bin/echo 'HELLO'$?:''"42"
+
+/bin/echo "$?"
+/bin/echo '$?'
+/bin/echo "'$?'"
+/bin/echo '"$?"'
+
+mkdir "tmp_test_folder"
+/bin/echo $PWD
+cd "tmp_test_folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test_folder"
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X=""
+/bin/echo "1"$X'2'
+
+export X=" "
+/bin/echo "1"$X'2'
+
+export X="   "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+export test=" * "
+touch "$USER * ?eHallo"
+/bin/echo "$USER "*" ?e"*
+rm -f "$USER * ?eHallo"
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+/bin/echo $?
+
+/bin/echo $HOME
+/bin/echo $HOME$USER
+/bin/echo $"HOME"$USER
+/bin/echo $"HOM"E$USER
+/bin/echo $"'HOM'E"$USER
+/bin/echo $'HOM'E$USER
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+/bin/echo $TESTNOTFOUND
+/bin/echo $HOME$TESTNOTFOUND
+/bin/echo $TESTNOTFOUND$HOME
+
+/bin/echo ""$?""
+/bin/echo " "$?" "
+/bin/echo $?"42"
+/bin/echo ''$?''"42"
+/bin/echo 'HELLO'$?:''"42"
+
+/bin/echo "$?"
+/bin/echo '$?'
+/bin/echo "'$?'"
+/bin/echo '"$?"'
+
+mkdir "tmp_test_folder"
+/bin/echo $PWD
+cd "tmp_test_folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test_folder"
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X=""
+/bin/echo "1"$X'2'
+
+export X=" "
+/bin/echo "1"$X'2'
+
+export X="   "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+export test=" * "
+touch "$USER * ?eHallo"
+/bin/echo "$USER "*" ?e"*
+rm -f "$USER * ?eHallo"
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+main() {
+	if [[ ! -f $MINISHELL_PATH/$EXECUTABLE ]] ; then
+		echo -e "\033[0;31m# **************************************************************************** #"
+		echo "#    MINISHELL NOT COMPILED                                                    #"
+		echo "#    TRY TO COMPILE ...                                                        #"
+		echo -e "# **************************************************************************** #\033[m"
+		make -C $MINISHELL_PATH
+	fi
+	if [[ $1 == "m" ]] ; then
+		test_mandatory
+	elif [[ $1 == "b" ]] ; then
+		test_bonus
+	elif [[ $1 == "a" ]] ; then
+		test_mandatory
+		test_bonus
+	elif [[ $1 == "-f" ]] ; then
+		[[ ! -f $2 ]] && echo "\"$2\" FILE NOT FOUND"
+		[[ -f $2 ]] && test_from_file $2
+	else
+		echo "usage: bash test.sh [m,b,a] || usage with special file: bash test.sh -f ..path_to_file_to_test"
+	fi
+	if [[ $TEST_COUNT -gt 0 ]] ; then
+		print_stats
+	fi
+}
+
+print_stats() {
+	echo -e "\033[0;33m# ============================================================================ #"
+	echo "#   RESULT                                                                     #"
+	echo -e "# ============================================================================ #\033[m"
+	printf "\033[0;35m%-4s\033[m" "$TEST_COUNT:"
+	echo -ne "\033[0;34mSTD_OUT:\033[m "
+	if [[ $TEST_KO_OUT == 0 ]] ; then
+		echo -ne "\033[0;32m✓ \033[m  "
+	else
+		echo -ne "\033[0;31m$TEST_KO_OUT\033[m  "
+	fi
+	echo -ne "\033[0;36mSTD_ERR:\033[m "
+	if [[ $TEST_KO_ERR == 0 ]] ; then
+		echo -ne "\033[0;32m✓ \033[m  "
+	else
+		echo -ne "\033[0;31m$TEST_KO_ERR\033[m  "
+	fi
+	echo -ne "\033[0;36mEXIT_CODE:\033[m "
+	if [[ $TEST_KO_EXIT == 0 ]] ; then
+		echo -ne "\033[0;32m✓ \033[m  "
+	else
+		echo -ne "\033[0;31m$TEST_KO_EXIT\033[m  "
+	fi
+	echo ""
+}
+
+
+test_from_file() {
+	IFS=''
+	i=1
+	end_of_file=0
+	line_count=0
+	while [[ $end_of_file == 0 ]] ;
+	do
+		read -r line
+		end_of_file=$?
+		((line_count++))
+		if [[ $line == \#* ]] || [[ $line == "" ]] ; then
+			# if [[ $line == "###"[[:blank:]]*[[:blank:]]"###" ]] ; then
+			# 	echo -e "\033[0;33m$line\033[m"
+			if [[ $line == "#"[[:blank:]]*[[:blank:]]"#" ]] ; then
+				echo -e "\033[0;33m$line\033[m" | tr '\t' '    '
+			fi
+			continue
+		else
+			printf "\033[0;35m%-4s\033[m" "$i:"
+			tmp_line_count=$line_count
+			while [[ $end_of_file == 0 ]] && [[ $line != \#* ]] && [[ $line != "" ]] ;
+			do
+				INPUT+="$line$NL"
+				read -r line
+				end_of_file=$?
+				((line_count++))
+			done
+			$MINISHELL_PATH/$EXECUTABLE <<< "$INPUT" 2>tmp_err_minishell >tmp_out_minishell
+			exit_minishell=$?
+			bash <<< "enable -n .$NL$INPUT" 2>tmp_err_bash >tmp_out_bash
+			exit_bash=$?
+			echo -ne "\033[0;34mSTD_OUT:\033[m "
+			if ! diff -q tmp_out_minishell tmp_out_bash >/dev/null ;
+			then
+				echo -ne "\033[0;31mKO\033[m  " | tr '\n' ' '
+				((TEST_KO_OUT++))
+				echo $INPUT >>fails
+			else
+				echo -ne "\033[0;32mOK\033[m  "
+			fi
+			echo -ne "\033[0;36mSTD_ERR:\033[m "
+			if [[ -s tmp_err_minishell && ! -s tmp_err_bash ]] || [[ ! -s tmp_err_minishell && -s tmp_err_bash ]] ;
+			then
+				echo -ne "\033[0;31mKO\033[m  " |  tr '\n' ' '
+				((TEST_KO_ERR++))
+			else
+				echo -ne "\033[0;32mOK\033[m  "
+			fi
+			echo -ne "\033[0;36mEXIT_CODE:\033[m "
+			if [[ $exit_minishell != $exit_bash ]] ;
+			then
+				echo -ne "\033[0;31mKO [ minishell($exit_minishell)  bash($exit_bash) ]\033[m  " | tr '\n' ' '
+				((TEST_KO_EXIT++))
+			else
+				echo -ne "\033[0;32mOK\033[m  "
+			fi
+			INPUT=""
+			((i++))
+			((TEST_COUNT++))
+			echo -e "\033[0;90m$1:$tmp_line_count\033[m  "
+		fi
+	done < "$1"
+}
+
+[[ $1 != "-f" ]] && rm -f tmp_*
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+echo $?
+export ?=hallo
+echo $?
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+/bin/echo $?
+
+/bin/echo ""$?""
+/bin/echo " "$?" "
+/bin/echo $?"42"
+/bin/echo ''$?''"42"
+/bin/echo 'HELLO'$?:''"42"
+
+/bin/echo "$?"
+/bin/echo '$?'
+/bin/echo "'$?'"
+/bin/echo '"$?"'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+cat /dev/urandom | head -1 > tmp_out
+bash -c "[ -s tmp_out ] && echo nice"
+/bin/echo $?
+rm -f tmp_out
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+echo "env | /usr/bin/wc -l" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "ls" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "unset PATH" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X=" "
+/bin/echo "1"$X'2'
+
+export X="   "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X=" "
+/bin/echo "1"$X'2'
+
+export X="   "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X="  A  B  "
+/bin/echo "1"$X
+
