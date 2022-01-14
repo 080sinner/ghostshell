@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:18:50 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/13 22:47:24 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/14 17:15:14 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_tok	*expand_variable(char *data, char *varcontent, int var_type)
 	{
 		if (!tok[HEAD] || (var_type == GENERAL_STATE && varcontent))
 		{
-			if (general_variable(tok[NEW], &varcontent) || !tok[HEAD])
+			if (general_variable(tok[NEW], &varcontent, data) || !tok[HEAD])
 			{
 				tok[NEW] = create_new_tok();
 				if (!tok[NEW])

@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/13 14:59:14 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/14 17:16:48 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int		read_here_docs(t_node **head);
 int		expand_here_doc(t_tok *here_doc);
 int		expander(t_node *node);
 int		expand_wildcards(t_tok **new, t_tok **tokhead);
-int		general_variable(t_tok *new, char **varcontent);
+int		general_variable(t_tok *new, char **varcontent, char *data);
 int		get_cmd_path(t_node *command);
 int		dquoted_var(char **varcontent, t_tok *new, int var_type);
 t_tok	*expand_variable(char *data, char *varcontent, int var_type);
