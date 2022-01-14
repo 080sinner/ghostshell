@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/13 16:55:59 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/14 17:49:16 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int	cmd_not_found(char **paths, char *command)
 	struct stat dir;
 	int			dir_ret;
 
-	ft_free_strarray(paths);
 	dir_ret = stat(command, &dir);
 	if (dir_ret != ERROR && dir.st_mode & S_IFDIR 
 		&& !ft_strcmp(command, ".") && !ft_strcmp(command, ".."))
@@ -71,12 +70,18 @@ static int	cmd_not_found(char **paths, char *command)
 		ft_putendl_fd(" is a directory", 2);
 		g_utils.exit_status = 126;
 	}
+	else if (!paths)
+	{
+		ft_putendl_fd("No such file or directory", 2);
+		g_utils.exit_status = 127;
+	}
 	else
 	{
 		ft_putstr_fd("error: command not found: ", 2);
 		ft_putendl_fd(command, 2);
 		g_utils.exit_status = 127;
 	}
+	ft_free_strarray(paths);
 	return (ERROR);
 }
 
@@ -103,7 +108,7 @@ int	get_cmd_path(t_node *command)
 	}
 	paths = ft_split(ft_getenv("PATH", g_utils.environment), ':');
 	if (!paths  || append_slash(paths, "/") == ERROR)
-		return (ERROR);
+		return (cmd_not_found(paths, command->args->data));
 	if (cmdpath(command, paths) == ERROR)
 		return (cmd_not_found(paths, command->args->data));
 	return (1);
