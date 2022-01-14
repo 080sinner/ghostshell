@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/14 17:49:16 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/14 21:10:18 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	get_cmd_path(t_node *command)
 		return (1);
 	if (ft_strchr(data, '/') || ft_strcmp(data, ".") || ft_strcmp(data, ".."))
 	{
-		if (!access(data, F_OK) && !stat(data, &s) && !(s.st_mode & S_IFDIR))
+		if (!access(data, F_OK) && !stat(data, &s) && !(s.st_mode & S_IFDIR)) 
 		{
 			command->cmdpath = ft_strdup(data);
 			return (1);

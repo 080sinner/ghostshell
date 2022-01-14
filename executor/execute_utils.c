@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:37:26 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/12 20:23:32 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/14 19:55:53 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	execute_error(char *command, t_node **head)
 		ft_putstr_fd("how spooky: permission denied: ", 2);
 		ft_putstr_fd(command, 2);
 		ft_putendl_fd("", 2);
+		g_utils.exit_status = 126;
 	}
 	else
 	{
