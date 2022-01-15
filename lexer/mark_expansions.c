@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 20:02:59 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/13 21:13:41 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/15 19:37:46 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	check_expansion(char **input, int *state)
 	if (*state != SQUOTED_STATE && **input == '$')
 	{
 		if (!ft_isalnum(*(*input + 1)) && *(*input + 1) != '_'
-				&& *(*input + 1) != '?')
-			{
-				if (*state == SQUOTED_STATE && *(*input + 1) == SQUOTE)
-					return (0);
-				if (*state == DQUOTED_STATE && *(*input + 1) == DQUOTE)
-					return (0);
-			}
+			&& *(*input + 1) != '?')
+		{
+			if (*state == SQUOTED_STATE && *(*input + 1) == SQUOTE)
+				return (0);
+			if (*state == DQUOTED_STATE && *(*input + 1) == DQUOTE)
+				return (0);
+		}
 		if (*(*input + 1) == '\0')
 			return (0);
 		if (check_whitespace(*(*input + 1)))

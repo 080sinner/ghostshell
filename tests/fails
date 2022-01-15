@@ -20820,3 +20820,462 @@ $NOVAR
 $HOME
 lim
 
+/bin/echo 1 && /bin/echo 2 && /bin/echo 3
+/bin/echo 1 || /bin/echo 2 || /bin/echo 3
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+(/bin/echo 1) (/bin/echo 2)
+
+/bin/echo 1 && /bin/echo 2 && /bin/echo 3
+/bin/echo 1 || /bin/echo 2 || /bin/echo 3
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+(/bin/echo 1) (/bin/echo 2)
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+(/bin/echo 1) (/bin/echo 2)
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+(/bin/echo 1) (/bin/echo 2)
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+
+touch tmp_out
+/bin/echo 42 >*
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+(/bin/echo 1) (/bin/echo 2)
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+((echo 1) | (echo 2) | (echo 3 | (echo 4)))
+
+echo 1 | (echo 2 || echo 3 && echo 4) || echo 5 | echo 6
+
+echo 1 | (grep 1) | cat | (wc -l)
+
+(/bin/echo 1 | /bin/echo 2 && ((/bin/echo 3 | /bin/echo 3) | (/bin/echo 4 | /bin/echo 4)))
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+grep 42 < in | wc -l && ( /bin/echo 1 2 3 4 > tmp_out || /bin/echo 2 > tmp_out >> tmp_out tmp_out )
+rm -f tmp_out
+
+((echo 1) | (echo 2) | (echo 3 | (echo 4)))
+
+echo 1 | (echo 2 || echo 3 && echo 4) || echo 5 | echo 6
+
+echo 1 | (grep 1) | cat | (wc -l)
+
+(/bin/echo 1 | /bin/echo 2 && ((/bin/echo 3 | /bin/echo 3) | (/bin/echo 4 | /bin/echo 4)))
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+grep 42 < in | wc -l && ( /bin/echo 1 2 3 4 > tmp_out || /bin/echo 2 > tmp_out >> tmp_out tmp_out )
+rm -f tmp_out
+
+echo 1 | (echo 2 || echo 3 && echo 4) || echo 5 | echo 6
+
+echo 1 | (echo 2 || echo 3 && echo 4) || echo 5 | echo 6
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+touch tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+touch tmp_out1
+touch tmp_out2
+/bin/echo 42 >tmp_out*
+rm -f "tmp_out*"
+

@@ -3,39 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   input_control.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 20:11:59 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/11 21:12:40 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/15 19:46:00 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static int	print_error_type(t_node *node, t_tok *token)
-{
-	if (node && node->type)
-	{
-		if (node->type == PIPE)
-			return (ft_printnl_fd(" '|' ", 2));
-		if (node->type == AND)
-			return (ft_printnl_fd(" '&&' ", 2));
-		if (node->type == OR)
-			return (ft_printnl_fd(" '||' ", 2));
-	}
-	else if (token && token->type)
-	{
-		if (token->type == GREAT)
-			return (ft_printnl_fd(" > ", 2));
-		if (token->type == GREATGREAT)
-			return (ft_printnl_fd(" >> ", 2));
-		if (token->type == LESS)
-			return (ft_printnl_fd(" < ", 2));
-		if (token->type == LESSLESS)
-			return (ft_printnl_fd(" << ", 2));
-	}
-	return (1);
-}
 
 static int	check_syntax_controlop(t_node *current)
 {
@@ -89,21 +64,33 @@ static int	check_syntax_command(t_node *node)
 	return (0);
 }
 
-static t_node	*search_lparen(t_node *current, int first_call)
+int	check_syntax_paren(t_node *current, t_node *partner_paren)
 {
-	static int	parencount;
-
-	if (first_call == 0)
-		parencount = 0;
-	if (!current)
-		return (NULL);
-	if (current->type == RPAREN)
-		parencount++;
 	if (current->type == LPAREN)
-		parencount--;
-	if (parencount == 0)
-		return (current);
-	return (search_lparen(current->previous, ++first_call));
+	{
+		partner_paren = skip_paren_content(current, 0);
+		if (!partner_paren)
+			return (ft_printnl_fd("spooky syntax : \
+				missing closing parentheses", 2));
+		if (partner_paren && current->next && partner_paren == current->next)
+			return (ft_printnl_fd("spooky syntax : missing command in \
+				parentheses", 2));
+		if (partner_paren->next && (partner_paren->next->type == COMMAND
+				|| partner_paren->next->type == LPAREN))
+			return (ft_printnl_fd("spooky syntax : missing operator after \
+				closing parentheses", 2));
+	}
+	if (current->type == RPAREN)
+	{
+		partner_paren = search_lparen(current, 0);
+		if (!partner_paren)
+			return (ft_printnl_fd("syntax : missing opening parentheses", 2));
+		if (current->next && (current->next->type == COMMAND
+				|| current->next->type == LPAREN))
+			return (ft_printnl_fd("spooky syntax : missing operator after \
+				closing parentheses", 2));
+	}
+	return (0);
 }
 
 int	check_input(t_node **head)
@@ -115,15 +102,13 @@ int	check_input(t_node **head)
 	{
 		if (current->type == LPAREN)
 		{
-			if (!skip_paren_content(current, 0))
-				return (ft_printnl_fd("spooky syntax : missing closing \
-						parentheses", 2));
+			if (check_syntax_paren(current, NULL))
+				return (1);
 		}
 		else if (current->type == RPAREN)
 		{
-			if (!search_lparen(current, 0))
-				return (ft_printnl_fd("syntax : missing opening parentheses",
-						2));
+			if (check_syntax_paren(current, NULL))
+				return (1);
 		}
 		else if (current->type != COMMAND && check_syntax_controlop(current))
 			return (1);

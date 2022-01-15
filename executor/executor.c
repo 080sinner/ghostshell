@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/09 18:47:36 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/15 17:38:37 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,15 @@ static t_node	*skip_pipeline(t_node *command)
 		return (skip_pipeline(command));
 }
 
+static int	logic_operator(t_node *current)
+{
+	if (current && current->type == OR && g_utils.exit_status == 0)
+		return (1);
+	if (current && current->type == AND && g_utils.exit_status != 0)
+		return (1);
+	return (0);
+}
+
 void	executor(t_node *current, int process_lvl, t_node **head)
 {
 	t_exec	exec;
@@ -73,10 +82,11 @@ void	executor(t_node *current, int process_lvl, t_node **head)
 			exec.tmp_fd = ft_dup(STDIN_FILENO, "executor", head, NO_EXIT);
 			exit_status(&exec);
 		}
-		if (current && current->type == OR && g_utils.exit_status == 0)
+		if (logic_operator(current))
+		{
 			current = skip_pipeline(current);
-		else if (current && current->type == AND && g_utils.exit_status != 0)
-			current = skip_pipeline(current);
+			continue ;
+		}
 		if (!current)
 			break ;
 		current = current->next;

@@ -6,7 +6,7 @@
 #    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2022/01/14 16:20:38 by fbindere         ###   ########.fr        #
+#    Updated: 2022/01/15 19:47:23 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ BUILTIN_PATH = ./built_in/
 SRC_PATH = ./src/
 
 EXECUTOR_FILES = execute_cmd.c executor.c execute_utils.c get_cmd_path.c
-PARSER_FILES = cmd_arr.c parser.c input_control.c
+PARSER_FILES = cmd_arr.c parser.c input_control.c input_control_utils.c
 DATA_STRUCT_FILES = nodes.c create_toks.c free_toks.c manipulate_toks.c 
 SYS_CALLS_FILES = fd_calls.c process_calls.c
 LEXER_FILES = check_functions.c lexer.c mark_expansions.c read_here_doc.c
