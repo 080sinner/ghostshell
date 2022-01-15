@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards.c                                        :+:      :+:    :+:   */
+/*   exp_wildcards.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 23:06:32 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/05 22:59:14 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/16 00:06:40 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,12 @@ static int	wildcard_expansion(t_tok **token, DIR *dir, int *checkvalue)
 		if (!new)
 			return (error_close_dir(dir));
 		ft_dll_insert_tok(token, new);
+		free(new->data);
 		new->data = ft_strdup(entity->d_name);
 		if (!new->data)
 			return (error_close_dir(dir));
 		*checkvalue += 1;
 	}
-	if (new != NULL)
-		ft_free((void *)&(*token)->data, ft_strlen((*token)->data));
 	closedir(dir);
 	return (*checkvalue);
 }
@@ -112,7 +111,7 @@ int	expand_wildcards(t_tok **new, t_tok **tokhead)
 	else if (matched_wcs != ERROR)
 	{
 		if ((*new)->data != NULL)
-			free((*new)->data);
+			ft_free((void *)&(*new)->data, ft_strlen((*new)->data));
 		free(detach_tok(tokhead, *new));
 	}
 	return (matched_wcs);

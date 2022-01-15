@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 17:27:51 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/11 22:01:56 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/16 00:41:26 by mac              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static	int	set_input(t_node *command, t_tok *arg, t_node **head)
 int	set_redir(t_node *command, t_node **head, t_node *prev, t_node *next)
 {
 	t_tok	*current;
+	t_tok	*tmp;
 
 	if (!command || !command->args)
 		return (ERROR);
@@ -82,17 +83,20 @@ int	set_redir(t_node *command, t_node **head, t_node *prev, t_node *next)
 		command->in = STDIN_FILENO;
 	while (current)
 	{
+		tmp = current->next;
 		if (current->type == LESS || current->type == LESSLESS)
 		{
+			tmp = current->next->next;
 			if (set_input(command, current, head) == ERROR)
 				return (ERROR);
 		}
 		else if (current->type == GREAT || current->type == GREATGREAT)
 		{
+			tmp = current->next->next;
 			if (set_output(command, current) == ERROR)
 				return (ERROR);
 		}
-		current = current->next;
+		current = tmp;
 	}
 	return (1);
 }

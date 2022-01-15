@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eozben <eozben@student.42.fr>              +#+  +:+       +#+         #
+#    By: mac <mac@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2022/01/15 22:55:04 by eozben           ###   ########.fr        #
+#    Updated: 2022/01/15 23:54:07 by mac              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
-LIBS = -Llibft -lft -I$(HOME)/.brew/opt/readline/include -L$(HOME)/.brew/opt/readline/lib -lreadline
+LIBS = -Llibft -lft -I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -lreadline
 FLAGS = -o "minishell" -Wall -Werror -Wextra
 LIBFT = ./libft/libft.a
 EXECUTOR_PATH = ./executor/
