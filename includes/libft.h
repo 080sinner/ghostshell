@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 13:30:54 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/11 21:05:47 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/15 22:55:42 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,27 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# define BUFFER_SIZE 1
+
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }				t_list;
+
+typedef struct s_line
+{
+	char	*str;
+	int		position;
+	int		alloc;
+}	t_line;
+
+typedef struct s_buf
+{
+	char	buf[BUFFER_SIZE];
+	int		start;
+	int		end;
+}			t_buf;
 
 int			ft_atoi(const char *str);
 void		ft_bzero(void *str, size_t n);
@@ -72,5 +88,8 @@ int			ft_isint(char *number);
 char		*ft_free(void **ptr, size_t n);
 char		*ft_append(char *line, char c);
 int			ft_printnl_fd(char *s, int fd);
+char		*get_next_line(int fd);
+char		*free_str(char *str);
+void		ft_strcpy(char *dst, char *src, int n);
 
 #endif

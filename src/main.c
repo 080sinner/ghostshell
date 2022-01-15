@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/15 22:08:35 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/15 23:16:05 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,16 @@ static int	check_empty_input(char *input)
 		return (0);
 }
 
-int	get_next_line(char **line, int fd)
+char	*get_prompt(void)
 {
-	char	buffer;
-	int		flag;
+	char	*str;
 
-	if (!line)
-		return (-1);
-	*line = malloc(1);
-	if (!*line)
-		return(-1);
-	*line[0] = '\0';
-	while (1)
-	{
-		flag = read(fd, &buffer, 1);
-		if (buffer == '\n')
-			break ;
-		*line = ft_append(*line, buffer);
-	}
-	return(flag);
+	signal_handler();
+	str = readline("\e[1m     \033[1;34m ༼ つ ❍_❍ ༽つ \033[0m\e[0m  ");
+	clear_signals();
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	return (str);
 }
 
 static void	ghosthell(t_node **head)
@@ -51,20 +42,10 @@ static void	ghosthell(t_node **head)
 	char	*read;
 	int		ret;
 
-	//print_ghostshell();
+	print_ghostshell();
 	while (1)
 	{
-		signal_handler();
-		if (isatty(0))
-			read = readline("\e[1m     \033[1;34m༼ つ ❍_❍ ༽つ\033[0m\e[0m	");
-		else
-		{
-			if (get_next_line(&read, STDIN_FILENO) == 0)
-				read = NULL;
-		}
-		clear_signals();
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+		read = get_prompt();
 		if (read != NULL && !ft_strcmp(read, ""))
 		{
 			add_history(read);

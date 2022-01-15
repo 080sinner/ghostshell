@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 20:57:30 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/06 01:27:32 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/15 23:19:51 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,38 @@ static char	*convert_variable_delimiter(char *data)
 	return (new_var);
 }
 
+void	signal_heredoc(int signum)
+{
+	if (signum == SIGINT)
+		write(1, "\n", 1);
+	close(STDIN_FILENO);
+}
+
+char	*read_heredoc_prompt(void)
+{
+	char			*str;
+	char			*tmp;
+	struct termios	term;
+
+	tcgetattr(1, &term);
+	term.c_lflag &= ~ECHOCTL;
+	write(1, ">", 1);
+	signal(SIGINT, signal_heredoc);
+	tcsetattr(1, 0, &term);
+	str = get_next_line(0);
+	tmp = str;
+	str = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
+	free(tmp);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(1, 0, &term);
+	return (str);
+}
+
 static int	here_doc(t_node *command, t_tok *delim)
 {
 	char	*line;
 	t_tok	*new;
+	int		tmp_fd;
 
 	if (!delim)
 		return (0);
@@ -50,10 +78,11 @@ static int	here_doc(t_node *command, t_tok *delim)
 		delim->data = convert_variable_delimiter(delim->data);
 	if (!delim->data)
 		return (ERROR);
+	tmp_fd = dup(STDIN_FILENO);
 	while (1)
 	{
-		line = readline(">");
-		if (ft_strcmp(line, delim->data) || delim->type != COMMAND || !line)
+		line = read_heredoc_prompt();
+		if (!line || ft_strcmp(line, delim->data) || delim->type != COMMAND)
 		{
 			if (line != NULL)
 				free(line);
@@ -65,6 +94,10 @@ static int	here_doc(t_node *command, t_tok *delim)
 		new->data = line;
 		new->state = delim->state;
 	}
+	dup2(tmp_fd, STDIN_FILENO);
+	close(tmp_fd);
+	if (errno == 9)
+		return (ERROR);
 	return (0);
 }
 

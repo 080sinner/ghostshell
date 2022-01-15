@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/15 22:02:27 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/15 23:13:59 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,9 @@ int	lexer(t_node **head, char *input)
 	if (check_input(head))
 		return (1);
 	if (read_here_docs(head) == ERROR)
+	{
+		g_utils.exit_status = 1;
 		return (ERROR);
+	}
 	return (0);
 }
