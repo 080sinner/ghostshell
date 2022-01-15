@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:52:43 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/13 15:10:59 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/15 22:19:53 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ static int	check_exit_status(t_node *command, int error)
 		integer = ft_my_atoi(command->cmd_arr[1], &error);
 	if (command->cmd_arr[1] && error == ERROR)
 	{
-		ft_putendl_fd("how spooky: exit: numeric argument required", 2);
+		ft_putendl_fd("Haunting mistake: exit: numeric argument required", 2);
 		g_utils.exit_status = 255;
 		return (1);
 	}
 	else if (command->cmd_arr[1] && command->cmd_arr[2])
 	{
-		ft_putendl_fd("how spooky: exit: too many arguments", 2);
+		ft_putendl_fd("Haunting mistake: exit: too many arguments", 2);
 		g_utils.exit_status = 1;
 		return (0);
 	}

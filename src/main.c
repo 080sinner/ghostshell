@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/15 19:41:24 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/15 22:08:35 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@ int	get_next_line(char **line, int fd)
 	char	buffer;
 	int		flag;
 
-	if (line == NULL)
+	if (!line)
 		return (-1);
 	*line = malloc(1);
-	if (*line == NULL)
+	if (!*line)
 		return(-1);
 	*line[0] = '\0';
-	while ((flag = read(fd, &buffer, 1) > 0))
+	while (1)
 	{
+		flag = read(fd, &buffer, 1);
 		if (buffer == '\n')
 			break ;
 		*line = ft_append(*line, buffer);
@@ -73,7 +74,7 @@ static void	ghosthell(t_node **head)
 				if (ret == 0)
 					executor(*head, 0, head);
 				else if (ret >= 1)
-					g_utils.exit_status = 2;
+					g_utils.exit_status = 258;
 			}
 			free(read);
 			free_nodes(head);

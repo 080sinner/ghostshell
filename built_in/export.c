@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 23:48:52 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/11 17:52:10 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/15 22:19:19 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	export2(int *env_len, int *ret, char **envvar, int *env_flag)
 {
 	if (check_valid_var_name(envvar[VAR_NAME]))
 	{
-		ft_putstr_fd("export: ", 2);
+		ft_putstr_fd("Haunting mistake: export: ", 2);
 		ft_putstr_fd(envvar[VAR_NAME], 2);
 		ft_putendl_fd(" not a valid identifier", 2);
 		ft_free((void *)&envvar[VAR_CONTENT], ft_strlen(envvar[1]));

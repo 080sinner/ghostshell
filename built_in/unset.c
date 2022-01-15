@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 23:02:11 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/08 20:13:18 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/15 22:19:22 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	unset_error(char *varname)
 {
-	ft_putstr_fd("how spooky: unset: '", 2);
+	ft_putstr_fd("Haunting mistake: unset: '", 2);
 	ft_putstr_fd(varname, 2);
 	ft_putendl_fd("' not a valid identifier", 2);
 	return (1);
