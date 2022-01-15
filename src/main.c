@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/14 17:04:19 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/14 21:16:19 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	ghosthell(t_node **head)
 	{
 		signal_handler();
 		if (isatty(0))
-			read = readline("\e[1m	\033[1;34m༼ つ ❍_❍ ༽つ\033[0m\e[0m	");
+			read = readline("\e[1m     \033[1;34m༼ つ ❍_❍ ༽つ\033[0m\e[0m	");
 		else
 		{
 			if (get_next_line(&read, STDIN_FILENO) == 0)

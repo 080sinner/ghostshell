@@ -20195,3 +20195,628 @@ rm -f "tmp_out*"
 
 (/bin/echo 1) (/bin/echo 2)
 
+echo
+
+echo ''
+
+echo ""
+
+echo '' ""
+
+echo echo
+
+echo test1
+
+echo 'test1'
+
+echo "echo hallo"
+
+echo echo"1"
+
+echo "test1 test2"
+
+echo "test1  test2" test3
+
+echo " test1 test2 " 'test3 '
+
+echo test1		test2
+
+echo -n test1
+
+echo -n "test1 test2"
+
+echo -n "test1 test2" test3
+
+echo -n " test1 test2 " 'test3 '
+
+echo -n test1		test2
+
+echo test1 -n
+
+echo "test1 -n"
+
+echo -n -n test1
+
+echo -n -n -n -n -n test1
+
+echo "-n test1 -n test2"
+
+echo "test1 -n test2"
+
+echo ~42
+
+eCho
+
+eChO
+
+eCHO
+
+ECHO
+
+pwd
+cd
+pwd
+
+pwd
+cd ..
+pwd
+
+pwd
+cd .
+pwd
+
+pwd
+cd "."
+pwd
+
+pwd
+cd /Users
+pwd
+
+pwd
+cd //////
+pwd
+
+pwd
+cd ./././
+pwd
+
+pwd
+cd /
+pwd
+
+pwd
+cd '/////' 2>/dev/null
+pwd
+
+pwd
+cd "$PWD/file_tests"
+pwd
+
+pwd
+cd "doesntexist"
+pwd
+
+pwd
+cd "doesntexist" 2>/dev/null
+pwd
+
+pwd
+cd ../../..
+pwd
+
+pwd
+cd "wtf" 2>/dev/null
+pwd
+
+pwd
+cd ..
+cd ..
+pwd
+
+pwd
+cd ?
+pwd
+
+pwd
+cd +
+pwd
+
+pwd
+cd _
+pwd
+
+pwd
+cd echo
+pwd
+
+pwd
+cd echo echo
+pwd
+
+pwd
+cd '/'
+pwd
+
+pwd
+cd $PWD/file_tests
+pwd
+
+pwd
+cd $OLDPWD/something
+pwd
+
+pwd
+cd "1$HOME"
+pwd
+
+env | grep HOME
+
+env | grep USER
+
+env | wc -l
+
+pwd
+
+"pwd"
+
+pw"d"
+
+pwd test42
+
+pwd 42 42 42
+
+pwd pwd
+
+pwd pwd pwd
+
+/bin/echo $HALLO
+env | grep HALLO
+export HALLO=42
+/bin/echo $HALLO
+env | grep HALLO
+
+/bin/echo $HOME
+env | grep HOME
+export HOME=42
+/bin/echo $HOME
+env | grep HOME
+
+export TES_T=123
+/bin/echo $TES_T
+env | grep TES_T
+
+export HELLO42=T=""
+/bin/echo $HELLO42
+env | grep HELLO42
+env | grep HELLO42=T=
+
+echo $?
+export ?=hallo
+echo $?
+
+/bin/echo $test
+export test=42 | echo 99
+/bin/echo $test
+
+/bin/echo $mini_test
+env | grep mini_test
+export mini_test=
+/bin/echo $mini_test
+env | grep mini_test
+
+/bin/echo $HOME
+unset $HOME
+/bin/echo $HOME
+
+/bin/echo $HOME
+unset HOME
+/bin/echo $HOME
+
+/bin/echo $HOME
+unset HOME
+unset HOME
+unset HOME
+/bin/echo $HOME
+
+/bin/echo $HOME
+unset HOME
+unset HOME
+unset HOME
+unset HOME
+/bin/echo $HOME
+
+/bin/echo 1 | grep 1
+/bin/echo 1 | grep 2
+
+ifconfig | grep ":"
+ifconfig | grep nothing
+
+cd .. | echo "42"
+
+echo 42 | cat -e
+
+echo 42 | echo no | echo smth | grep 42
+echo 42 | echo no | echo smth | grep no
+echo 42 | echo no | echo smth | grep smth
+
+echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e
+/bin/echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e
+
+ls -la ../ | grep "."
+
+/bin/echo 42 > tmp_redir_out
+ls -la | grep tmp_redir_out | awk '{print $1 $2}'
+cat tmp_redir_out
+rm tmp_redir_out
+
+/bin/echo "cat this text\n" > tmp_redir_out
+cat <tmp_redir_out
+rm tmp_redir_out
+
+/bin/echo 42 > /dev/null > /dev/null > /dev/null > /dev/null > tmp_redir_out
+cat tmp_redir_out
+rm tmp_redir_out
+
+/bin/echo 42 > tmp_redir_out > tmp_redir_out1 > tmp_redir_out2 > tmp_redir_out3
+/bin/echo 0
+cat tmp_redir_out
+/bin/echo 1
+cat tmp_redir_out1
+/bin/echo 2
+cat tmp_redir_out2
+/bin/echo 3
+cat tmp_redir_out3
+rm tmp_redir_out tmp_redir_out1 tmp_redir_out2 tmp_redir_out3
+
+/bin/echo 42 > /dev/null > tmp_redir_out
+/bin/echo 2 >> /dev/null >> tmp_redir_out
+cat tmp_redir_out
+rm tmp_redir_out
+
+> tmp_std_outfile && echo 1
+
+>tmp_std_outfile && ls | grep tmp_std_outfile
+
+/bin/echo 1 >/dev/null | /bin/echo 2
+
+/bin/echo >/dev/null 1 | /bin/echo 2
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+ls
+cat cmds.sh
+/bin/echo test1
+
+""
+"ls"
+"cat cmds.sh"
+"/bin/echo" test1
+""'/bin/'echo test1
+
+/bin/echo $?
+
+/bin/echo $HOME
+/bin/echo $HOME$USER
+/bin/echo $"HOME"$USER
+/bin/echo $"HOM"E$USER
+/bin/echo $"'HOM'E"$USER
+/bin/echo $'HOM'E$USER
+
+/bin/echo $"HOME"
+/bin/echo $'HOME'
+/bin/echo $
+/bin/echo "$"
+/bin/echo '$='
+/bin/echo "$""$"
+/bin/echo $"$"
+/bin/echo $"42$"
+/bin/echo "$"$
+/bin/echo $'$'
+/bin/echo '$'$
+
+/bin/echo $TESTNOTFOUND
+/bin/echo $HOME$TESTNOTFOUND
+/bin/echo $TESTNOTFOUND$HOME
+
+/bin/echo ""$?""
+/bin/echo " "$?" "
+/bin/echo $?"42"
+/bin/echo ''$?''"42"
+/bin/echo 'HELLO'$?:''"42"
+
+/bin/echo "$?"
+/bin/echo '$?'
+/bin/echo "'$?'"
+/bin/echo '"$?"'
+
+mkdir "tmp_test_folder"
+/bin/echo $PWD
+cd "tmp_test_folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test_folder"
+
+mkdir "tmp_test folder"
+/bin/echo $PWD
+cd "tmp_test folder"
+/bin/echo $PWD
+cd ..
+/bin/echo $PWD
+rm -rf "tmp_test folder"
+
+export tmp_test="/bin/echo 1" && $tmp_test
+unset tmp_test
+export tmp_test="/bin/echo" && $tmp_test 1
+unset tmp_test
+
+export X="  A  B  "
+/bin/echo "1"$X'2'
+
+export X=" A  B  "
+/bin/echo "1"$X'2'
+
+export X="A  B  "
+/bin/echo "1"$X'2'
+
+export X="  A  B "
+/bin/echo "1"$X'2'
+
+export X="  A  B"
+/bin/echo "1"$X'2'
+
+export X="  A B  "
+/bin/echo "1"$X'2'
+
+export X="  AB  "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo $X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X
+
+export X=""
+/bin/echo "1"$X'2'
+
+export X=" "
+/bin/echo "1"$X'2'
+
+export X="   "
+/bin/echo "1"$X'2'
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+export X="  A  B  "
+/bin/echo "1"$X2?
+
+export test=" * "
+touch "$USER * ?eHallo"
+/bin/echo "$USER "*" ?e"*
+rm -f "$USER * ?eHallo"
+
+unset PATH
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+unset PATH
+/bin/ls
+unset PATH
+unset PATH
+unset PATH
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=""
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+export PATH=1
+echo $PATH
+cat
+ls
+/bin/ls
+echo 1
+
+touch tmp_x_file1
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+export PATH=$HOME
+echo $PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+unset PATH
+tmp_x_file1
+echo $?
+./tmp_x_file1
+echo $?
+/bin/ls
+/bin/rm -f tmp_x_file1
+
+grep 1 < filedoesnotexist | echo 1 | grep 1 | head -1 | cat
+
+grep 1 < filedoesnotexist | echo 1 | grep 1 > tmp_out | head -1 | cat
+cat tmp_out
+rm -f tmp_out
+
+/bin/echo 'echo 42' | cat <tmp_file
+/bin/echo file > tmp_file
+/bin/echo 'echo 42' | cat <tmp_file
+rm -f tmp_file
+
+cat /dev/urandom | head -1 > tmp_out
+bash -c "[ -s tmp_out ] && echo nice"
+/bin/echo $?
+rm -f tmp_out
+
+cat /dev/urandom | head -1 | wc -l
+
+cat nofile | echo 42 | grep 42
+
+echo 1 > tmp_out
+echo 42 | grep 42 < tmp_out
+echo 42 | grep 1 < tmp_out
+rm -f tmp_out
+
+/usr/bin/env -i bash -c "env" | wc -l
+
+/bin/echo '\1$42' > tmp_redir_out
+ls -la | grep tmp_redir_out | awk '{print $1 $2}'
+cat -e tmp_redir_out
+rm tmp_redir_out
+
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh
+bash tmp_test_sh $test
+echo 'echo $2' > tmp_test_sh
+bash tmp_test_sh $test
+rm -f tmp_test_sh
+
+export pipe_var=1 | echo $pipe_var
+echo $pipe_var
+
+echo $PATH
+echo $HOME
+unset PATH HOME
+echo $PATH
+echo $HOME
+
+cat /dev/urandom | lsof -c cat | wc -l
+
+echo "env | /usr/bin/wc -l" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "ls" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+echo "unset PATH" | /usr/bin/env -i $MINISHELL_PATH"/"$EXECUTABLE
+echo $?
+
+cat << lim
+ "lim"
+HELLO
+42
+ lim
+testing your minishell
+limm
+lim
+
+cat << lim
+test
+lim
+
+cat << EOF
+"EOF"
+!! HELLO
+@42 !!
+ EOF\t\b\n
+testing your minishell :)
+limm
+EOF
+
+cat << hello
+$USER
+$NOVAR
+$HOME
+hello
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << lim''
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << ''lim
+$USER
+$NOVAR
+$HOME
+lim
+
+cat << 'lim'
+$USER
+$NOVAR
+$HOME
+lim
+
