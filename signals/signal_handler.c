@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:34:56 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/15 23:52:21 by mac              ###   ########.fr       */
+/*   Updated: 2022/01/17 16:13:20 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ void	clear_signals(void)
 	tcgetattr(1, &term);
 	term.c_lflag |= ECHOCTL;
 	tcsetattr(1, 0, &term);
+}
+
+void	signal_heredoc(int signum)
+{
+	if (signum == SIGINT)
+		write(1, "\n", 1);
+	close(STDIN_FILENO);
 }
 
 void	sig_ctrl(int signum)

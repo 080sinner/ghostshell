@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 20:57:30 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/15 23:19:51 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/17 16:13:15 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,7 @@ static char	*convert_variable_delimiter(char *data)
 	return (new_var);
 }
 
-void	signal_heredoc(int signum)
-{
-	if (signum == SIGINT)
-		write(1, "\n", 1);
-	close(STDIN_FILENO);
-}
-
-char	*read_heredoc_prompt(void)
+static char	*read_heredoc_prompt(void)
 {
 	char			*str;
 	char			*tmp;
@@ -66,11 +59,30 @@ char	*read_heredoc_prompt(void)
 	return (str);
 }
 
-static int	here_doc(t_node *command, t_tok *delim)
+static int	read_here_doc(t_tok *delim, t_node *command)
 {
 	char	*line;
 	t_tok	*new;
+
+	line = read_heredoc_prompt();
+	if (!line || ft_strcmp(line, delim->data) || delim->type != COMMAND)
+	{
+		if (line)
+			free(line);
+		return (0);
+	}
+	new = ft_dll_append_tok(&(command->here_doc));
+	if (!new)
+		return (ERROR);
+	new->data = line;
+	new->state = delim->state;
+	return (1);
+}
+
+static int	here_doc(t_node *command, t_tok *delim)
+{
 	int		tmp_fd;
+	int		ret;
 
 	if (!delim)
 		return (0);
@@ -81,18 +93,11 @@ static int	here_doc(t_node *command, t_tok *delim)
 	tmp_fd = dup(STDIN_FILENO);
 	while (1)
 	{
-		line = read_heredoc_prompt();
-		if (!line || ft_strcmp(line, delim->data) || delim->type != COMMAND)
-		{
-			if (line != NULL)
-				free(line);
-			break ;
-		}
-		new = ft_dll_append_tok(&(command->here_doc));
-		if (!new)
+		ret = read_here_doc(delim, command);
+		if (ret == ERROR)
 			return (ERROR);
-		new->data = line;
-		new->state = delim->state;
+		else if (!ret)
+			break ;
 	}
 	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);

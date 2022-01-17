@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mac <mac@student.42.fr>                    +#+  +:+       +#+         #
+#    By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/14 17:50:34 by eozben            #+#    #+#              #
-#    Updated: 2022/01/15 23:54:07 by mac              ###   ########.fr        #
+#    Updated: 2022/01/17 16:24:37 by fbindere         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 INC = -Iincludes
-LIBS = -Llibft -lft -I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -lreadline
+LIBS = -Llibft -lft -I$(HOME)/.brew/opt/readline/include \
+-L$(HOME)/.brew/opt/readline/lib -lreadline
 FLAGS = -o "minishell" -Wall -Werror -Wextra
 LIBFT = ./libft/libft.a
 EXECUTOR_PATH = ./executor/
@@ -26,7 +27,8 @@ BUILTIN_PATH = ./built_in/
 SRC_PATH = ./src/
 
 EXECUTOR_FILES = execute_cmd.c executor.c execute_utils.c get_cmd_path.c
-PARSER_FILES = cmd_arr.c parser.c input_control.c input_control_utils.c
+PARSER_FILES = cmd_arr.c parser.c input_control.c input_control_utils.c \
+				parser_utils.c
 DATA_STRUCT_FILES = nodes.c create_toks.c free_toks.c manipulate_toks.c 
 SYS_CALLS_FILES = fd_calls.c process_calls.c
 LEXER_FILES = check_functions.c lexer.c mark_expansions.c read_here_doc.c

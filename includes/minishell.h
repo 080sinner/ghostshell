@@ -6,7 +6,7 @@
 /*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 20:32:45 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/15 19:46:55 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/17 16:24:03 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,11 +183,14 @@ t_token	check_type(char *s);
 /* parser functions*/
 int		parse_command(t_node *current, t_node **head);
 int		check_input(t_node **head);
+int		set_redir(t_node *cmd, t_node **head, t_node *prev, t_node *next);
 int		print_error_type(t_node *node, t_tok *token);
 t_node	*search_lparen(t_node *current, int first_call);
 
 /* singal handler functions*/
 void	clear_signals(void);
+void	signal_heredoc(int signum);
+void	sig_ctrl(int signum);
 int		signal_handler(void);
 
 /* source functions*/
