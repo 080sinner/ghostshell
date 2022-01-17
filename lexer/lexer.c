@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:28:10 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/15 23:13:59 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/17 18:01:49 by fbindere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,11 @@ static int	read_input(t_node **head, char *input)
 	new = NULL;
 	while (*input != '\0')
 	{
-		while (check_whitespace(*input))
+		if (check_whitespace(*input))
+		{
 			input++;
+			continue ;
+		}
 		new = ft_dll_append_node(head);
 		if (!new)
 			return (ERROR);
