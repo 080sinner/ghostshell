@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 16:28:42 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/15 22:35:59 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/20 18:47:49 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int	cmd_not_found(char **paths, char *command)
 	}
 	else
 	{
-		ft_putstr_fd("Haunting mistake:: command not found: ", 2);
+		ft_putstr_fd("Haunting mistake: command not found: ", 2);
 		ft_putendl_fd(command, 2);
 		g_utils.exit_status = 127;
 	}

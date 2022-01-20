@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_control.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 20:11:59 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/15 22:28:27 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/20 18:45:49 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ static int	check_syntax_command(t_node *node)
 	t_tok	*current;
 	t_tok	*next;
 
+	if (node->next && (node->next->type == LPAREN
+			|| node->next->type == RPAREN))
+		return (ft_printnl_fd("Missing control operator before command", 2));
 	current = node->args;
 	while (current)
 	{
