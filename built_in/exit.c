@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:52:43 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/15 22:19:53 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/20 18:59:50 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ int	exit_builtin(t_node **head, t_node *command, int process_lvl)
 			ft_putstr_fd("visitor", 2);
 		ft_putstr_fd("! You escaped the GHOSTSHELL!\n", 2);
 	}
-	if (check_exit_status(command, 0))
+	if (command && check_exit_status(command, 0))
+		ft_exit(g_utils.exit_status, head);
+	else if (!command)
 		ft_exit(g_utils.exit_status, head);
 	return (g_utils.exit_status);
 }
