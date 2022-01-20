@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:46:11 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/12 21:33:08 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/20 18:12:58 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,13 @@ int	search_envvar(char *envvar, char **env)
 		envvar++;
 	while (env[i])
 	{
-		if ((env[i][0] == '.' || env[i][ft_strlen(envvar)] == '=')
-			&& (!ft_strncmp(env[i], envvar, ft_strlen(envvar))
+		if (!ft_strncmp(env[i], envvar, ft_strlen(envvar))
 			|| (env[i][0] == '.'
-				&& !ft_strncmp(env[i] + 1, envvar, ft_strlen(envvar)))))
+			&& !ft_strncmp(env[i] + 1, envvar, ft_strlen(envvar))))
 			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 void	ft_copy_env(char **environ, int skip_var, t_node **head)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 23:48:52 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/15 22:19:19 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/20 18:00:23 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static void	export2(int *env_len, int *ret, char **envvar, int *env_flag)
 		*ret = 1;
 		envvar[VAR_NAME] = NULL;
 	}
-	if (*env_flag == 1 && !search_envvar(envvar[VAR_NAME], g_utils.environment))
+	if (*env_flag == 1 && search_envvar(envvar[VAR_NAME], g_utils.environment)
+		== -1)
 		g_utils.environment[*env_len] = ft_strjoin(envvar[0], envvar[1]);
 	else if (*env_flag == 1 && envvar[VAR_NAME])
 	{
@@ -47,7 +48,7 @@ static void	export2(int *env_len, int *ret, char **envvar, int *env_flag)
 		free(g_utils.environment[*env_len]);
 		g_utils.environment[*env_len] = ft_strjoin(envvar[0], envvar[1]);
 	}
-	else if (!search_envvar(envvar[VAR_NAME], g_utils.environment))
+	else if (search_envvar(envvar[VAR_NAME], g_utils.environment) == -1)
 		g_utils.environment[*env_len] = ft_strjoin(".", envvar[VAR_NAME]);
 	ft_free((void *)&envvar[VAR_CONTENT], ft_strlen(envvar[1]));
 }
