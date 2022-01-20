@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 20:11:59 by eozben            #+#    #+#             */
-/*   Updated: 2022/01/20 18:45:49 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/20 19:02:54 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static int	check_syntax_command(t_node *node)
 	t_tok	*current;
 	t_tok	*next;
 
-	if (node->next && (node->next->type == LPAREN
-			|| node->next->type == RPAREN))
-		return (ft_printnl_fd("Missing control operator before command", 2));
+	if (node->next && (node->next->type == LPAREN))
+		return (ft_printnl_fd(
+				"Spooky syntax: Missing control operator before command", 2));
 	current = node->args;
 	while (current)
 	{
