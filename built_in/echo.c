@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:52:34 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/20 18:53:29 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/20 23:47:46 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_newline_flag(int *i, char **args)
 	int	newline_flag;
 
 	newline_flag = 1;
-	while (args[*i] && args[*i][0] == '-')
+	while (args[*i] && args[*i][0] == '-' && args[*i][1])
 	{
 		j = 1;
 		while (args[*i][j])

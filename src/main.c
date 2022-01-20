@@ -6,7 +6,7 @@
 /*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 20:47:32 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/20 19:00:11 by eozben           ###   ########.fr       */
+/*   Updated: 2022/01/20 23:50:09 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ static void	ghosthell(t_node **head)
 		}
 		else if (read == NULL)
 			exit_builtin(head, NULL, 0);
+		else
+			free(read);
+		system("leaks minishell");
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 17:09:14 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/15 17:38:37 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/20 23:48:59 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	exit_status(t_exec *exec)
 				}
 				else if (WTERMSIG(stat[LOG]) == SIGINT)
 					ft_putendl_fd("", 2);
-				g_utils.exit_status = 127 + WTERMSIG(stat[LOG]);
+				g_utils.exit_status = 127 + WTERMSIG(stat[LOG]) + 1;
 			}
 		}
 		if (stat[EXIT] == ERROR)
