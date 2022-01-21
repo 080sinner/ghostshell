@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbindere <fbindere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eozben <eozben@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 21:34:56 by fbindere          #+#    #+#             */
-/*   Updated: 2022/01/17 16:13:20 by fbindere         ###   ########.fr       */
+/*   Updated: 2022/01/21 23:43:08 by eozben           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	sig_ctrl(int signum)
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
+		g_utils.exit_status = 1;
 		rl_replace_line("", 0);
 	}
 	rl_on_new_line();
